@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pattaya&display=swap");
+@import "tailwindcss";
+
+.btn-hover {
+  @apply cursor-pointer transform transition-all duration-200 hover:scale-105;
+}
+.btn-hover-dis {
+  @apply cursor-not-allowed transform transition-all duration-200 hover:scale-105;
+}
+
+@theme {
+  --font-quicksand: "Quicksand", "Sarabun", sans-serif;
+  --font-pattaya: "Pattaya";
+  --color-m-line: #303030;
+  --color-m-prim: #c32f2f;
+  --color-m-second: #e4869d;
+  --color-m-acct: #4795d2;
+  --color-m-light: #fafafa;
+  --color-m-gray: #eaeaea;
+  --color-m-dark: #0a0a0a;
+  --color-m-error: #ff0000;
+  --radius-m: 16px;
+  --shadow-m-s: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-m-m: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+@layer utilities {
+  @keyframes grow-fade-in {
+    0% {
+      transform: scale(0.01);
+      opacity: 0;
+    }
+    85% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: grow-fade-in 0.5s ease-out forwards;
+    transform-origin: center;
+  }
+
+  @keyframes grow-fade-in-modal {
+    0% {
+      transform: scale(0.01);
+      opacity: 0;
+    }
+    80% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in-modal {
+    animation: grow-fade-in-modal 0.2s ease-out forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fade-out-shrink {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.01);
+    }
+  }
+
+  .animate-fade-out {
+    animation: fade-out-shrink 0.5s ease-out forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fade-out-shrink-modal {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.01);
+    }
+  }
+
+  .animate-fade-out-modal {
+    animation: fade-out-shrink-modal 0.2s ease-out forwards;
+    transform-origin: center;
+  }
+
+  @keyframes fade-in-from-top {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    80% {
+      opacity: 0.8;
+      transform: translateY(5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-div {
+    animation: fade-in-from-top 0.2s ease-out forwards;
+  }
+}
