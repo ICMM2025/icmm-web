@@ -11,5 +11,7 @@ const useModalStore = create((set) => ({
   isLanguageSelectModalOpen: false,
   setIsLanguageSelectModalOpen: (newVal) =>
     set({ isLanguageSelectModalOpen: newVal }),
+  isProductModalOpen: false,
+  setIsProductModalOpen: (newVal) => set({ isProductModalOpen: newVal }),
 }));
 export default useModalStore;

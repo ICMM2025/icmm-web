@@ -21,6 +21,7 @@ function Landing() {
     setIsLoadingModalOpen(true);
     try {
       const res = await getProductsApi();
+      console.log(res);
       setProducts(res.data.products);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);

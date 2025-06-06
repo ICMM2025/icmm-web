@@ -1,6 +1,8 @@
 import { create } from "zustand";
 const useMainStore = create((set) => ({
-  curMenu: "",
-  setCurMenu: (newVal) => set({ curMenu: newVal }),
+  curProduct: {},
+  setCurProduct: (newVal) => set({ curProduct: newVal }),
+  cart: [],
+  setCart: (cb) => set((state) => ({ cart: cb(state.cart) })),
 }));
 export default useMainStore;

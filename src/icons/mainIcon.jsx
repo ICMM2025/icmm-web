@@ -269,6 +269,41 @@ export function SendIcon(props) {
   );
 }
 
+export function AddIcon(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M6 12h6m0 0h6m-6 0v6m0-6V6"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function SubtractIcon(props) {
+  return (
+    <svg
+      viewBox="-3 0 19 19"
+      xmlns="http://www.w3.org/2000/svg"
+      className="cf-icon-svg"
+      {...props}
+    >
+      <path
+        d="M12.711 9.182a1.03 1.03 0 01-1.03 1.03H1.319a1.03 1.03 0 110-2.059h10.364a1.03 1.03 0 011.029 1.03z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 export const icons = {
   BesRoomIcon,
   LoginIcon,
@@ -286,4 +321,6 @@ export const icons = {
   CheckoutIcon,
   PayIcon,
   SendIcon,
+  AddIcon,
+  SubtractIcon,
 };
