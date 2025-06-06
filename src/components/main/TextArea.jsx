@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Input({
+function TextArea({
   type,
   size,
   placeholder,
@@ -24,10 +24,10 @@ function Input({
     return () => clearTimeout(id);
   }, [value]);
   return (
-    <input
+    <textarea
       style={size ? { width: `${size * 50 + 25}px` } : {}}
       type={type}
-      className={`h-[25px] bg-m-light border border-m-line/50  rounded-m pl-2 focus:outline-none focus:border-m-line ${
+      className={`w-full bg-m-light h-[70px] border border-m-line/50  rounded-m pl-2 focus:outline-none focus:border-m-line ${
         disabled && "text-t-gray "
       } ${className}`}
       placeholder={placeholder}
@@ -39,4 +39,4 @@ function Input({
   );
 }
 
-export default Input;
+export default TextArea;

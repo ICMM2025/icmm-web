@@ -5,12 +5,18 @@ import Input from "../components/main/Input";
 import { LoginIcon } from "../icons/mainIcon";
 import { loginApi } from "../apis/login-api";
 import useModalStore from "../stores/modal-store";
+import useUserStore from "../stores/user-store";
+import { useNavigate } from "react-router-dom";
+import LanguageSelect from "../components/main/LanguageSelect";
 
 function Login() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const setIsLoadingModalOpen = useModalStore(
     (state) => state.setIsLoadingModalOpen
   );
+  const setToken = useUserStore((state) => state.setToken);
+  const setUser = useUserStore((state) => state.setUser);
   const [input, setInput] = useState({
     name: "admin",
     password: "",
@@ -23,8 +29,10 @@ function Login() {
   const hdlLogin = async () => {
     setIsLoadingModalOpen(true);
     try {
-      const res = await loginApi();
-      console.log(res);
+      const res = await loginApi(input);
+      setToken(res.data.token);
+      setUser(res.data.user);
+      navigate("/");
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
     } finally {
@@ -48,6 +56,9 @@ function Login() {
             name="password"
           />
           <Button lbl={t("login")} Icon={LoginIcon} onClick={hdlLogin} />
+        </div>
+        <div className="w-full flex justify-center mt-4">
+          <LanguageSelect />
         </div>
       </div>
     </>

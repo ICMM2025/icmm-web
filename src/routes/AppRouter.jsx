@@ -16,6 +16,7 @@ const guestRouter = createBrowserRouter([
 
 const userRouter = createBrowserRouter([
   { path: "/", element: <Admin /> },
+  { path: "/login", element: <Login /> },
   { path: "*", element: <Navigate to="/" /> },
 ]);
 
