@@ -9,7 +9,7 @@ function ButtonRounded({
 }) {
   return (
     <div
-      className={`w-[25px] h-[25px] rounded-m shadow-m-s flex justify-center items-center ${
+      className={`min-w-[25px] min-h-[25px] rounded-m shadow-m-s flex justify-center items-center ${
         isDisabled
           ? " bg-m-gray text-m-light  btn-hover-dis pointer-events-none"
           : isAcct

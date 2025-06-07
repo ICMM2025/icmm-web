@@ -39,6 +39,7 @@ function ProductModal() {
     setInput((prev) => ({
       ...prev,
       productOptId: curProduct?.productOpts[idx]?.productOptId,
+      price: curProduct?.productOpts[idx]?.price * Number(prev.unit),
     }));
   };
 
@@ -48,6 +49,8 @@ function ProductModal() {
         setInput((prev) => ({
           ...prev,
           unit: Number(prev.unit) + 1,
+          price:
+            curProduct?.productOpts[curOpt]?.price * (Number(prev.unit) + 1),
         }));
       }
     } else {
@@ -55,6 +58,8 @@ function ProductModal() {
         setInput((prev) => ({
           ...prev,
           unit: Number(prev.unit) - 1,
+          price:
+            curProduct?.productOpts[curOpt]?.price * (Number(prev.unit) - 1),
         }));
       }
     }
@@ -62,12 +67,12 @@ function ProductModal() {
 
   const hdlAddToCart = () => {
     console.log(input);
-    // setCart((prev) => [...prev, input]);
-    // hdlCloseModalById(
-    //   "product-modal",
-    //   setIsModalFadingOut,
-    //   setIsProductModalOpen
-    // );
+    setCart((prev) => [...prev, input]);
+    hdlCloseModalById(
+      "product-modal",
+      setIsModalFadingOut,
+      setIsProductModalOpen
+    );
   };
 
   useEffect(() => {
@@ -76,7 +81,7 @@ function ProductModal() {
   }, []);
   return (
     <div
-      className={`w-[360px] h-auto  rounded-m shadow-m-m bg-m-light fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-fade-in-modal ${
+      className={`w-[360px]  max-h-[90vh] overflow-y-auto rounded-m shadow-m-m bg-m-light fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-fade-in-modal ${
         isModalFadingOut && "animate-fade-out-modal"
       }`}
     >
@@ -101,17 +106,17 @@ function ProductModal() {
         />
       </div>
       {/* main area */}
-      <div className="w-full py-4 px-8 break-words gap-1 text-s-red font-bold justify-center items-start max-h-[calc(100vh-100px)] overflow-y-auto flex flex-col">
+      <div className="w-full max-h-[calc(100vh-200px)] overflow-y-auto px-8 py-4">
         {/* main picture */}
-        <div className="w-full h-[300px]">
+        <div className="w-full h-[300px] flex-shrink-0 flex justify-center items-center overflow-hidden">
           <img
             src={curProduct?.productPics[curPic].url}
             alt="pic"
-            className="object-contain h-[300px]"
+            className="object-contain w-full h-full"
           />
         </div>
         {/* picture list */}
-        <div className="w-full overflow-x-auto h-[50px] bg-m-gray flex gap-1 px-1 items-center">
+        <div className="w-full flex-shrink-0 overflow-x-auto h-[50px] bg-m-gray flex gap-1 px-1 items-center">
           {curProduct?.productPics.map((el, idx) => (
             <div
               key={idx}
@@ -135,7 +140,6 @@ function ProductModal() {
                 lbl={el.optName}
                 isAcct={!(idx == curOpt)}
                 onClick={() => {
-                  console.log(idx);
                   hdlSelectedOpt(idx);
                 }}
               />
@@ -145,7 +149,11 @@ function ProductModal() {
         <div className="w-full justify-between flex">
           <p>{t("price")}</p>
           <p className="text-xl">
-            {input.price} {t("baht")}
+            {input.price.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
+            {t("baht")}
           </p>
         </div>
         {/* product name */}
@@ -161,7 +169,7 @@ function ProductModal() {
           <ButtonRounded Icon={AddIcon} onClick={() => hdlUnit("add")} />
         </div>
         {/* button */}
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mt-8">
           <Button
             lbl={t("addToCart")}
             Icon={CartIcon}

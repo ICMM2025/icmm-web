@@ -66,7 +66,7 @@ function Landing() {
         {/* products */}
         <Products products={products} />
         {/* cart */}
-        <Cart />
+        <Cart products={products} />
         {/* ConfirmOrder */}
         <ConfirmOrder />
         {/* pay */}
