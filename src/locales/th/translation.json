@@ -38,5 +38,10 @@
   "prod5Name": "หมวกวิ่ง ASICS",
   "prod5Detail": "ASICS : 3013B124.700 RUNNING LIGHT WOVEN CAP UNISEX RUNNING ชายหญิง หมวก ของแท้ CORAL REEF",
   "addToCart": "ใส่ตะกร้า",
-  "price": "ราคา"
+  "price": "ราคา",
+  "phone": "เบอร์ติดต่อ",
+  "totalProduct": "รวมราคาสิ้นค้า :",
+  "added": "บวก",
+  "deliveryCost": "ค่าจัดส่ง",
+  "totalAmt": "ราคารวมทั้งสิ้น"
 }

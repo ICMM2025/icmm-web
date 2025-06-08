@@ -66,7 +66,7 @@ function ProductModal() {
   };
 
   const hdlAddToCart = () => {
-    console.log(input);
+    // console.log(input);
     setCart((prev) => [...prev, input]);
     hdlCloseModalById(
       "product-modal",
@@ -76,7 +76,7 @@ function ProductModal() {
   };
 
   useEffect(() => {
-    console.log(curProduct);
+    // console.log(curProduct);
     document.getElementById("product-modal").showModal();
   }, []);
   return (

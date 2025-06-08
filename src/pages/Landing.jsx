@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
 import useModalStore from "../stores/modal-store";
 import LanguageSelect from "../components/main/LanguageSelect";
-import { CheckOrderStatusIcon, ProductIcon } from "../icons/mainIcon";
+import { CheckOrderStatusIcon } from "../icons/mainIcon";
 import Cart from "../components/Cart";
 import Products from "../components/Products";
 import ConfirmOrder from "../components/ConfirmOrder";
@@ -16,6 +16,10 @@ function Landing() {
   const setIsLoadingModalOpen = useModalStore(
     (state) => state.setIsLoadingModalOpen
   );
+  const [isShowProduct, setIsShowProduct] = useState(true);
+  const [isShowCart, setIsShowCart] = useState(true);
+  const [isShowConfirmOrder, setIsShowConfirmOrder] = useState(false);
+  const [isShowPay, setIsShowPay] = useState(false);
 
   const getProductsInfo = async () => {
     setIsLoadingModalOpen(true);
@@ -28,6 +32,18 @@ function Landing() {
     } finally {
       setIsLoadingModalOpen(false);
     }
+  };
+
+  const hdlClickCheckout = () => {
+    setIsShowProduct(false);
+    setIsShowCart(false);
+    setIsShowConfirmOrder(true);
+  };
+
+  const hdlClickBackToCart = () => {
+    setIsShowProduct(true);
+    setIsShowCart(true);
+    setIsShowConfirmOrder(false);
   };
 
   useEffect(() => {
@@ -64,13 +80,20 @@ function Landing() {
           </div>
         </div>
         {/* products */}
-        <Products products={products} />
+        {isShowProduct && <Products products={products} />}
         {/* cart */}
-        <Cart products={products} />
+        {isShowCart && (
+          <Cart products={products} hdlClickCheckout={hdlClickCheckout} />
+        )}
         {/* ConfirmOrder */}
-        <ConfirmOrder />
+        {isShowConfirmOrder && (
+          <ConfirmOrder
+            products={products}
+            hdlClickBackToCart={hdlClickBackToCart}
+          />
+        )}
         {/* pay */}
-        <Pay />
+        {isShowPay && <Pay />}
       </div>
       {/* footer */}
       <div className="w-full max-w-[400px] mx-auto  h-[80px] bg-m-line/25 p-2 flex justify-between items-center flex-col text-xs animate-fade-in-div">

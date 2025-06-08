@@ -30,7 +30,7 @@ function Products({ products }) {
         {products.map((el, idx) => (
           <div
             key={idx}
-            className=" h-auto  shadow-m-s rounded-m cursor-pointer hover:border bg-white hover:border-m-prim p-2 flex flex-col"
+            className=" h-auto  shadow-m-s rounded-m cursor-pointer hover:border bg-white hover:border-m-prim p-2 flex flex-col animate-fade-in-div"
             onClick={() => hldClickProduct(el)}
           >
             <img

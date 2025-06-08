@@ -38,5 +38,10 @@
   "prod5Name": "ASICS Cap",
   "prod5Detail": "ASICS 3013B124.700 RUNNING LIGHT WOVEN CAP – UNISEX Genuine running cap for men and women in Coral Reef color.",
   "addToCart": "Add to cart",
-  "price": "Price"
+  "price": "Price",
+  "phone": "Phone No.",
+  "totalProduct": "Total Product Amount :",
+  "added": "Add",
+  "deliveryCost": "Delivery Cost",
+  "totalAmt": "Total Amount"
 }
