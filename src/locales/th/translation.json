@@ -60,5 +60,7 @@
   "errGrandTotalMismatch": "ผลรวมสุดท้ายไม่สมเหตุผล",
   "useQRPay": "เปลี่ยนเป็นโอนด้วยคิวอาร์",
   "useManualPay": "เปลี่ยนเป็นโอนด้วยเลขบัญชี",
-  "clickToUpload": "คลิ๊กเพื่อส่งรูป"
+  "clickToUpload": "คลิ๊กเพื่อส่งรูป",
+  "totalForPay": "ยอดรวม",
+  "plsAddNote": "บันทึก (โปรดใส่ในบันทึกช่วยจำ)"
 }

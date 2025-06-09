@@ -21,6 +21,15 @@ function Landing() {
   const [isShowCart, setIsShowCart] = useState(true);
   const [isShowConfirmOrder, setIsShowConfirmOrder] = useState(false);
   const isShowPay = useMainStore((state) => state.isShowPay);
+  const setCurProduct = useMainStore((state) => state.setCurProduct);
+  const clearCart = useMainStore((state) => state.clearCart);
+  const setInput = useMainStore((state) => state.setInput);
+  const setIsShowPay = useMainStore((state) => state.setIsShowPay);
+  const setTotalForPay = useMainStore((state) => state.setTotalForPay);
+  const setOrderId = useMainStore((state) => state.setOrderId);
+  const setQrUrl = useMainStore((state) => state.setQrUrl);
+  const [photo, setPhoto] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState(null);
 
   const getProductsInfo = async () => {
     setIsLoadingModalOpen(true);
@@ -48,6 +57,16 @@ function Landing() {
   };
 
   useEffect(() => {
+    localStorage.clear();
+    setCurProduct({});
+    clearCart();
+    setInput({ name: "", email: "", phone: "", address: "", remark: "" });
+    setIsShowPay(false);
+    setTotalForPay(0);
+    setOrderId("");
+    setQrUrl("");
+    setPhoto(null);
+    setPhotoUrl(null);
     getProductsInfo();
   }, []);
 
@@ -94,7 +113,14 @@ function Landing() {
           />
         )}
         {/* pay */}
-        {isShowPay && <Pay />}
+        {isShowPay && (
+          <Pay
+            photo={photo}
+            setPhoto={setPhoto}
+            photoUrl={photoUrl}
+            setPhotoUrl={setPhotoUrl}
+          />
+        )}
       </div>
       {/* footer */}
       <div className="w-full max-w-[400px] mx-auto  h-[80px] bg-m-line/25 p-2 flex justify-between items-center flex-col text-xs animate-fade-in-div">
@@ -105,7 +131,7 @@ function Landing() {
         <p>copy right 2025</p>
       </div>
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v.1.0.0</p>
+      <p className="absolute top-0 text-[8px]">v.1.0.1</p>
     </>
   );
 }

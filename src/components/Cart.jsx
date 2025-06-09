@@ -16,9 +16,7 @@ function Cart({ products, hdlClickCheckout }) {
 
   useEffect(() => {
     setIsCartHasItem(cart.length > 0);
-    const total = cart.reduce((sum, item) => {
-      return sum + item.price * item.unit;
-    }, 0);
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
     setTotalAmt(total);
   }, [cart]);
 

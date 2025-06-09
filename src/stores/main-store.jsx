@@ -10,6 +10,7 @@ const useMainStore = create((set) => ({
       updatedCart.splice(index, 1);
       return { cart: updatedCart };
     }),
+  clearCart: () => set({ cart: [] }),
   input: {
     name: "",
     email: "",
@@ -23,5 +24,9 @@ const useMainStore = create((set) => ({
   setIsShowPay: (newVal) => set({ isShowPay: newVal }),
   totalForPay: 0,
   setTotalForPay: (newVal) => set({ totalForPay: newVal }),
+  orderId: "",
+  setOrderId: (newVal) => set({ orderId: newVal }),
+  qrUrl: "",
+  setQrUrl: (newVal) => set({ qrUrl: newVal }),
 }));
 export default useMainStore;

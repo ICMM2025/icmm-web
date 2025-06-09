@@ -6,7 +6,7 @@ function App() {
   // axios.interceptors.request.use(
   //   (config) => {
   //     if (config.url.includes("localhost:8001")) {
-  //       config.url = config.url.replace("localhost:8001", "192.168.1.127:8001");
+  //       config.url = config.url.replace("localhost:8001", "192.168.1.126:8001");
   //     }
   //     return config;
   //   },

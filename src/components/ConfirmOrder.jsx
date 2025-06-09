@@ -19,6 +19,8 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
   const setInput = useMainStore((state) => state.setInput);
   const setErrTxt = useModalStore((state) => state.setErrTxt);
   const setIsShowPay = useMainStore((state) => state.setIsShowPay);
+  const setOrderId = useMainStore((state) => state.setOrderId);
+  const setQrUrl = useMainStore((state) => state.setQrUrl);
   const setIsErrorModalOpen = useModalStore(
     (state) => state.setIsErrorModalOpen
   );
@@ -68,6 +70,8 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       setIsFieldsDisabled(true);
       setIsShowPay(true);
       setTotalForPay(res.data?.grandTotalAmt);
+      setOrderId(res.data?.orderId);
+      setQrUrl(res.data?.qrUrl);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -163,9 +167,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
   ]);
 
   useEffect(() => {
-    const total = cart.reduce((sum, item) => {
-      return sum + item.price * item.unit;
-    }, 0);
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
     setTotalAmt(total);
   }, [cart]);
 
