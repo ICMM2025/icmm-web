@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  AddPhotoIcon,
-  PayIcon,
-  RemoveIcon,
-  SendIcon,
-  VerifyIcon,
-} from "../icons/mainIcon";
+import { AddPhotoIcon, PayIcon, RemoveIcon, SendIcon } from "../icons/mainIcon";
 import Button from "./main/Button";
 import useMainStore from "../stores/main-store";
 import { sendOrderApi } from "../apis/order-api";
@@ -39,20 +33,30 @@ function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
   };
 
   const hdlInputPhoto = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+    const file = e.target.files[0];
+    if (file) {
+      // Revoke previous URL if exists
+      if (photoUrl) {
+        URL.revokeObjectURL(photoUrl);
+      }
+
+      const newUrl = URL.createObjectURL(file);
       setPhoto(file);
-      const url = URL.createObjectURL(file);
-      setPhotoUrl(url);
+      setPhotoUrl(newUrl);
+
+      // Reset input so selecting the same file again will trigger onChange
       e.target.value = "";
     }
   };
 
   const hdlRemovePhoto = () => {
-    URL.revokeObjectURL(photoUrl);
+    if (photoUrl) {
+      URL.revokeObjectURL(photoUrl);
+    }
     setPhoto(null);
     setPhotoUrl(null);
   };
+
   const hdlSendOrder = async () => {
     setIsLoadingModalOpen(true);
     try {
