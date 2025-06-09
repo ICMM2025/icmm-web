@@ -44,6 +44,7 @@ function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
       setPhoto(file);
       const url = URL.createObjectURL(file);
       setPhotoUrl(url);
+      e.target.value = "";
     }
   };
 
@@ -171,7 +172,11 @@ function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
             <div className="w-[200px] h-[200px] border flex justify-center items-center animate-fade-in-div">
               <div
                 className="flex flex-col items-center btn-hover"
-                onClick={() => document.getElementById("input-file").click()}
+                onClick={() => {
+                  const input = document.getElementById("input-file");
+                  input.value = "";
+                  input.click();
+                }}
               >
                 <AddPhotoIcon className="w-[50px] text-m-dark" />
                 <p>{t("clickToUpload")}</p>
