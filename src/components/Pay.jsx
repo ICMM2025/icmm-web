@@ -86,6 +86,17 @@ function Pay() {
     }
   }, [isManualPay]);
 
+  useEffect(() => {
+    if (photo) {
+      const newUrl = URL.createObjectURL(photo);
+      setPhotoUrl(newUrl);
+
+      return () => {
+        URL.revokeObjectURL(newUrl); // cleanup old URL when photo changes
+      };
+    }
+  }, [photo]);
+
   return (
     <div className="w-full p-2 rounded-m  flex flex-col gap-1 animate-fade-in-div">
       {/* pay header */}
@@ -191,7 +202,7 @@ function Pay() {
                 <input
                   type="file"
                   id="input-file"
-                  className="opacity-0 absolute w-0"
+                  // className="opacity-0 absolute w-0"
                   accept="image/*"
                   onChange={hdlInputPhoto}
                 />
