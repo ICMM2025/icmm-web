@@ -165,7 +165,7 @@ function Pay() {
           {photo ? (
             <div className="w-full flex flex-col items-center gap-2 animate-fade-in-div">
               <img
-                src={URL.createObjectURL(photo)}
+                src={photoUrl}
                 alt={`preview-photo`}
                 className="object-cover w-full h-full"
               />
