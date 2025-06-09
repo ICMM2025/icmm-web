@@ -62,5 +62,16 @@
   "useManualPay": "เปลี่ยนเป็นโอนด้วยเลขบัญชี",
   "clickToUpload": "คลิ๊กเพื่อส่งรูป",
   "totalForPay": "ยอดรวม",
-  "plsAddNote": "บันทึก (โปรดใส่ในบันทึกช่วยจำ)"
+  "plsAddNote": "บันทึก (โปรดใส่ในบันทึกช่วยจำ)",
+  "removePhoto": "นำรูปออก",
+  "errInvalidOrderId": "ไม่พบหมายเลขคำสั่งซื้อ",
+  "errNoFileUploaded": "ไม่พบรูปหลักฐานการโอนเงิน",
+  "yourOrderHasRecieved": "เราได้รับออเดอร์ของคุณเรียบร้อย",
+  "weWillConfirmTxt": "...เราจะทำไมยืนยันคำสั่งซื้อของคุณภายใน 24 ชั่วโมง...",
+  "youCanCheckOrderTxt": "ท่านสามารถตรวจสอบสถานะคำสั่งซื้อโดยคลิ๊ก \"ตรวจสอบสถานะคำสั่งซื้อ\" ด้านบนของเพจ",
+  "reorder": "สั่งซื้ออีกครั้ง",
+  "youCanCheckOrderTxt2": "โดยใส่เลขคำสั่งซื้อคือ",
+  "youCanCheckOrderTxt3": "และอีเมล์ของท่าน",
+  "errFailToUploadQr": "ไม่สามารถสร้างคิวอาร์ได้",
+  "errFailToUploadEvidence": "ไม่สามารถส่งหลักฐานได้"
 }

@@ -131,7 +131,7 @@ function Landing() {
         <p>copy right 2025</p>
       </div>
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v.1.0.1</p>
+      <p className="absolute top-0 text-[8px]">v.1.0.2</p>
     </>
   );
 }

@@ -62,5 +62,16 @@
   "useManualPay": "Switch to manual pay",
   "clickToUpload": "Click to upload",
   "totalForPay": "Total Pay",
-  "plsAddNote": "Note (Add manual when pay)"
+  "plsAddNote": "Note (Add manual when pay)",
+  "removePhoto": "Remove slip",
+  "errInvalidOrderId": "Invalid Order Id",
+  "errNoFileUploaded": "errNoFileUploaded",
+  "yourOrderHasRecieved": "Your order has received!",
+  "weWillConfirmTxt": "...we will confirm your order within 24 hours...",
+  "youCanCheckOrderTxt": "You can check your order status by click \"Check Order Status\" on the top of page.",
+  "reorder": "Create new order",
+  "youCanCheckOrderTxt2": "by input your order no.",
+  "youCanCheckOrderTxt3": "and your email",
+  "errFailToUploadQr": "Fail to upload QR",
+  "errFailToUploadEvidence": "Fail to upload evidence"
 }

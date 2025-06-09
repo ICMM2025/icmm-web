@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
 import { AddIcon, CheckOrderStatusIcon, LoveFaceIcon } from "../icons/mainIcon";
 import { useNavigate } from "react-router-dom";
+import useMainStore from "../stores/main-store";
 
 function Success() {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ function Success() {
     localStorage.clear(); // Clears all localStorage items
     navigate("/", { replace: true }); // Navigate to "/" without going back
   };
+  const orderId = useMainStore((state) => state.orderId);
 
   return (
     <>
@@ -44,13 +46,24 @@ function Success() {
 
         <div className="w-full p-2 rounded-m text-m-prim  flex flex-col items-center gap-1 animate-fade-in-div pt-30">
           <LoveFaceIcon className="w-[100px] h-[100px] animate-bounce" />
-          <p className="text-xl font-bold">{t("yourOrderHasRecieved")}</p>
-          <p className="font-bold">{t("weWillConfirmTxt")}</p>
-          <p className="text-xs mt-4 text-m-dark">{t("youCanCheckOrderTxt")}</p>
+          <p className="text-xl font-bold text-center">
+            {t("yourOrderHasRecieved")}
+          </p>
+          <p className="font-bold text-center">{t("weWillConfirmTxt")}</p>
+          <p className="text-xs mt-4 text-m-dark text-center">
+            {t("youCanCheckOrderTxt")}
+          </p>
+          <p className="text-xs mt-4 text-m-dark text-center">
+            {t("youCanCheckOrderTxt2")}{" "}
+            <span className="text-lg text-m-acct">{`A${orderId
+              .toString()
+              .padStart(4, "0")}`}</span>{" "}
+            {t("youCanCheckOrderTxt3")}
+          </p>
+
           <Button
             lbl={t("reorder")}
             Icon={AddIcon}
-            isAcct={true}
             className="mt-4"
             onClick={hdlReorder}
           />
@@ -64,8 +77,6 @@ function Success() {
         </div>
         <p>copy right 2025</p>
       </div>
-      {/* version */}
-      <p className="absolute top-0 text-[8px]">v.1.0.0</p>
     </>
   );
 }
