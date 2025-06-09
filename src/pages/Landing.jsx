@@ -9,6 +9,7 @@ import Products from "../components/Products";
 import ConfirmOrder from "../components/ConfirmOrder";
 import Pay from "../components/Pay";
 import { getProductsApi } from "../apis/product-api";
+import useMainStore from "../stores/main-store";
 
 function Landing() {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ function Landing() {
   const [isShowProduct, setIsShowProduct] = useState(true);
   const [isShowCart, setIsShowCart] = useState(true);
   const [isShowConfirmOrder, setIsShowConfirmOrder] = useState(false);
-  const [isShowPay, setIsShowPay] = useState(false);
+  const isShowPay = useMainStore((state) => state.isShowPay);
 
   const getProductsInfo = async () => {
     setIsLoadingModalOpen(true);
@@ -103,6 +104,8 @@ function Landing() {
         </div>
         <p>copy right 2025</p>
       </div>
+      {/* version */}
+      <p className="absolute top-0 text-[8px]">v.1.0.0</p>
     </>
   );
 }

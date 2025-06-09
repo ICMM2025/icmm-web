@@ -73,7 +73,7 @@ function Cart({ products, hdlClickCheckout }) {
       {/* cart summary */}
       <div className="w-full flex justify-between items-center py-1 gap-2 ">
         <p className="font-bold ml-2">
-          {t("totalProduct")}{" "}
+          {t("total")}{" "}
           {totalAmt.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

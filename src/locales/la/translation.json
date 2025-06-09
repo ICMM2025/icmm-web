@@ -43,5 +43,22 @@
   "totalProduct": "Total Product Amount :",
   "added": "Add",
   "deliveryCost": "Delivery Cost",
-  "totalAmt": "Total Amount"
+  "totalAmt": "Total Amount",
+  "errName4to50": "Name can only has 4 to 50 charactors.",
+  "errInvalidEmail": "Please enter a valid email address.",
+  "errInvalidPhone": "Please enter a valid phone number.",
+  "errAddress20to400": "Address must be between 20 and 400 characters",
+  "remark": "Remark",
+  "remarkPH": "Message to the seller",
+  "error": "Error",
+  "errTest": "Test Error",
+  "errMissing": "Some information is missing",
+  "errInputMissing": "Some information is missing (input)",
+  "errCartMissing": "Some information is missing (cart)",
+  "errInvalidProdectOptId": "errInvalidProdectOptId",
+  "errTotalAmtMismatch": "Total Amount Mismatch.",
+  "errGrandTotalMismatch": "Grand Total Mismatch",
+  "useQRPay": "Switch to QR pay",
+  "useManualPay": "Switch to manual pay",
+  "clickToUpload": "Click to upload"
 }

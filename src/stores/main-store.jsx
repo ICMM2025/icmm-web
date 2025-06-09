@@ -10,5 +10,18 @@ const useMainStore = create((set) => ({
       updatedCart.splice(index, 1);
       return { cart: updatedCart };
     }),
+  input: {
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    remark: "",
+  },
+  setInput: (newVal) => set({ input: newVal }),
+  // isShowPay: true,
+  isShowPay: false,
+  setIsShowPay: (newVal) => set({ isShowPay: newVal }),
+  totalForPay: 0,
+  setTotalForPay: (newVal) => set({ totalForPay: newVal }),
 }));
 export default useMainStore;
