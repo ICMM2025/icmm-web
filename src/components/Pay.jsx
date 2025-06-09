@@ -7,7 +7,7 @@ import { sendOrderApi } from "../apis/order-api";
 import useModalStore from "../stores/modal-store";
 import { useNavigate } from "react-router-dom";
 
-function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
+function Pay() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isManualPay, setIsManualPay] = useState(false);
@@ -16,6 +16,11 @@ function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
   const orderId = useMainStore((state) => state.orderId);
   const qrUrl = useMainStore((state) => state.qrUrl);
   const setErrTxt = useModalStore((state) => state.setErrTxt);
+  const photoUrl = useMainStore((state) => state.photoUrl);
+  const setPhoto = useMainStore((state) => state.setPhoto);
+  const photo = useMainStore((state) => state.photo);
+  const setPhotoUrl = useMainStore((state) => state.setPhotoUrl);
+  const clearPhoto = useMainStore((state) => state.clearPhoto);
   const setIsLoadingModalOpen = useModalStore(
     (state) => state.setIsLoadingModalOpen
   );
@@ -53,8 +58,7 @@ function Pay({ photo, setPhoto, photoUrl, setPhotoUrl }) {
     if (photoUrl) {
       URL.revokeObjectURL(photoUrl);
     }
-    setPhoto(null);
-    setPhotoUrl(null);
+    clearPhoto();
   };
 
   const hdlSendOrder = async () => {

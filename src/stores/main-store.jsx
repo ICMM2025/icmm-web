@@ -28,5 +28,10 @@ const useMainStore = create((set) => ({
   setOrderId: (newVal) => set({ orderId: newVal }),
   qrUrl: "",
   setQrUrl: (newVal) => set({ qrUrl: newVal }),
+  photo: null,
+  photoUrl: null,
+  setPhoto: (photo) => set({ photo }),
+  setPhotoUrl: (url) => set({ photoUrl: url }),
+  clearPhoto: () => set({ photo: null, photoUrl: null }),
 }));
 export default useMainStore;
