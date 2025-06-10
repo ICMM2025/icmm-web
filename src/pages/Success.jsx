@@ -25,7 +25,7 @@ function Success() {
   return (
     <>
       {/* container */}
-      <div className="w-full max-w-[400px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-2 gap-2">
+      <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* language select */}
         <div className="w-full flex justify-between animate-fade-in-div">
           <Button
