@@ -17,6 +17,9 @@ function Landing() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const setIsCheckStatusModalOpen = useModalStore(
+    (state) => state.setIsCheckStatusModalOpen
+  );
   const setIsLoadingModalOpen = useModalStore(
     (state) => state.setIsLoadingModalOpen
   );
@@ -61,6 +64,10 @@ function Landing() {
     setIsShowConfirmOrder(false);
   };
 
+  const hdlClickCheckOrderStatus = () => {
+    setIsCheckStatusModalOpen(true);
+  };
+
   useEffect(() => {
     localStorage.clear();
     setCurProduct({});
@@ -84,6 +91,7 @@ function Landing() {
             lbl={t("checkOrderStatus")}
             Icon={CheckOrderStatusIcon}
             isAcct={true}
+            onClick={hdlClickCheckOrderStatus}
           />
           <LanguageSelect />
         </div>
@@ -122,7 +130,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v.1.0.2</p>
+      <p className="absolute top-0 text-[8px]">v1.0.3</p>
     </>
   );
 }

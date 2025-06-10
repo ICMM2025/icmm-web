@@ -6,6 +6,7 @@ import ErrorModal from "./ErrorModal";
 import useModalStore from "../../stores/modal-store";
 import TestModal from "./TestModal";
 import ProductModal from "./ProductModal";
+import CheckStatusModal from "./CheckStatusModal";
 
 function GlobalModal() {
   const errTxt = useModalStore((state) => state.errTxt);
@@ -14,6 +15,9 @@ function GlobalModal() {
   const isErrorModalOpen = useModalStore((state) => state.isErrorModalOpen);
   const isLanguageSelectModalOpen = useModalStore(
     (state) => state.isLanguageSelectModalOpen
+  );
+  const isCheckStatusModalOpen = useModalStore(
+    (state) => state.isCheckStatusModalOpen
   );
   const isProductModalOpen = useModalStore((state) => state.isProductModalOpen);
 
@@ -39,6 +43,12 @@ function GlobalModal() {
       )}
       {isProductModalOpen && (
         <ModalContainer id="product-modal" children={<ProductModal />} />
+      )}
+      {isCheckStatusModalOpen && (
+        <ModalContainer
+          id="check-status-modal"
+          children={<CheckStatusModal />}
+        />
       )}
     </>
   );

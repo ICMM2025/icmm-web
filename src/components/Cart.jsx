@@ -75,7 +75,7 @@ function Cart({ products, hdlClickCheckout }) {
           })
         ) : (
           <div>
-            <PackageXIcon className="text-m-dark/50 w-[50px] mx-auto mt-10" />
+            <PackageXIcon className="text-m-dark/30 w-[50px] mx-auto mt-10" />
           </div>
         )}
       </div>

@@ -6,3 +6,5 @@ export const addOrderApi = async (body) =>
   await axios.post(`${baseUrl}/order/add-order`, body);
 export const sendOrderApi = async (body) =>
   await axios.post(`${baseUrl}/order/send-order`, body);
+export const checkOrderApi = async (body) =>
+  await axios.post(`${baseUrl}/order/check-order`, body);

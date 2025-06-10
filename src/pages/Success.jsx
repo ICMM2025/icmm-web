@@ -5,16 +5,23 @@ import { AddIcon, CheckOrderStatusIcon, LoveFaceIcon } from "../icons/mainIcon";
 import { useNavigate } from "react-router-dom";
 import useMainStore from "../stores/main-store";
 import Footer from "./Footer";
+import useModalStore from "../stores/modal-store";
 
 function Success() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const setIsCheckStatusModalOpen = useModalStore(
+    (state) => state.setIsCheckStatusModalOpen
+  );
   const hdlReorder = () => {
     localStorage.clear(); // Clears all localStorage items
     navigate("/", { replace: true }); // Navigate to "/" without going back
   };
   const orderId = useMainStore((state) => state.orderId);
 
+  const hdlClickCheckOrderStatus = () => {
+    setIsCheckStatusModalOpen(true);
+  };
   return (
     <>
       {/* container */}
@@ -25,6 +32,7 @@ function Success() {
             lbl={t("checkOrderStatus")}
             Icon={CheckOrderStatusIcon}
             isAcct={true}
+            onClick={hdlClickCheckOrderStatus}
           />
         </div>
         {/* welcome badge */}
