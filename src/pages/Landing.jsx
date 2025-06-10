@@ -71,7 +71,7 @@ function Landing() {
   return (
     <>
       {/* container */}
-      <div className="w-full max-w-[400px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-2 gap-2">
+      <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* language select */}
         <div className="w-full flex justify-between animate-fade-in-div">
           <Button
@@ -114,7 +114,7 @@ function Landing() {
         {isShowPay && <Pay />}
       </div>
       {/* footer */}
-      <div className="w-full max-w-[400px] mx-auto  h-[80px] bg-m-line/25 p-2 flex justify-between items-center flex-col text-xs animate-fade-in-div">
+      <div className="w-full sm:max-w-[700px] mx-auto  h-[80px] bg-m-line/25 p-2 flex justify-between items-center flex-col text-xs animate-fade-in-div">
         <div className="flex flex-col items-center">
           <p>Contact us : @icmm2015</p>
           <p>info.icmm2025@gmail.com</p>
