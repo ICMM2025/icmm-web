@@ -12,6 +12,7 @@ function Button({
 }) {
   return (
     <div
+      name={name}
       style={size ? { width: `${size * 50 + 25}px` } : {}}
       className={` h-[25px] rounded-m flex justify-start items-center font-bold shadow-m-s relative px-[2.5px] gap-1 ${
         isDisabled

@@ -389,6 +389,34 @@ export function PackageXIcon(props) {
   );
 }
 
+export function SearchIcon(props) {
+  return (
+    <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M11.5 2a9.5 9.5 0 019.5 9.5c0 2.082-.67 4.007-1.805 5.573l6.366 6.366a1.5 1.5 0 01-2.008 2.225l-.114-.103-6.366-6.366A9.457 9.457 0 0111.5 21a9.5 9.5 0 010-19zm0 3a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"
+        fill="#212121"
+        fillRule="nonzero"
+        stroke="none"
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
+export function AdminIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M17.753 14a2.25 2.25 0 012.25 2.25v.905A3.75 3.75 0 0118.696 20C17.13 21.344 14.89 22.001 12 22.001c-2.89 0-5.128-.657-6.691-2a3.75 3.75 0 01-1.305-2.844v-.907A2.25 2.25 0 016.254 14h11.5zM11.9 2.007L12 2a.75.75 0 01.743.649l.007.101v.75h3.5a2.25 2.25 0 012.25 2.25v4.505a2.25 2.25 0 01-2.25 2.25h-8.5a2.25 2.25 0 01-2.25-2.25V5.75A2.25 2.25 0 017.75 3.5h3.5v-.75a.75.75 0 01.649-.743L12 2l-.101.007zM9.749 6.5a1.25 1.25 0 100 2.499 1.25 1.25 0 000-2.499zm4.493 0a1.25 1.25 0 100 2.499 1.25 1.25 0 000-2.499z"
+        fill="currentColor"
+        fillRule="nonzero"
+        stroke="none"
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
 export const icons = {
   BesRoomIcon,
   LoginIcon,
@@ -413,4 +441,6 @@ export const icons = {
   LoveFaceIcon,
   CryFaceIcon,
   PackageXIcon,
+  SearchIcon,
+  AdminIcon,
 };

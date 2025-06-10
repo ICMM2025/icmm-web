@@ -9,3 +9,15 @@ export const exportExcelApi = async (token) =>
     },
     responseType: "blob",
   });
+export const getAllOrdersApi = async (token) =>
+  await axios.get(`${baseUrl}/admin/all-orders`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+export const getOrderDetailAdminApi = async (token, body) =>
+  await axios.post(`${baseUrl}/admin/order-detail`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
