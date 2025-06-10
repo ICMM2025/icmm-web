@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CartIcon, CheckoutIcon, RemoveIcon } from "../icons/mainIcon";
+import {
+  CartIcon,
+  CheckoutIcon,
+  PackageXIcon,
+  RemoveIcon,
+} from "../icons/mainIcon";
 import Button from "./main/Button";
 import useMainStore from "../stores/main-store";
 import ButtonRounded from "./main/ButtonRounded";
@@ -31,42 +36,48 @@ function Cart({ products, hdlClickCheckout }) {
       </div>
       {/* cart list */}
       <div className="w-full min-h-[150px] bg-m-light rounded-m flex flex-col gap-[4px] py-2 px-3">
-        {cart.map((el, idx) => {
-          const product = products.find((p) => p.productId === el.productId);
-          const option = product?.productOpts.find(
-            (opt) => opt.productOptId === el.productOptId
-          );
+        {cart.length > 0 ? (
+          cart.map((el, idx) => {
+            const product = products.find((p) => p.productId === el.productId);
+            const option = product?.productOpts.find(
+              (opt) => opt.productOptId === el.productOptId
+            );
 
-          return (
-            <div
-              key={idx}
-              className="flex justify-between items-center gap-2 animate-fade-in-div animate-fade-out-div"
-            >
-              <div className="w-full h-auto flex flex-grow justify-between">
-                <div className="flex gap-1 items-center">
-                  <div className="w-[25px] h-[25px]  rounded-m overflow-hidden">
-                    <img src={product?.productPics[0]?.url} alt="" />
+            return (
+              <div
+                key={idx}
+                className="flex justify-between items-center gap-2 animate-fade-in-div animate-fade-out-div"
+              >
+                <div className="w-full h-auto flex flex-grow justify-between">
+                  <div className="flex gap-1 items-center">
+                    <div className="w-[25px] h-[25px]  rounded-m overflow-hidden">
+                      <img src={product?.productPics[0]?.url} alt="" />
+                    </div>
+                    <p className="font-bold">{t(product?.name + "Name")}</p>
+                    <p>[{option?.optName}]</p>
+                    <p>x {el.unit}</p>
                   </div>
-                  <p className="font-bold">{t(product?.name + "Name")}</p>
-                  <p>[{option?.optName}]</p>
-                  <p>x {el.unit}</p>
+                  <div className="flex gap-1 items-center">
+                    <p className="font-bold">
+                      {el.price.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex gap-1 items-center">
-                  <p className="font-bold">
-                    {el.price.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  </p>
-                </div>
+                <ButtonRounded
+                  Icon={RemoveIcon}
+                  onClick={() => removeCartItemByIndex(idx)}
+                />
               </div>
-              <ButtonRounded
-                Icon={RemoveIcon}
-                onClick={() => removeCartItemByIndex(idx)}
-              />
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div>
+            <PackageXIcon className="text-m-dark/50 w-[50px] mx-auto mt-10" />
+          </div>
+        )}
       </div>
       {/* cart summary */}
       <div className="w-full flex justify-between items-center py-1 gap-2 ">

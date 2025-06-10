@@ -356,6 +356,39 @@ export function LoveFaceIcon(props) {
   );
 }
 
+export function CryFaceIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M9.5 12a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm5.5 4a3 3 0 00-6 0h1s.317-2 2-2 1.996 2 1.996 2H15zm-.5-4a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 20a8 8 0 100-16 8 8 0 000 16zm0 2C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm4-7a1 1 0 001-1c0-.368-.333-1.035-1-2-.667.965-1 1.632-1 2a1 1 0 001 1z"
+        fill="currentColor"
+        stroke="none"
+        strokeWidth={1}
+        fillRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+export function PackageXIcon(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M20.5 7.278L12 12m0 0L3.5 7.278M12 12v9.5m9-9V7.942c0-.343 0-.514-.05-.667a1 1 0 00-.215-.364c-.109-.119-.258-.202-.558-.368l-7.4-4.111c-.284-.158-.425-.237-.575-.267a1 1 0 00-.403 0c-.15.03-.292.11-.576.267l-7.4 4.11c-.3.167-.45.25-.558.369a1 1 0 00-.215.364C3 7.428 3 7.599 3 7.942v8.117c0 .342 0 .514.05.666a1 1 0 00.215.364c.109.119.258.202.558.368l7.4 4.111c.284.158.425.237.576.268.133.027.27.027.402 0 .15-.031.292-.11.576-.268l.223-.123M7.5 4.5l9 5m0 6.5l5 5m0-5l-5 5"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export const icons = {
   BesRoomIcon,
   LoginIcon,
@@ -378,4 +411,6 @@ export const icons = {
   RemoveIcon,
   AddPhotoIcon,
   LoveFaceIcon,
+  CryFaceIcon,
+  PackageXIcon,
 };

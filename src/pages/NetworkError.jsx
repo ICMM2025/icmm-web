@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
-import { AddIcon, CheckOrderStatusIcon, LoveFaceIcon } from "../icons/mainIcon";
+import {
+  AddIcon,
+  CheckOrderStatusIcon,
+  CryFaceIcon,
+  LoveFaceIcon,
+} from "../icons/mainIcon";
 import { useNavigate } from "react-router-dom";
 import useMainStore from "../stores/main-store";
 import Footer from "./Footer";
 
-function Success() {
+function NetworkError() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const hdlReorder = () => {
@@ -18,15 +23,7 @@ function Success() {
   return (
     <>
       {/* container */}
-      <div className="w-full max-w-[400px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-2 gap-2">
-        {/* language select */}
-        <div className="w-full flex justify-between animate-fade-in-div">
-          <Button
-            lbl={t("checkOrderStatus")}
-            Icon={CheckOrderStatusIcon}
-            isAcct={true}
-          />
-        </div>
+      <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* welcome badge */}
         <div className="w-full h-auto bg-m-prim rounded-m flex flex-col animate-fade-in-div p-2">
           <div className="w-full flex items-baseline gap-2">
@@ -43,31 +40,14 @@ function Success() {
             <p className="font-bold text-m-light text-lg">{t("welcomeTxt")}</p>
           </div>
         </div>
-        {/* Success */}
+        {/* Network Error */}
 
         <div className="w-full p-2 rounded-m text-m-prim  flex flex-col items-center gap-1 animate-fade-in-div pt-30">
-          <LoveFaceIcon className="w-[100px] h-[100px] animate-bounce" />
+          <CryFaceIcon className="w-[100px] h-[100px] animate-none" />
           <p className="text-xl font-bold text-center">
-            {t("yourOrderHasRecieved")}
+            {t("networkErrorTxt1")}
           </p>
-          <p className="font-bold text-center">{t("weWillConfirmTxt")}</p>
-          <p className="text-xs mt-4 text-m-dark text-center">
-            {t("youCanCheckOrderTxt")}
-          </p>
-          <p className="text-xs mt-4 text-m-dark text-center">
-            {t("youCanCheckOrderTxt2")}{" "}
-            <span className="text-lg text-m-acct">{`A${orderId
-              .toString()
-              .padStart(4, "0")}`}</span>{" "}
-            {t("youCanCheckOrderTxt3")}
-          </p>
-
-          <Button
-            lbl={t("reorder")}
-            Icon={AddIcon}
-            className="mt-4"
-            onClick={hdlReorder}
-          />
+          <p className="text-xl text-center">{t("networkErrorTxt2")}</p>
         </div>
       </div>
       {/* footer */}
@@ -76,4 +56,4 @@ function Success() {
   );
 }
 
-export default Success;
+export default NetworkError;

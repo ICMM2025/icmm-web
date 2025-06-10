@@ -73,5 +73,14 @@
   "youCanCheckOrderTxt2": "by input your order no.",
   "youCanCheckOrderTxt3": "and your email",
   "errFailToUploadQr": "Fail to upload QR",
-  "errFailToUploadEvidence": "Fail to upload evidence"
+  "errFailToUploadEvidence": "Fail to upload evidence",
+  "networkErrorTxt1": "We are currently not operational.",
+  "networkErrorTxt2": "We apologize for the inconvenience.",
+  "mailerSubject": "[ICMM2025] Your order has been received!...",
+  "mailerDear": "Dear Valued Customer,",
+  "mailerText": "We have received your order and will confirm it within 24 hours.",
+  "mailerText2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
+  "mailerText3": "Thank you for shopping with us.",
+  "mailerRegards": "Best Regards,",
+  "mailerName": "ICMM admin."
 }

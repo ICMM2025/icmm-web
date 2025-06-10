@@ -10,9 +10,12 @@ import ConfirmOrder from "../components/ConfirmOrder";
 import Pay from "../components/Pay";
 import { getProductsApi } from "../apis/product-api";
 import useMainStore from "../stores/main-store";
+import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 function Landing() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const setIsLoadingModalOpen = useModalStore(
     (state) => state.setIsLoadingModalOpen
@@ -38,6 +41,9 @@ function Landing() {
       setProducts(res.data.products);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
+      if (err.message === "Network Error") {
+        navigate("/network-error");
+      }
     } finally {
       setIsLoadingModalOpen(false);
     }
@@ -114,13 +120,7 @@ function Landing() {
         {isShowPay && <Pay />}
       </div>
       {/* footer */}
-      <div className="w-full sm:max-w-[700px] mx-auto  h-[80px] bg-m-line/25 p-2 flex justify-between items-center flex-col text-xs animate-fade-in-div">
-        <div className="flex flex-col items-center">
-          <p>Contact us : @icmm2015</p>
-          <p>info.icmm2025@gmail.com</p>
-        </div>
-        <p>copy right 2025</p>
-      </div>
+      <Footer />
       {/* version */}
       <p className="absolute top-0 text-[8px]">v.1.0.2</p>
     </>

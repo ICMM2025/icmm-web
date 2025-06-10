@@ -6,6 +6,7 @@ import useMainStore from "../stores/main-store";
 import { sendOrderApi } from "../apis/order-api";
 import useModalStore from "../stores/modal-store";
 import { useNavigate } from "react-router-dom";
+import { sendOrderMailer } from "../apis/mailer-api";
 
 function Pay() {
   const { t } = useTranslation();
@@ -69,6 +70,17 @@ function Pay() {
       body.append("image", photo);
       const res = await sendOrderApi(body);
       console.log(res);
+      // mailer
+      const mailOptions = {
+        to: res.data?.order?.email,
+        subject: t("mailerSubject"),
+        text: `${t("mailerDear")}\n\n${t("mailerTextSendOrder1")}\n${t(
+          "mailerTextSendOrder2"
+        )}${`A${res.data?.order?.orderId.toString().padStart(4, "0")}`}\n${t(
+          "mailerTextSendOrder3"
+        )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
+      };
+      await sendOrderMailer(mailOptions);
       navigate("/success");
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
