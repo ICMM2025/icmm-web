@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AddPhotoIcon, PayIcon, RemoveIcon, SendIcon } from "../icons/mainIcon";
 import Button from "./main/Button";
@@ -11,6 +11,7 @@ import { sendOrderMailer } from "../apis/mailer-api";
 function Pay() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const inputRef = useRef();
   const [isManualPay, setIsManualPay] = useState(false);
   const [lblSwitchPay, setLblSwitchPay] = useState("useQRPay");
   const totalForPay = useMainStore((state) => state.totalForPay);
@@ -51,7 +52,7 @@ function Pay() {
       setPhotoUrl(newUrl);
 
       // Reset input so selecting the same file again will trigger onChange
-      e.target.value = "";
+      e.target.value = null;
     }
   };
 
@@ -60,6 +61,7 @@ function Pay() {
       URL.revokeObjectURL(photoUrl);
     }
     clearPhoto();
+    if (inputRef.current) inputRef.current.value = null;
   };
 
   const hdlSendOrder = async () => {
@@ -215,24 +217,19 @@ function Pay() {
             <div className="w-[200px] h-[200px] border flex justify-center items-center animate-fade-in-div">
               <div
                 className="flex flex-col items-center btn-hover"
-                onClick={() => {
-                  const input = document.getElementById("input-file");
-                  input.value = "";
-                  input.click();
-                }}
+                onClick={() => inputRef.current?.click()}
               >
                 <AddPhotoIcon className="w-[50px] text-m-dark" />
                 <p>{t("clickToUpload")}</p>
-                {!photo && (
-                  <input
-                    key={Date.now()} // Force recreate input
-                    type="file"
-                    id="input-file"
-                    className="opacity-0 absolute w-0"
-                    accept="image/*"
-                    onChange={hdlInputPhoto}
-                  />
-                )}
+
+                <input
+                  ref={inputRef}
+                  type="file"
+                  id="input-file"
+                  className="opacity-0 absolute w-0"
+                  accept="image/*"
+                  onChange={hdlInputPhoto}
+                />
               </div>
             </div>
           )}
