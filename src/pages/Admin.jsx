@@ -137,7 +137,7 @@ function Admin() {
   return (
     <>
       {/* container */}
-      <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
+      <div className="w-full sm:max-w-[700px] min-w-[420px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* button */}
         <div className="w-full flex justify-between">
           {/* left */}
@@ -217,7 +217,7 @@ function Admin() {
             orders?.map((el, idx) => (
               <div
                 key={idx}
-                className="w-full flex justify-between items-center btn-hover"
+                className="w-full flex justify-between items-center btn-hover gap-[2px]"
                 onClick={() => hdlSelectOrder(el)}
               >
                 {/* staus */}
@@ -228,7 +228,7 @@ function Admin() {
                 >
                   {el?.statusId}
                 </div>
-                <div className="w-full h-[25px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-1">
+                <div className="w-full h-[25px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2">
                   {/* left */}
                   <div className="flex-grow flex gap-1 text-xs">
                     {/* order id */}
@@ -261,7 +261,7 @@ function Admin() {
                   </div>
                 </div>
                 {/* icon */}
-                <div className="w-[60px] shrink-0 text-[10px]">
+                <div className="w-[30px] shrink-0 text-[10px]">
                   {formatDateTimeThai(el?.createdAt)}
                 </div>
               </div>

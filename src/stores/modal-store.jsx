@@ -18,5 +18,8 @@ const useModalStore = create((set) => ({
     set({ isCheckStatusModalOpen: newVal }),
   isAdminModalOpen: false,
   setIsAdminModalOpen: (newVal) => set({ isAdminModalOpen: newVal }),
+  isChangeStatusModalOpen: false,
+  setIsChangeStatusModalOpen: (newVal) =>
+    set({ isChangeStatusModalOpen: newVal }),
 }));
 export default useModalStore;

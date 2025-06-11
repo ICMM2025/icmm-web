@@ -35,5 +35,10 @@ const useMainStore = create((set) => ({
   clearPhoto: () => set({ photo: null, photoUrl: null }),
   selectedOrderId: "",
   setSelectedOrderId: (newVal) => set({ selectedOrderId: newVal }),
+
+  status: [],
+  setStatus: (cb) => set((state) => ({ status: cb(state.status) })),
+  order: {},
+  setOrder: (newVal) => set({ order: newVal }),
 }));
 export default useMainStore;

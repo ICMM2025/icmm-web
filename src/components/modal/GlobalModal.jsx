@@ -8,6 +8,7 @@ import TestModal from "./TestModal";
 import ProductModal from "./ProductModal";
 import CheckStatusModal from "./CheckStatusModal";
 import AdminModal from "./AdminModal";
+import ChangeStatusModal from "./ChangeStatusModal";
 
 function GlobalModal() {
   const errTxt = useModalStore((state) => state.errTxt);
@@ -22,6 +23,9 @@ function GlobalModal() {
   );
   const isProductModalOpen = useModalStore((state) => state.isProductModalOpen);
   const isAdminModalOpen = useModalStore((state) => state.isAdminModalOpen);
+  const isChangeStatusModalOpen = useModalStore(
+    (state) => state.isChangeStatusModalOpen
+  );
 
   return (
     <>
@@ -54,6 +58,12 @@ function GlobalModal() {
       )}
       {isAdminModalOpen && (
         <ModalContainer id="admin-modal" children={<AdminModal />} />
+      )}
+      {isChangeStatusModalOpen && (
+        <ModalContainer
+          id="change-status-modal"
+          children={<ChangeStatusModal />}
+        />
       )}
     </>
   );

@@ -14,8 +14,13 @@ import { checkOrderApi } from "../../apis/order-api";
 import Badge from "../main/Badge";
 import useMainStore from "../../stores/main-store";
 import useUserStore from "../../stores/user-store";
-import { addNoteApi, getOrderDetailAdminApi } from "../../apis/admin-api";
+import {
+  addNoteApi,
+  editDetailOrderApi,
+  getOrderDetailAdminApi,
+} from "../../apis/admin-api";
 import { formatDateTimeThai } from "../../utils/common";
+import TextArea from "../main/TextArea";
 
 function AdminModal() {
   const { t } = useTranslation();
@@ -33,10 +38,16 @@ function AdminModal() {
   const selectedOrderId = useMainStore((state) => state.selectedOrderId);
   const setSelectedOrderId = useMainStore((state) => state.setSelectedOrderId);
   const token = useUserStore((state) => state.token);
-  const [order, setOrder] = useState({});
+  const [originOrder, setOriginOrder] = useState({});
   const [inputNote, setInputNote] = useState("");
   const [isMailerUser, setIsMailerUser] = useState(true);
   const [isMailerAdmin, setIsMailerAdmin] = useState(true);
+  const setIsChangeStatusModalOpen = useModalStore(
+    (state) => state.setIsChangeStatusModalOpen
+  );
+  const setStatus = useMainStore((state) => state.setStatus);
+  const order = useMainStore((state) => state.order);
+  const setOrder = useMainStore((state) => state.setOrder);
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -51,6 +62,8 @@ function AdminModal() {
       });
       console.log(result.data.order);
       setOrder(result.data.order);
+      setOriginOrder(result.data.order);
+      setStatus(() => result.data.status);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -68,12 +81,51 @@ function AdminModal() {
         noteTxt: inputNote,
         orderId: order?.orderId,
       });
+      console.log(result.data?.newNote);
       const newNote = result.data?.newNote;
-      setOrder((prev) => ({
-        ...prev,
-        notes: [...(prev.notes || []), newNote],
-      }));
+      setOrder({
+        ...order,
+        notes: order.notes ? [...order.notes, newNote] : [newNote],
+      });
       setInputNote("");
+    } catch (err) {
+      console.log(err?.response?.data?.msg || err.message);
+      hdlError(t(err?.response?.data?.msg || err.message));
+    } finally {
+      setIsLoadingModalOpen(false);
+    }
+  };
+
+  const hdlChangeOrder = (e) => {
+    setOrder({
+      ...order,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const hdlChangeStatus = () => {
+    setIsChangeStatusModalOpen(true);
+  };
+
+  const hdlClickSaveEdit = async () => {
+    setIsLoadingModalOpen(true);
+    const body = {
+      orderId: order.orderId,
+      statusId: order.statusId,
+      isImportant: order.isImportant,
+      name: order.name,
+      email: order.email,
+      phone: order.phone,
+      address: order.address,
+      remark: order.remark,
+      totalAmt: order.totalAmt,
+      deliveryCost: order.deliveryCost,
+      grandTotalAmt: order.grandTotalAmt,
+    };
+    try {
+      const result = await editDetailOrderApi(token, body);
+      console.log(result.data);
+      await getOrderDetailAdmin(selectedOrderId);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -124,14 +176,37 @@ function AdminModal() {
           {/* current status */}
           <div className="w-full flex justify-between">
             <p className="">Current Status </p>
-            <div className="font-bold h-[25px] flex justify-center items-center border px-2 rounded-m border-m-prim  btn-hover">
+            <div
+              className="font-bold h-[25px] flex justify-center items-center border px-2 rounded-m border-m-prim  btn-hover"
+              onClick={hdlChangeStatus}
+            >
               {t(order?.status?.name)}
             </div>
+          </div>
+          {/* important */}
+          <div className="w-full flex justify-between">
+            <p className="">Important Flag</p>
+            {/* toggle */}
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={!!order?.isImportant}
+                name="isImportant"
+                onChange={(e) =>
+                  setOrder((prev) => ({
+                    ...prev,
+                    [e.target.name]: e.target.checked,
+                  }))
+                }
+              />
+              <div className="relative w-11 h-6 bg-m-gray rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-m-prim focus:outline-none focus:ring-0" />
+            </label>
           </div>
           {/* order No */}
           <div className="w-full flex justify-between">
             <p className="">{t("orderNo")} </p>
-            <p className="font-bold px-2 border rounded-m border-m-prim  btn-hover">
+            <p className="font-bold">
               {" "}
               {order?.orderId != null
                 ? `A${order.orderId.toString().padStart(4, "0")}`
@@ -151,37 +226,68 @@ function AdminModal() {
           {/* name */}
           <div className="w-full flex justify-between">
             <p className="">{t("name")} </p>
-            <p className="border px-2 rounded-m border-m-prim  btn-hover">
-              {order?.name}
-            </p>
+
+            <Input
+              type="text"
+              placeholder={order?.name}
+              value={order?.name}
+              name="name"
+              size="4"
+              className="text-right px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
           </div>
           {/* email */}
           <div className="w-full flex justify-between">
             <p className="">{t("email")} </p>
-            <p className="border px-2 rounded-m border-m-prim  btn-hover">
-              {order?.email}
-            </p>
+            <Input
+              type="text"
+              placeholder={order?.email}
+              value={order?.email}
+              name="email"
+              size="4"
+              className="text-right px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
           </div>
           {/* phone */}
           <div className="w-full flex justify-between">
             <p className="">{t("phone")} </p>
-            <p className="border px-2 rounded-m border-m-prim  btn-hover">
-              {order?.phone}
-            </p>
+            <Input
+              type="text"
+              placeholder={order?.phone}
+              value={order?.phone}
+              name="phone"
+              size="4"
+              className="text-right px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
           </div>
           {/* address */}
           <div className="w-full flex justify-between">
             <p className="w-1/5 shrink-0">{t("deliveryAddress")} </p>
-            <p className="border px-2 rounded-m border-m-prim  btn-hover">
-              {order?.address}
-            </p>
+            <TextArea
+              type="text"
+              placeholder={order?.address}
+              value={order?.address}
+              name="address"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
           </div>
           {/* remake */}
           <div className="w-full flex justify-between">
             <p className="w-1/5 shrink-0">{t("remark")} </p>
-            <p className="border px-2 rounded-m border-m-prim  btn-hover">
-              {order?.remark}
-            </p>
+            <TextArea
+              type="text"
+              placeholder={order?.remark}
+              value={order?.remark}
+              name="remark"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
           </div>
           {/* evidence */}
           <div className="w-full flex justify-between">
@@ -245,44 +351,67 @@ function AdminModal() {
           <div className="w-full flex flex-col items-end py-1 gap-1 px-2 animate-fade-in-div">
             <div className="w-full flex justify-between animate-fade-in-div">
               <p className="">{t("totalProduct")} </p>
-              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
-                {order?.totalAmt?.toLocaleString(undefined, {
+              <Input
+                type="text"
+                placeholder={order?.totalAmt?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}{" "}
-                {t("baht")}
-              </p>
+                })}
+                value={order?.totalAmt?.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                name="totalAmt"
+                size="2"
+                className="text-right px-1 border border-m-prim"
+                onChange={hdlChangeOrder}
+              />
             </div>
             <div className="w-full flex justify-between animate-fade-in-div">
               <p className="">
                 <span className="font-bold">{t("added")}</span>
                 {" " + t("deliveryCost")}{" "}
               </p>
-              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
-                {order?.deliveryCost?.toLocaleString(undefined, {
+              <Input
+                type="text"
+                placeholder={order?.deliveryCost?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}{" "}
-                {t("baht")}
-              </p>
+                })}
+                value={order?.deliveryCost?.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                name="deliveryCost"
+                size="2"
+                className="text-right px-1 border border-m-prim"
+                onChange={hdlChangeOrder}
+              />
             </div>
             <div className="w-full flex justify-between  text-[16px] font-bold animate-fade-in-div">
               <p className=" ">{t("totalAmt")} </p>
-              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
-                {" "}
-                {order?.grandTotalAmt?.toLocaleString(undefined, {
+              <Input
+                type="text"
+                placeholder={order?.grandTotalAmt?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}{" "}
-                {t("baht")}
-              </p>
+                })}
+                value={order?.grandTotalAmt?.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                name="grandTotalAmt"
+                size="2"
+                className="text-right px-1 border border-m-prim"
+                onChange={hdlChangeOrder}
+              />
             </div>
           </div>
         </div>
 
         {/* note area */}
         <p className="font-bold animate-fade-in-div">Admin Note</p>
-        <div className="w-full border border-m-acct/30 min-h-[150px] max-h-[250px] flex flex-col justify-between p-1 rounded-m  animate-fade-in-div">
+        <div className="w-full border-2 border-m-acct min-h-[150px] max-h-[250px] flex flex-col justify-between p-1 rounded-m  animate-fade-in-div">
           <div className="w-full flex flex-col gap-1 overflow-y-auto p-1 text-xs ">
             {order?.notes?.map((el, idx) => (
               <div
@@ -330,7 +459,7 @@ function AdminModal() {
               Send email to <span className="font-bold"> User</span> this time
             </p>
             {/* toggle */}
-            <label class="inline-flex items-center cursor-pointer">
+            <label className="inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 className="sr-only peer"
@@ -345,7 +474,7 @@ function AdminModal() {
               Send email to <span className="font-bold"> Admin</span> this time
             </p>
             {/* toggle */}
-            <label class="inline-flex items-center cursor-pointer">
+            <label className="inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 className="sr-only peer"
@@ -357,10 +486,21 @@ function AdminModal() {
           </div>
           {/* button */}
           <div className="w-full flex justify-between animate-fade-in-div">
-            <Button lbl="Save Data Change" />
+            <div className="flex gap-2">
+              <Button
+                lbl="Save Edit"
+                className="!bg-m-acct"
+                onClick={hdlClickSaveEdit}
+              />
+              <Button
+                lbl="Revert"
+                className="!bg-m-second"
+                onClick={() => setOrder(originOrder)}
+              />
+            </div>
             <Button
               lbl="Forward Next Status"
-              onClick={() => console.log(isMailerUser, isMailerAdmin)}
+              onClick={() => console.log(order)}
             />
           </div>
         </div>

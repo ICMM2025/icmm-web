@@ -28,3 +28,10 @@ export const addNoteApi = async (token, body) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const editDetailOrderApi = async (token, body) =>
+  await axios.post(`${baseUrl}/admin/edit-detail-order`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
