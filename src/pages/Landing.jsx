@@ -130,7 +130,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.0.3</p>
+      <p className="absolute top-0 text-[8px]">v1.0.4</p>
     </>
   );
 }

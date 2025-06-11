@@ -70,7 +70,7 @@ function Pay() {
       body.append("image", photo);
       const res = await sendOrderApi(body);
       console.log(res);
-      // mailer
+      // mailer to user
       const mailOptions = {
         to: res.data?.order?.email,
         subject: t("mailerSubject"),
@@ -80,7 +80,19 @@ function Pay() {
           "mailerTextSendOrder3"
         )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
       };
-      await sendOrderMailer(mailOptions);
+      sendOrderMailer(mailOptions);
+      // mailter to admin
+      const mailOptionsAdmin = {
+        to: import.meta.env.VITE_ADMIN_EMAIL,
+        subject: "[ICMM2025] You received new order!",
+        text: `The new order no. ${`A${res.data?.order?.orderId
+          .toString()
+          .padStart(
+            4,
+            "0"
+          )}`}\nPLease confirm the new order within 24 hours.\n\nBest Regrads,\nRobot`,
+      };
+      sendOrderMailer(mailOptionsAdmin);
       navigate("/success");
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
@@ -211,13 +223,16 @@ function Pay() {
               >
                 <AddPhotoIcon className="w-[50px] text-m-dark" />
                 <p>{t("clickToUpload")}</p>
-                <input
-                  type="file"
-                  id="input-file"
-                  className="opacity-0 absolute w-0"
-                  accept="image/*"
-                  onChange={hdlInputPhoto}
-                />
+                {!photo && (
+                  <input
+                    key={Date.now()} // Force recreate input
+                    type="file"
+                    id="input-file"
+                    className="opacity-0 absolute w-0"
+                    accept="image/*"
+                    onChange={hdlInputPhoto}
+                  />
+                )}
               </div>
             </div>
           )}

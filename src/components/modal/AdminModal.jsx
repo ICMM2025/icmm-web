@@ -14,7 +14,8 @@ import { checkOrderApi } from "../../apis/order-api";
 import Badge from "../main/Badge";
 import useMainStore from "../../stores/main-store";
 import useUserStore from "../../stores/user-store";
-import { getOrderDetailAdminApi } from "../../apis/admin-api";
+import { addNoteApi, getOrderDetailAdminApi } from "../../apis/admin-api";
+import { formatDateTimeThai } from "../../utils/common";
 
 function AdminModal() {
   const { t } = useTranslation();
@@ -33,6 +34,9 @@ function AdminModal() {
   const setSelectedOrderId = useMainStore((state) => state.setSelectedOrderId);
   const token = useUserStore((state) => state.token);
   const [order, setOrder] = useState({});
+  const [inputNote, setInputNote] = useState("");
+  const [isMailerUser, setIsMailerUser] = useState(true);
+  const [isMailerAdmin, setIsMailerAdmin] = useState(true);
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -55,7 +59,33 @@ function AdminModal() {
     }
   };
 
+  const hdlAddNote = async () => {
+    if (!inputNote) return;
+
+    setIsLoadingModalOpen(true);
+    try {
+      const result = await addNoteApi(token, {
+        noteTxt: inputNote,
+        orderId: order?.orderId,
+      });
+      const newNote = result.data?.newNote;
+      setOrder((prev) => ({
+        ...prev,
+        notes: [...(prev.notes || []), newNote],
+      }));
+      setInputNote("");
+    } catch (err) {
+      console.log(err?.response?.data?.msg || err.message);
+      hdlError(t(err?.response?.data?.msg || err.message));
+    } finally {
+      setIsLoadingModalOpen(false);
+    }
+  };
+
   useEffect(() => {
+    setInputNote("");
+    setIsMailerUser(true);
+    setIsMailerAdmin(true);
     getOrderDetailAdmin(selectedOrderId);
     document.getElementById("admin-modal").showModal();
   }, []);
@@ -91,41 +121,97 @@ function AdminModal() {
       <div className="w-full max-h-[calc(100vh-200px)] overflow-y-auto px-8 py-4">
         {/* // order detail */}
         <div className="w-full flex flex-col items-center py-2 gap-2 animate-fade-in-div">
+          {/* current status */}
+          <div className="w-full flex justify-between">
+            <p className="">Current Status </p>
+            <div className="font-bold h-[25px] flex justify-center items-center border px-2 rounded-m border-m-prim  btn-hover">
+              {t(order?.status?.name)}
+            </div>
+          </div>
           {/* order No */}
           <div className="w-full flex justify-between">
             <p className="">{t("orderNo")} </p>
-            <p className="font-bold">{`A${order?.orderId
-              .toString()
-              .padStart(4, "0")}`}</p>
+            <p className="font-bold px-2 border rounded-m border-m-prim  btn-hover">
+              {" "}
+              {order?.orderId != null
+                ? `A${order.orderId.toString().padStart(4, "0")}`
+                : "-"}
+            </p>
+          </div>
+          {/* createdAt */}
+          <div className="w-full flex justify-between text-xs text-m-dark/50">
+            <p className="">{t("createdAt")} </p>
+            <p>{formatDateTimeThai(order?.createdAt)}</p>
+          </div>
+          {/* updatedAt */}
+          <div className="w-full flex justify-between  text-xs  text-m-dark/50">
+            <p className="">{t("updatedAt")} </p>
+            <p>{formatDateTimeThai(order?.updatedAt)}</p>
           </div>
           {/* name */}
           <div className="w-full flex justify-between">
             <p className="">{t("name")} </p>
-            <p>{order?.name}</p>
+            <p className="border px-2 rounded-m border-m-prim  btn-hover">
+              {order?.name}
+            </p>
           </div>
           {/* email */}
           <div className="w-full flex justify-between">
             <p className="">{t("email")} </p>
-            <p>{order?.email}</p>
+            <p className="border px-2 rounded-m border-m-prim  btn-hover">
+              {order?.email}
+            </p>
           </div>
           {/* phone */}
           <div className="w-full flex justify-between">
             <p className="">{t("phone")} </p>
-            <p>{order?.phone}</p>
+            <p className="border px-2 rounded-m border-m-prim  btn-hover">
+              {order?.phone}
+            </p>
           </div>
           {/* address */}
           <div className="w-full flex justify-between">
             <p className="w-1/5 shrink-0">{t("deliveryAddress")} </p>
-            <p>{order?.address}</p>
+            <p className="border px-2 rounded-m border-m-prim  btn-hover">
+              {order?.address}
+            </p>
           </div>
           {/* remake */}
           <div className="w-full flex justify-between">
             <p className="w-1/5 shrink-0">{t("remark")} </p>
-            <p>{order?.remark}</p>
+            <p className="border px-2 rounded-m border-m-prim  btn-hover">
+              {order?.remark}
+            </p>
+          </div>
+          {/* evidence */}
+          <div className="w-full flex justify-between">
+            <div className="w-1/5 shrink-0 flex flex-col">
+              <p className="w-1/5 shrink-0">Evidence </p>
+              <div className="border px-2 rounded-m border-m-prim  btn-hover">
+                Change
+              </div>
+            </div>
+            <div
+              className="w-[50px] h-[50px] border btn-hover relative"
+              onClick={() => {
+                if (order?.userUploadPicUrl) {
+                  window.open(order.userUploadPicUrl, "_blank");
+                }
+              }}
+            >
+              <img
+                src={order?.userUploadPicUrl}
+                alt="pic"
+                className="object-contain w-[50px] h-[50px]"
+              />
+              <p className="text-xs font-bold absolute top-0 left-0 text-right -translate-x-[105%]">
+                {`Click-->`}
+              </p>
+            </div>
           </div>
           {/* products list */}
-          <div className="w-full h-auto bg-m-light rounded-m flex flex-col gap-[4px] py-2 px-3">
-            {order?.orderDetails.map((el, idx) => {
+          <div className="w-full h-auto bg-m-light  flex flex-col gap-[4px] py-2 px-3 border  rounded-m border-m-prim  btn-hover">
+            {order?.orderDetails?.map((el, idx) => {
               return (
                 <div
                   key={idx}
@@ -136,7 +222,7 @@ function AdminModal() {
                       <div className="w-[25px] h-[25px]  rounded-m overflow-hidden">
                         <img src={el?.product?.productPics[0]?.url} alt="" />
                       </div>
-                      <p className="font-bold">
+                      <p className="font-bo ">
                         {t(el?.product?.name + "Name")}
                       </p>
                       <p>[{el?.productOpt?.optName}]</p>
@@ -157,34 +243,34 @@ function AdminModal() {
           </div>
           {/* product summary */}
           <div className="w-full flex flex-col items-end py-1 gap-1 px-2 animate-fade-in-div">
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between animate-fade-in-div">
               <p className="">{t("totalProduct")} </p>
-              <p>
-                {order?.totalAmt.toLocaleString(undefined, {
+              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
+                {order?.totalAmt?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}{" "}
                 {t("baht")}
               </p>
             </div>
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between animate-fade-in-div">
               <p className="">
                 <span className="font-bold">{t("added")}</span>
                 {" " + t("deliveryCost")}{" "}
               </p>
-              <p>
-                {order?.deliveryCost.toLocaleString(undefined, {
+              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
+                {order?.deliveryCost?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}{" "}
                 {t("baht")}
               </p>
             </div>
-            <div className="w-full flex justify-between  text-[16px] font-bold">
+            <div className="w-full flex justify-between  text-[16px] font-bold animate-fade-in-div">
               <p className=" ">{t("totalAmt")} </p>
-              <p>
+              <p className="px-2 border  rounded-m border-m-prim  btn-hover">
                 {" "}
-                {order?.grandTotalAmt.toLocaleString(undefined, {
+                {order?.grandTotalAmt?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}{" "}
@@ -192,13 +278,90 @@ function AdminModal() {
               </p>
             </div>
           </div>
-          {/* status */}
+        </div>
 
-          <div className="bg-m-prim text-m-light font-bold px-4 text-lg h-[30px] flex items-center justify-center rounded-m animate-fade-in-div">
-            {t(order?.status?.name)}
+        {/* note area */}
+        <p className="font-bold animate-fade-in-div">Admin Note</p>
+        <div className="w-full border border-m-acct/30 min-h-[150px] max-h-[250px] flex flex-col justify-between p-1 rounded-m  animate-fade-in-div">
+          <div className="w-full flex flex-col gap-1 overflow-y-auto p-1 text-xs ">
+            {order?.notes?.map((el, idx) => (
+              <div
+                key={idx}
+                className="w-full flex gap-1 items-center px-1 border-b border-m-dark/30 animate-fade-in-div"
+              >
+                <div className="font-bold w-[50px] text-m-dark/50">
+                  {formatDateTimeThai(el.createdAt)}
+                </div>
+                <p
+                  className={`flex ${
+                    el?.isRobot ? "text-m-acct" : "font-bold"
+                  }`}
+                >
+                  {el?.isRobot && (
+                    <AdminIcon className="w-[18px] mr-1 text-m-acct" />
+                  )}
+                  {el.noteTxt}
+                </p>
+              </div>
+            ))}
           </div>
-          <div className=" animate-fade-in-div mb-4 text-center">
-            {t(order?.status?.name + "Txt")}
+          {/* input note */}
+          <div className="flex justify-between gap-2 ">
+            <Input
+              className="flex-grow"
+              value={inputNote}
+              onChange={(e) => setInputNote(e.target.value)}
+              placeholder="Add admin note here..."
+            />
+            <Button
+              lbl="Add"
+              className="!px-2"
+              isAcct={true}
+              onClick={hdlAddNote}
+            />
+            {/* <button onClick={() => console.log(order)}>Test</button> */}
+          </div>
+        </div>
+        <hr className="my-2" />
+        {/* button area */}
+        <div className="w-full flex flex-col gap-2 animate-fade-in-div">
+          <div className="w-full flex justify-between animate-fade-in-div">
+            <p>
+              Send email to <span className="font-bold"> User</span> this time
+            </p>
+            {/* toggle */}
+            <label class="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={isMailerUser}
+                onChange={(e) => setIsMailerUser(e.target.checked)}
+              />
+              <div className="relative w-11 h-6 bg-m-gray rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-m-prim focus:outline-none focus:ring-0" />
+            </label>
+          </div>
+          <div className="w-full flex justify-between animate-fade-in-div">
+            <p>
+              Send email to <span className="font-bold"> Admin</span> this time
+            </p>
+            {/* toggle */}
+            <label class="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={isMailerAdmin}
+                onChange={(e) => setIsMailerAdmin(e.target.checked)}
+              />
+              <div className="relative w-11 h-6 bg-m-gray rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-m-prim focus:outline-none focus:ring-0" />
+            </label>
+          </div>
+          {/* button */}
+          <div className="w-full flex justify-between animate-fade-in-div">
+            <Button lbl="Save Data Change" />
+            <Button
+              lbl="Forward Next Status"
+              onClick={() => console.log(isMailerUser, isMailerAdmin)}
+            />
           </div>
         </div>
       </div>

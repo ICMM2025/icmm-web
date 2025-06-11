@@ -223,29 +223,29 @@ function Admin() {
                 {/* staus */}
                 <div
                   className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m ${
-                    statusColors[el.status.statusId] || "bg-m-gray"
+                    statusColors[el?.statusId] || "bg-m-gray"
                   }`}
                 >
-                  {el.status.statusId}
+                  {el?.statusId}
                 </div>
                 <div className="w-full h-[25px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-1">
                   {/* left */}
                   <div className="flex-grow flex gap-1 text-xs">
                     {/* order id */}
-                    <p className="font-bold">{`A${el.orderId
+                    <p className="font-bold">{`A${el?.orderId
                       .toString()
                       .padStart(4, "0")}`}</p>
                     {/* name */}
                     <p className="max-w-[60px] truncate overflow-hidden whitespace-nowrap">
-                      {el.name}
+                      {el?.name}
                     </p>
                     {/* email */}
                     <p className="max-w-[60px] truncate overflow-hidden whitespace-nowrap">
-                      {el.email}
+                      {el?.email}
                     </p>
                     {/* phone */}
                     <p className="max-w-[60px] truncate overflow-hidden whitespace-nowrap">
-                      {el.phone}
+                      {el?.phone}
                     </p>
                   </div>
 
@@ -253,7 +253,7 @@ function Admin() {
                   <div className=" text-right flex">
                     {/* grandtotal */}
                     <p className="max-w-[80px] truncate overflow-hidden whitespace-nowrap font-bold">
-                      {el.grandTotalAmt.toLocaleString(undefined, {
+                      {el?.grandTotalAmt.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
@@ -261,8 +261,8 @@ function Admin() {
                   </div>
                 </div>
                 {/* icon */}
-                <div className="w-[100px] shrink-0 text-[10px]">
-                  {formatDateTimeThai(el.createdAt)}
+                <div className="w-[60px] shrink-0 text-[10px]">
+                  {formatDateTimeThai(el?.createdAt)}
                 </div>
               </div>
             ))

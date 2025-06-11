@@ -7,7 +7,7 @@ import useModalStore from "../../stores/modal-store";
 import Input from "../main/Input";
 import Button from "../main/Button";
 import { checkOrderApi } from "../../apis/order-api";
-import Badge from "../main/Badge";
+import { formatDateTimeThai } from "../../utils/common";
 
 function CheckStatusModal() {
   const { t } = useTranslation();
@@ -90,7 +90,7 @@ function CheckStatusModal() {
         />
       </div>
       {/* main area */}
-      <div className="w-full max-h-[calc(100vh-200px)] overflow-y-auto px-8 py-4">
+      <div className="w-full max-h-[calc(100vh-200px)] overflow-y-auto px-8 py-4 animate-fade-in-div">
         {order?.orderId ? (
           // order detail
           <div className="w-full flex flex-col items-center py-2 gap-2 animate-fade-in-div">
@@ -100,6 +100,16 @@ function CheckStatusModal() {
               <p className="font-bold">{`A${order?.orderId
                 .toString()
                 .padStart(4, "0")}`}</p>
+            </div>
+            {/* createdAt */}
+            <div className="w-full flex justify-between text-xs text-m-dark/50">
+              <p className="">{t("createdAt")} </p>
+              <p>{formatDateTimeThai(order?.createdAt)}</p>
+            </div>
+            {/* updatedAt */}
+            <div className="w-full flex justify-between  text-xs  text-m-dark/50">
+              <p className="">{t("updatedAt")} </p>
+              <p>{formatDateTimeThai(order?.updatedAt)}</p>
             </div>
             {/* name */}
             <div className="w-full flex justify-between">
@@ -118,7 +128,7 @@ function CheckStatusModal() {
             </div>
             {/* address */}
             <div className="w-full flex justify-between">
-              <p className="w-1/5 shrink-0">{t("deliveryAddress")} </p>
+              <p className="w-2/5 shrink-0">{t("deliveryAddress")} </p>
               <p>{order?.address}</p>
             </div>
             {/* remake */}

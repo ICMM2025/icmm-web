@@ -97,5 +97,7 @@
   "confirmedTxt": "Your order has been confirmed. We will notify you again when your order is out for delivery.",
   "deliveredTxt": "Your order has been delivered. Please check your delivery tracking.",
   "pendingTxt": "Your order is pending, Please contact admin for more information.",
-  "cancelledTxt": "Your order is cancelled, Please contact admin for more information."
+  "cancelledTxt": "Your order is cancelled, Please contact admin for more information.",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At"
 }
