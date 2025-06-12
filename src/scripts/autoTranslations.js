@@ -9,8 +9,8 @@ const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
-for (let i = 48; i < 49; i++) {
-  // for (let i = 1; i < data.length; i++) {
+// for (let i = 48; i < 49; i++) {
+for (let i = 1; i < data.length; i++) {
   const text = data[i][1];
   if (!text) continue;
 
