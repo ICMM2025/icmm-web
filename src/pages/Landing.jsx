@@ -34,7 +34,6 @@ function Landing() {
   const setTotalForPay = useMainStore((state) => state.setTotalForPay);
   const setOrderId = useMainStore((state) => state.setOrderId);
   const setQrUrl = useMainStore((state) => state.setQrUrl);
-  const clearPhoto = useMainStore((state) => state.clearPhoto);
 
   const getProductsInfo = async () => {
     setIsLoadingModalOpen(true);
@@ -74,10 +73,10 @@ function Landing() {
     clearCart();
     setInput({ name: "", email: "", phone: "", address: "", remark: "" });
     setIsShowPay(false);
+    // setIsShowPay(true);
     setTotalForPay(0);
     setOrderId("");
     setQrUrl("");
-    clearPhoto();
     getProductsInfo();
   }, []);
 
