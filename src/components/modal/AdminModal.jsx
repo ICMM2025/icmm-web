@@ -3,24 +3,26 @@ import { useTranslation } from "react-i18next";
 import ButtonRounded from "../main/ButtonRounded";
 import { hdlCloseModalById } from "../../utils/common";
 import {
+  AddPhotoIcon,
   AdminIcon,
-  CheckOrderStatusIcon,
   CloseIcon,
+  RemoveIcon,
 } from "../../icons/mainIcon";
 import useModalStore from "../../stores/modal-store";
 import Input from "../main/Input";
 import Button from "../main/Button";
-import { checkOrderApi } from "../../apis/order-api";
-import Badge from "../main/Badge";
 import useMainStore from "../../stores/main-store";
 import useUserStore from "../../stores/user-store";
 import {
   addNoteApi,
+  editDetailOrderAdminPhotoApi,
   editDetailOrderApi,
+  forwardStatusApi,
   getOrderDetailAdminApi,
 } from "../../apis/admin-api";
 import { formatDateTimeThai } from "../../utils/common";
 import TextArea from "../main/TextArea";
+import { sendOrderMailer } from "../../apis/mailer-api";
 
 function AdminModal() {
   const { t } = useTranslation();
@@ -48,6 +50,10 @@ function AdminModal() {
   const setStatus = useMainStore((state) => state.setStatus);
   const order = useMainStore((state) => state.order);
   const setOrder = useMainStore((state) => state.setOrder);
+  const toggleRefreshOrders = useMainStore(
+    (state) => state.toggleRefreshOrders
+  );
+  const [files, setFiles] = useState([]);
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -107,6 +113,18 @@ function AdminModal() {
     setIsChangeStatusModalOpen(true);
   };
 
+  const hdlInputPhoto = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    const imageFiles = selectedFiles.filter((file) =>
+      file.type.startsWith("image/")
+    );
+    setFiles((prev) => [...prev, ...imageFiles]);
+  };
+
+  const hdlRemovePhoto = (indexToRemove) => {
+    setFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  };
+
   const hdlClickSaveEdit = async () => {
     setIsLoadingModalOpen(true);
     const body = {
@@ -121,11 +139,105 @@ function AdminModal() {
       totalAmt: order.totalAmt,
       deliveryCost: order.deliveryCost,
       grandTotalAmt: order.grandTotalAmt,
+      emsTracking: order.emsTracking,
     };
     try {
-      const result = await editDetailOrderApi(token, body);
-      console.log(result.data);
+      // detail
+      await editDetailOrderApi(token, body);
+      // admin photo
+      const bodyPhoto = new FormData();
+      bodyPhoto.append("orderId", order?.orderId);
+      files.forEach((file) => {
+        bodyPhoto.append("images", file);
+      });
+      await editDetailOrderAdminPhotoApi(token, bodyPhoto);
+      setFiles([]);
+      // product list
+
       await getOrderDetailAdmin(selectedOrderId);
+      // mailer to user
+      if (isMailerUser) {
+        const mailOptions = {
+          to: order?.email,
+          subject: t("mailerSubjectUpdateOrder"),
+          text: `${t("mailerDear")}\n\n${t("mailerTextUpdateOrder1")}\n${t(
+            "mailerTextUpdateOrder2"
+          )}${`A${order?.orderId.toString().padStart(4, "0")}`}\n${t(
+            "mailerTextUpdateOrder3"
+          )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
+        };
+        sendOrderMailer(mailOptions);
+      }
+      // mailter to admin
+      if (isMailerAdmin) {
+        const mailOptionsAdmin = {
+          to: import.meta.env.VITE_ADMIN_EMAIL,
+          subject: "[ICMM2025] Your order detail has been updated!",
+          text: `Oder no. ${`A${order?.orderId
+            .toString()
+            .padStart(
+              4,
+              "0"
+            )}`}\nThe order detail has been updated successfully.\n\nBest Regrads,\nRobot`,
+        };
+        sendOrderMailer(mailOptionsAdmin);
+      }
+    } catch (err) {
+      console.log(err?.response?.data?.msg || err.message);
+      hdlError(t(err?.response?.data?.msg || err.message));
+    } finally {
+      setIsLoadingModalOpen(false);
+    }
+  };
+
+  const hdlClickFwdNextStatus = async () => {
+    setIsLoadingModalOpen(true);
+    console.log(isMailerUser);
+    console.log(isMailerUser);
+    try {
+      if (!originOrder?.emsTracking && order?.statusId == 3) {
+        hdlError("Please input EMS Tracking! and Click Save Edit first.");
+        return;
+      }
+      await forwardStatusApi(token, {
+        statusId: order?.statusId + 1,
+        orderId: order?.orderId,
+      });
+      setOrder({});
+      setSelectedOrderId("");
+      toggleRefreshOrders();
+      hdlCloseModalById(
+        "admin-modal",
+        setIsModalFadingOut,
+        setIsAdminModalOpen
+      );
+      // mailer to user
+      if (isMailerUser) {
+        const mailOptions = {
+          to: order?.email,
+          subject: t("mailerSubjectUpdateOrder"),
+          text: `${t("mailerDear")}\n\n${t("mailerTextUpdateOrder1")}\n${t(
+            "mailerTextUpdateOrder2"
+          )}${`A${order?.orderId.toString().padStart(4, "0")}`}\n${t(
+            "mailerTextUpdateOrder3"
+          )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
+        };
+        sendOrderMailer(mailOptions);
+      }
+      // mailter to admin
+      if (isMailerAdmin) {
+        const mailOptionsAdmin = {
+          to: import.meta.env.VITE_ADMIN_EMAIL,
+          subject: "[ICMM2025] Your order detail has been updated!",
+          text: `Oder no. ${`A${order?.orderId
+            .toString()
+            .padStart(
+              4,
+              "0"
+            )}`}\nThe order detail has been updated successfully.\n\nBest Regrads,\nRobot`,
+        };
+        sendOrderMailer(mailOptionsAdmin);
+      }
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -161,6 +273,7 @@ function AdminModal() {
           onClick={(e) => {
             setOrder({});
             setSelectedOrderId("");
+            toggleRefreshOrders();
             hdlCloseModalById(
               "admin-modal",
               setIsModalFadingOut,
@@ -194,10 +307,7 @@ function AdminModal() {
                 checked={!!order?.isImportant}
                 name="isImportant"
                 onChange={(e) =>
-                  setOrder((prev) => ({
-                    ...prev,
-                    [e.target.name]: e.target.checked,
-                  }))
+                  setOrder({ ...order, [e.target.name]: e.target.checked })
                 }
               />
               <div className="relative w-11 h-6 bg-m-gray rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-m-prim focus:outline-none focus:ring-0" />
@@ -293,9 +403,6 @@ function AdminModal() {
           <div className="w-full flex justify-between">
             <div className="w-1/5 shrink-0 flex flex-col">
               <p className="w-1/5 shrink-0">Evidence </p>
-              <div className="border px-2 rounded-m border-m-prim  btn-hover">
-                Change
-              </div>
             </div>
             <div
               className="w-[50px] h-[50px] border btn-hover relative"
@@ -315,6 +422,58 @@ function AdminModal() {
               </p>
             </div>
           </div>
+          {/* Admin photo */}
+          <p className="w-full shrink-0 text-left">Admin Photos </p>
+          {/* admin photo list */}
+          <div className="w-full h-[50px] border relative overflow-x-auto flex gap-1 items-center pl-[2px]">
+            {/* add div */}
+            <div
+              className="w-[45px] h-[45px] border flex justify-center items-center btn-hover"
+              onClick={() => document.getElementById("input-file").click()}
+            >
+              <AddPhotoIcon className="w-[30px] text-m-dark" />
+              <input
+                type="file"
+                id="input-file"
+                className="opacity-0 absolute w-0"
+                accept="image/*"
+                multiple
+                onChange={hdlInputPhoto}
+              />
+            </div>
+            {/* list of files */}
+            {files.map((el, idx) => (
+              <div
+                className="w-[45px] h-[45px] border border-m-error flex justify-center items-center btn-hover shrink-0 relative"
+                onClick={() => hdlRemovePhoto(idx)}
+              >
+                <img
+                  src={URL.createObjectURL(el)}
+                  alt={`preview-${idx}`}
+                  className="object-cover w-full h-full"
+                />
+                <RemoveIcon className="w-[30px] h-[30px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-m-error/50" />
+              </div>
+            ))}
+            {/* list of admin photo */}
+            {order?.adminPhotos?.map((el, idx) => (
+              <div
+                className="w-[45px] h-[45px] border border-m-error flex justify-center items-center btn-hover shrink-0 relative"
+                onClick={() => {
+                  {
+                    window.open(el?.picUrl, "_blank");
+                  }
+                }}
+              >
+                <img
+                  src={el.picUrl}
+                  alt={`preview-${idx}`}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))}
+          </div>
+
           {/* products list */}
           <div className="w-full h-auto bg-m-light  flex flex-col gap-[4px] py-2 px-3 border  rounded-m border-m-prim  btn-hover">
             {order?.orderDetails?.map((el, idx) => {
@@ -402,6 +561,18 @@ function AdminModal() {
                 })}
                 name="grandTotalAmt"
                 size="2"
+                className="text-right px-1 border border-m-prim"
+                onChange={hdlChangeOrder}
+              />
+            </div>
+            <div className="w-full flex justify-between  text-[16px] font-bold animate-fade-in-div">
+              <p className=" ">EMS Tracking </p>
+              <Input
+                type="text"
+                placeholder="Not have"
+                value={order?.emsTracking}
+                name="emsTracking"
+                size="3"
                 className="text-right px-1 border border-m-prim"
                 onChange={hdlChangeOrder}
               />
@@ -495,12 +666,19 @@ function AdminModal() {
               <Button
                 lbl="Revert"
                 className="!bg-m-second"
-                onClick={() => setOrder(originOrder)}
+                onClick={() => {
+                  setIsLoadingModalOpen(true);
+                  setTimeout(() => {
+                    setOrder(originOrder);
+                    setIsLoadingModalOpen(false);
+                  }, 1000);
+                }}
               />
             </div>
             <Button
               lbl="Forward Next Status"
-              onClick={() => console.log(order)}
+              onClick={hdlClickFwdNextStatus}
+              isDisabled={order?.statusId !== 2 && order?.statusId !== 3}
             />
           </div>
         </div>

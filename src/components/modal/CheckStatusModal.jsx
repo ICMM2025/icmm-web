@@ -204,6 +204,12 @@ function CheckStatusModal() {
                   {t("baht")}
                 </p>
               </div>
+              {order?.emsTracking && (
+                <div className="w-full flex justify-between   font-bold">
+                  <p className=" ">{t("emsTracking")} </p>
+                  <p>{order?.emsTracking}</p>
+                </div>
+              )}
             </div>
             {/* status */}
 

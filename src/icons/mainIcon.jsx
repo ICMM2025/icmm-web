@@ -417,6 +417,36 @@ export function AdminIcon(props) {
   );
 }
 
+export function ImportantIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M12 17.002a2.501 2.501 0 110 5.002A2.501 2.501 0 0112 17zm-.001-15a3.875 3.875 0 013.875 3.876c0 2.833-.99 6.554-1.535 8.398a2.426 2.426 0 01-2.338 1.728A2.428 2.428 0 019.66 14.27l-.223-.777c-.554-1.995-1.313-5.163-1.313-7.616a3.875 3.875 0 013.875-3.876z"
+        fill="currentColor"
+        fillRule="nonzero"
+        stroke="none"
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
+export function NoteIcon(props) {
+  return (
+    <svg
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <g fill="currentColor">
+        <path d="M14 2a.75.75 0 01.75.75V4h3.75V2.75a.75.75 0 011.5 0V4h.75A2.25 2.25 0 0123 6.25v12.246h-4.754a2.25 2.25 0 00-2.25 2.25V25.5H6.75a2.25 2.25 0 01-2.25-2.25v-17A2.25 2.25 0 016.75 4H8V2.75a.75.75 0 011.5 0V4h3.75V2.75A.75.75 0 0114 2zm-6 8.25c0 .414.336.75.75.75h10a.75.75 0 000-1.5h-10a.75.75 0 00-.75.75zm0 4.5c0 .414.336.75.75.75h10a.75.75 0 000-1.5h-10a.75.75 0 00-.75.75zm0 4.5c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-4.5a.75.75 0 00-.75.75z" />
+        <path d="M17.496 25.06l5.065-5.064h-4.315a.75.75 0 00-.75.75v4.315z" />
+      </g>
+    </svg>
+  );
+}
+
 export const icons = {
   BesRoomIcon,
   LoginIcon,
@@ -443,4 +473,6 @@ export const icons = {
   PackageXIcon,
   SearchIcon,
   AdminIcon,
+  ImportantIcon,
+  NoteIcon,
 };

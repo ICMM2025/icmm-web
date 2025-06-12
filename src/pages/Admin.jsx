@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
 import Input from "../components/main/Input";
-import { ExitIcon, SearchIcon } from "../icons/mainIcon";
+import {
+  ExitIcon,
+  ImportantIcon,
+  NoteIcon,
+  SearchIcon,
+} from "../icons/mainIcon";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../stores/user-store";
 import useModalStore from "../stores/modal-store";
@@ -43,7 +48,10 @@ function Admin() {
     4: false,
     5: false,
     6: false,
+    important: false,
+    haveNote: false,
   });
+  const refreshOrders = useMainStore((state) => state.refreshOrders);
 
   const hdlFilterChange = (val) => {
     setFilter((prev) => ({
@@ -106,6 +114,16 @@ function Admin() {
     // First filter by status filter
     let filtered = rawOrders.filter((order) => filter[order.status.statusId]);
 
+    // Filter by important if enabled
+    if (filter.important) {
+      filtered = filtered.filter((order) => order.isImportant === true);
+    }
+
+    // Filter by haveNote if enabled
+    if (filter.haveNote) {
+      filtered = filtered.filter((order) => order.haveNote === true);
+    }
+
     // Then, if input exists, filter by search text
     if (searchText !== "") {
       filtered = filtered.filter((order) => {
@@ -129,6 +147,10 @@ function Admin() {
 
     setOrders(filtered);
   }, [rawOrders, filter, input]);
+
+  useEffect(() => {
+    hdlClickRefresh();
+  }, [refreshOrders]);
 
   useEffect(() => {
     hdlClickRefresh();
@@ -201,6 +223,16 @@ function Admin() {
             onClick={() => hdlFilterChange("6")}
             isAcct={!filter[6]}
           />
+          <Button
+            lbl="Important"
+            onClick={() => hdlFilterChange("important")}
+            isAcct={!filter["important"]}
+          />
+          <Button
+            lbl="HaveNote"
+            onClick={() => hdlFilterChange("haveNote")}
+            isAcct={!filter["haveNote"]}
+          />
         </div>
         {/* refresh */}
         <div className="w-full flex justify-center">
@@ -212,7 +244,7 @@ function Admin() {
           />
         </div>
         {/* order list */}
-        <div className="w-full flex flex-col gap-[6px] animate-fade-in-div">
+        <div className="w-full flex flex-col gap-[8px] animate-fade-in-div">
           {orders.length > 0 ? (
             orders?.map((el, idx) => (
               <div
@@ -220,6 +252,23 @@ function Admin() {
                 className="w-full flex justify-between items-center btn-hover gap-[2px]"
                 onClick={() => hdlSelectOrder(el)}
               >
+                {" "}
+                {/* have note */}
+                {el?.haveNote && (
+                  <div
+                    className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m`}
+                  >
+                    <NoteIcon className="w-[20px] h-[20px] rounded-m bg-m-second text-m-light" />
+                  </div>
+                )}
+                {/* important */}
+                {el?.isImportant && (
+                  <div
+                    className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m`}
+                  >
+                    <ImportantIcon className="w-[20px] h-[20px] rounded-m bg-m-error text-m-light" />
+                  </div>
+                )}
                 {/* staus */}
                 <div
                   className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m ${
@@ -228,7 +277,7 @@ function Admin() {
                 >
                   {el?.statusId}
                 </div>
-                <div className="w-full h-[25px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2">
+                <div className="w-full h-[30px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2">
                   {/* left */}
                   <div className="flex-grow flex gap-1 text-xs">
                     {/* order id */}

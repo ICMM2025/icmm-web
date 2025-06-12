@@ -35,3 +35,17 @@ export const editDetailOrderApi = async (token, body) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const editDetailOrderAdminPhotoApi = async (token, body) =>
+  await axios.post(`${baseUrl}/admin/edit-detail-admin-photo-order`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+export const forwardStatusApi = async (token, body) =>
+  await axios.post(`${baseUrl}/admin/forward-status`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

@@ -99,5 +99,14 @@
   "pendingTxt": "Your order is pending, Please contact admin for more information.",
   "cancelledTxt": "Your order is cancelled, Please contact admin for more information.",
   "createdAt": "Created At",
-  "updatedAt": "Updated At"
+  "updatedAt": "Updated At",
+  "emsTracking": "EMS Tracking",
+  "mailerTextUpdateOrder1": "We have updated your order status or detail.",
+  "mailerTextUpdateOrder2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
+  "mailerTextUpdateOrder3": "Thank you for shopping with us.",
+  "mailerSubjectUpdateOrder": "[ICMM2025] Your order has been updated!...",
+  "mailerTextFwdOrder1": "We have moved your order to the next state.",
+  "mailerTextFwdOrder2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
+  "mailerTextFwdOrder3": "Thank you for shopping with us.",
+  "mailerSubjectFwdOrder": "[ICMM2025] Your order has changed status!..."
 }
