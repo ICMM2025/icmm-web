@@ -209,7 +209,7 @@ function Pay() {
                 <input
                   type="file"
                   id="input-file"
-                  className="opacity-0 absolute w-0"
+                  className="hidden"
                   accept="image/*"
                   onChange={hdlInputPhoto}
                 />

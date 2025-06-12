@@ -92,11 +92,7 @@ function AdminModal() {
         orderId: order?.orderId,
       });
       console.log(result.data?.newNote);
-      const newNote = result.data?.newNote;
-      setOrder({
-        ...order,
-        notes: order.notes ? [...order.notes, newNote] : [newNote],
-      });
+      await getOrderDetailAdmin(selectedOrderId);
       setInputNote("");
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
@@ -156,8 +152,6 @@ function AdminModal() {
       });
       await editDetailOrderAdminPhotoApi(token, bodyPhoto);
       setFiles([]);
-      // product list
-
       await getOrderDetailAdmin(selectedOrderId);
       // mailer to user
       if (isMailerUser) {
@@ -280,6 +274,7 @@ function AdminModal() {
           Icon={CloseIcon}
           onClick={(e) => {
             setOrder({});
+            setFiles([]);
             setSelectedOrderId("");
             toggleRefreshOrders();
             hdlCloseModalById(
@@ -443,7 +438,7 @@ function AdminModal() {
               <input
                 type="file"
                 id="input-file"
-                className="opacity-0 absolute w-0"
+                className="hidden"
                 accept="image/*"
                 multiple
                 onChange={hdlInputPhoto}
@@ -594,7 +589,7 @@ function AdminModal() {
 
         {/* note area */}
         <p className="font-bold animate-fade-in-div">Admin Note</p>
-        <div className="w-full border-2 border-m-acct min-h-[150px] max-h-[250px] flex flex-col justify-between p-1 rounded-m  animate-fade-in-div">
+        <div className="w-full border-2 border-m-acct min-h-[150px] max-h-[300px] flex flex-col justify-between p-1 rounded-m  animate-fade-in-div">
           <div className="w-full flex flex-col gap-1 overflow-y-auto p-1 text-xs ">
             {order?.notes?.map((el, idx) => (
               <div
@@ -604,16 +599,16 @@ function AdminModal() {
                 <div className="font-bold w-[50px] text-m-dark/50">
                   {formatDateTimeThai(el.createdAt)}
                 </div>
-                <p
-                  className={`flex ${
+                <div
+                  className={`w-full animate-fade-in-div flex ${
                     el?.isRobot ? "text-m-acct" : "font-bold"
                   }`}
                 >
                   {el?.isRobot && (
                     <AdminIcon className="w-[18px] mr-1 text-m-acct" />
                   )}
-                  {el.noteTxt}
-                </p>
+                  <p className="flex-grow">{el.noteTxt}</p>
+                </div>
               </div>
             ))}
           </div>

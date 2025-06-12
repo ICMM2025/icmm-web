@@ -178,7 +178,7 @@ function Admin() {
   return (
     <>
       {/* container */}
-      <div className="w-full sm:max-w-[700px] min-w-[420px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
+      <div className="w-full sm:max-w-[700px] min-w-[400px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* button */}
         <div className="w-full flex justify-between">
           {/* left */}
