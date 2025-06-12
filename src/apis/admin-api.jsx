@@ -49,3 +49,10 @@ export const forwardStatusApi = async (token, body) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const editCartOrderApi = async (token, body) =>
+  await axios.post(`${baseUrl}/admin/edit-cart`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

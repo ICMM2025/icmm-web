@@ -54,6 +54,10 @@ function AdminModal() {
     (state) => state.toggleRefreshOrders
   );
   const [files, setFiles] = useState([]);
+  const setIsAdminEditCartModalOpen = useModalStore(
+    (state) => state.setIsAdminEditCartModalOpen
+  );
+  const refreshAdminModal = useMainStore((state) => state.refreshAdminModal);
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -245,6 +249,10 @@ function AdminModal() {
       setIsLoadingModalOpen(false);
     }
   };
+
+  useEffect(() => {
+    getOrderDetailAdmin(selectedOrderId);
+  }, [refreshAdminModal]);
 
   useEffect(() => {
     setInputNote("");
@@ -458,6 +466,7 @@ function AdminModal() {
             {/* list of admin photo */}
             {order?.adminPhotos?.map((el, idx) => (
               <div
+                key={idx}
                 className="w-[45px] h-[45px] border border-m-error flex justify-center items-center btn-hover shrink-0 relative"
                 onClick={() => {
                   {
@@ -475,7 +484,10 @@ function AdminModal() {
           </div>
 
           {/* products list */}
-          <div className="w-full h-auto bg-m-light  flex flex-col gap-[4px] py-2 px-3 border  rounded-m border-m-prim  btn-hover">
+          <div
+            className="w-full h-auto bg-m-light  flex flex-col gap-[4px] py-2 px-3 border  rounded-m border-m-acct  btn-hover"
+            onClick={() => setIsAdminEditCartModalOpen(true)}
+          >
             {order?.orderDetails?.map((el, idx) => {
               return (
                 <div
@@ -660,7 +672,7 @@ function AdminModal() {
             <div className="flex gap-2">
               <Button
                 lbl="Save Edit"
-                className="!bg-m-acct"
+                className="!bg-m-prim"
                 onClick={hdlClickSaveEdit}
               />
               <Button
@@ -678,6 +690,7 @@ function AdminModal() {
             <Button
               lbl="Forward Next Status"
               onClick={hdlClickFwdNextStatus}
+              isAcct={true}
               isDisabled={order?.statusId !== 2 && order?.statusId !== 3}
             />
           </div>

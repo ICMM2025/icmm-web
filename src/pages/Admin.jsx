@@ -52,6 +52,7 @@ function Admin() {
     haveNote: false,
   });
   const refreshOrders = useMainStore((state) => state.refreshOrders);
+  const [countStatus, setCountStatus] = useState({});
 
   const hdlFilterChange = (val) => {
     setFilter((prev) => ({
@@ -146,6 +147,24 @@ function Admin() {
     }
 
     setOrders(filtered);
+    // Count orders by status
+    const newStatusCounts = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      6: 0,
+    };
+
+    rawOrders.forEach((order) => {
+      const statusId = order.status?.statusId;
+      if (newStatusCounts.hasOwnProperty(statusId)) {
+        newStatusCounts[statusId]++;
+      }
+    });
+
+    setCountStatus(newStatusCounts);
   }, [rawOrders, filter, input]);
 
   useEffect(() => {
@@ -193,36 +212,82 @@ function Admin() {
         </div>
         {/* filter */}
         <div className="w-full flex flex-wrap gap-1">
-          <Button
-            lbl="1.UserNotPaid"
-            onClick={() => hdlFilterChange("1")}
-            isAcct={!filter[1]}
-          />
-          <Button
-            lbl="2.WaitConfirm"
-            onClick={() => hdlFilterChange("2")}
-            isAcct={!filter[2]}
-          />
-          <Button
-            lbl="3.Confirmed"
-            onClick={() => hdlFilterChange("3")}
-            isAcct={!filter[3]}
-          />
-          <Button
-            lbl="4.Delivered"
-            onClick={() => hdlFilterChange("4")}
-            isAcct={!filter[4]}
-          />
-          <Button
-            lbl="5.Pending"
-            onClick={() => hdlFilterChange("5")}
-            isAcct={!filter[5]}
-          />
-          <Button
-            lbl="6.Cancelled"
-            onClick={() => hdlFilterChange("6")}
-            isAcct={!filter[6]}
-          />
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  1.UserNotPaid{" "}
+                  <span className="text-m-dark">({countStatus[1]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("1")}
+              isAcct={!filter[1]}
+            />
+          </div>
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  2.WaitConfirm{" "}
+                  <span className="text-m-dark">({countStatus[2]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("2")}
+              isAcct={!filter[2]}
+            />
+          </div>
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  3.Confirmed{" "}
+                  <span className="text-m-dark">({countStatus[3]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("3")}
+              isAcct={!filter[3]}
+            />
+          </div>
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  4.Delivered{" "}
+                  <span className="text-m-dark">({countStatus[4]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("4")}
+              isAcct={!filter[4]}
+            />
+          </div>
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  5.Pending{" "}
+                  <span className="text-m-dark">({countStatus[5]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("5")}
+              isAcct={!filter[5]}
+            />
+          </div>
+          <div className=" flex items-center relative">
+            <Button
+              lbl={
+                <>
+                  6.Cancelled{" "}
+                  <span className="text-m-dark">({countStatus[6]})</span>
+                </>
+              }
+              onClick={() => hdlFilterChange("6")}
+              isAcct={!filter[6]}
+            />
+          </div>
+        </div>
+
+        {/* <hr className="border-t w-full border-m-dark/50" /> */}
+        <div className="w-full flex gap-2">
           <Button
             lbl="Important"
             onClick={() => hdlFilterChange("important")}
@@ -233,16 +298,17 @@ function Admin() {
             onClick={() => hdlFilterChange("haveNote")}
             isAcct={!filter["haveNote"]}
           />
+          {/* refresh */}
+          <div className="w-full flex">
+            <Button
+              lbl="Refresh"
+              className="!bg-m-second w-full"
+              onClick={hdlClickRefresh}
+            />
+          </div>
         </div>
-        {/* refresh */}
-        <div className="w-full flex justify-center">
-          <Button
-            lbl="Refresh"
-            size="4"
-            className={"!bg-m-second"}
-            onClick={hdlClickRefresh}
-          />
-        </div>
+        {/* <hr className="border-t w-full border-m-dark/50" /> */}
+
         {/* order list */}
         <div className="w-full flex flex-col gap-[8px] animate-fade-in-div">
           {orders.length > 0 ? (
@@ -319,6 +385,8 @@ function Admin() {
             <div className="mx-auto">NO DATA</div>
           )}
         </div>
+        {/* version */}
+        <p className="absolute top-0 left-0 text-[8px]">v1.1.0</p>
       </div>
     </>
   );

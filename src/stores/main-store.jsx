@@ -43,5 +43,8 @@ const useMainStore = create((set) => ({
   refreshOrders: false,
   toggleRefreshOrders: () =>
     set((state) => ({ refreshOrders: !state.refreshOrders })),
+  refreshAdminModal: false,
+  toggleRefreshAdminModal: () =>
+    set((state) => ({ refreshAdminModal: !state.refreshAdminModal })),
 }));
 export default useMainStore;
