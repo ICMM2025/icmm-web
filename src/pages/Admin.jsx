@@ -37,6 +37,11 @@ function Admin() {
   const setErrTxt = useModalStore((state) => state.setErrTxt);
   const [rawOrders, setRawOrders] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [reports, setReports] = useState({
+    reportProducts: [],
+    countOrders: 0,
+    sumGrandTotalAmt: 0,
+  });
   const setSelectedOrderId = useMainStore((state) => state.setSelectedOrderId);
   const setIsAdminModalOpen = useModalStore(
     (state) => state.setIsAdminModalOpen
@@ -51,8 +56,15 @@ function Admin() {
     important: false,
     haveNote: false,
   });
+  const [isShowReport, setIsShowReport] = useState(false);
   const refreshOrders = useMainStore((state) => state.refreshOrders);
   const [countStatus, setCountStatus] = useState({});
+  const [productOpts, setProductOpts] = useState([]);
+  const [startDate, setStartDate] = useState("2025-06-01");
+  const [endDate, setEndDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // format: YYYY-MM-DD
+  });
 
   const hdlFilterChange = (val) => {
     setFilter((prev) => ({
@@ -101,6 +113,8 @@ function Admin() {
       const result = await getAllOrdersApi(token);
       console.log(result.data?.orders);
       setRawOrders(result.data?.orders);
+      // console.log(result.data?.productOpts);
+      setProductOpts(result.data?.productOpts);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -123,6 +137,18 @@ function Admin() {
     // Filter by haveNote if enabled
     if (filter.haveNote) {
       filtered = filtered.filter((order) => order.haveNote === true);
+    }
+    // Filter by date range
+    if (startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      filtered = filtered.filter((order) => new Date(order.createdAt) >= start);
+    }
+
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      filtered = filtered.filter((order) => new Date(order.createdAt) <= end);
     }
 
     // Then, if input exists, filter by search text
@@ -165,7 +191,49 @@ function Admin() {
     });
 
     setCountStatus(newStatusCounts);
-  }, [rawOrders, filter, input]);
+    // report area
+    const report = {};
+    // Flatten all orderDetails from all orders
+    filtered.forEach((order) => {
+      order.orderDetails.forEach((detail) => {
+        const { productId, productOptId } = detail;
+
+        // Initialize productId group
+        if (!report[productId]) {
+          report[productId] = {
+            productId,
+            totalProductCount: 0,
+            productOptCounts: {},
+          };
+        }
+
+        // Count productId
+        report[productId].totalProductCount++;
+
+        // Count productOptId within productId
+        if (!report[productId].productOptCounts[productOptId]) {
+          report[productId].productOptCounts[productOptId] = 0;
+        }
+        report[productId].productOptCounts[productOptId]++;
+      });
+    });
+    const reportProducts = Object.values(report);
+    const countOrders = filtered.length;
+    const sumGrandTotalAmt = filtered.reduce(
+      (sum, order) => sum + order.grandTotalAmt,
+      0
+    );
+    const sumGrandTotalProductCount = reportProducts.reduce(
+      (sum, product) => sum + product.totalProductCount,
+      0
+    );
+    setReports({
+      reportProducts,
+      countOrders,
+      sumGrandTotalAmt,
+      sumGrandTotalProductCount,
+    });
+  }, [rawOrders, filter, input, startDate, endDate]);
 
   const hdlGoVirtualRun = () => {
     navigate("/virtual-run");
@@ -195,15 +263,15 @@ function Admin() {
             />
           </div>
           {/* right */}
-          <div>
+          {/* <div>
             <Button
               onClick={hdlGoVirtualRun}
               lbl="Virtual Run"
               size="2"
               Icon={ExitIcon}
               isAcct={true}
-            />
-          </div>
+            /> 
+          </div>*/}
           <div>
             <Button
               onClick={hdlLogout}
@@ -224,7 +292,7 @@ function Admin() {
           />
         </div>
         {/* filter */}
-        <div className="w-full flex flex-wrap gap-1">
+        <div className="w-full flex flex-wrap gap-1 bg-m-acct/20 rounded-m p-1">
           <div className=" flex items-center relative">
             <Button
               lbl={
@@ -298,7 +366,23 @@ function Admin() {
             />
           </div>
         </div>
-
+        {/* date filter */}
+        <div className="flex gap-4 font-bold">
+          <p>From</p>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="border rounded-m px-2"
+          />
+          <p>To</p>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="border rounded-m px-2"
+          />
+        </div>
         {/* <hr className="border-t w-full border-m-dark/50" /> */}
         <div className="w-full flex gap-2">
           <Button
@@ -311,6 +395,11 @@ function Admin() {
             onClick={() => hdlFilterChange("haveNote")}
             isAcct={!filter["haveNote"]}
           />
+          <Button
+            lbl="Report"
+            onClick={() => setIsShowReport(!isShowReport)}
+            isAcct={!isShowReport}
+          />
           {/* refresh */}
           <div className="w-full flex">
             <Button
@@ -321,6 +410,63 @@ function Admin() {
           </div>
         </div>
         {/* <hr className="border-t w-full border-m-dark/50" /> */}
+        {/* reprot area */}
+        {isShowReport && (
+          <div className="w-full flex-col items-center animate-fade-in-div">
+            <hr className="border-t w-full border-m-dark/50" />
+            {/* <div onClick={() => console.log(reports)}>TEst</div> */}
+            <div className="w-full flex flex-col">
+              {/* count order */}
+              <div className="w-full flex justify-between px-2 font-bold">
+                <p>Order Count</p>
+                <p>{reports?.countOrders}</p>
+              </div>
+              {/* Sum total amount*/}
+              <div className="w-full flex justify-between px-2 font-bold">
+                <p>Sum Total Amount</p>
+                <p>
+                  {reports?.sumGrandTotalAmt.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              {/* Total product count*/}
+              <div className="w-full flex justify-between px-2 font-bold">
+                <p>Total Product Unit Count</p>
+                <p>{reports?.sumGrandTotalProductCount}</p>
+              </div>
+              {/* unit detial*/}
+              {reports?.reportProducts.map((el, idx) => (
+                <div
+                  key={idx}
+                  className="w-full flex flex-col border-t bg-m-acct/10"
+                >
+                  <div className="w-full flex justify-between px-6 font-bold">
+                    <p>{t("prod" + el.productId + "Name")}</p>
+                    <p>{el.totalProductCount}</p>
+                  </div>
+
+                  {Object.entries(el.productOptCounts).map(([optId, count]) => (
+                    <div
+                      key={optId}
+                      className="w-full flex justify-between px-12"
+                    >
+                      <p>
+                        {" "}
+                        {productOpts.find(
+                          (opt) => opt.productOptId === parseInt(optId)
+                        )?.optName ?? `Opt ${optId}`}
+                      </p>
+                      <p>{count}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <hr className="border-t w-full border-m-dark/50" />
+          </div>
+        )}
 
         {/* order list */}
         <div className="w-full flex flex-col gap-[8px] animate-fade-in-div">
@@ -399,7 +545,7 @@ function Admin() {
           )}
         </div>
         {/* version */}
-        <p className="absolute top-0 left-0 text-[8px]">v1.1.0</p>
+        <p className="absolute top-0 left-0 text-[8px]">v1.1.2</p>
       </div>
     </>
   );
