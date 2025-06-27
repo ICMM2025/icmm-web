@@ -167,6 +167,10 @@ function Admin() {
     setCountStatus(newStatusCounts);
   }, [rawOrders, filter, input]);
 
+  const hdlGoVirtualRun = () => {
+    navigate("/virtual-run");
+  };
+
   useEffect(() => {
     hdlClickRefresh();
   }, [refreshOrders]);
@@ -191,6 +195,15 @@ function Admin() {
             />
           </div>
           {/* right */}
+          <div>
+            <Button
+              onClick={hdlGoVirtualRun}
+              lbl="Virtual Run"
+              size="2"
+              Icon={ExitIcon}
+              isAcct={true}
+            />
+          </div>
           <div>
             <Button
               onClick={hdlLogout}

@@ -40,6 +40,7 @@ const useMainStore = create((set) => ({
   setStatus: (cb) => set((state) => ({ status: cb(state.status) })),
   order: {},
   setOrder: (newVal) => set({ order: newVal }),
+ 
   refreshOrders: false,
   toggleRefreshOrders: () =>
     set((state) => ({ refreshOrders: !state.refreshOrders })),
