@@ -3,22 +3,30 @@ import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
 import useModalStore from "../stores/modal-store";
 import LanguageSelect from "../components/main/LanguageSelect";
-import {
-  AddPhotoIcon,
-  CheckOrderStatusIcon,
-  ProductIcon,
-} from "../icons/mainIcon";
+import { CheckOrderStatusIcon } from "../icons/mainIcon";
+import Cart from "../components/Cart";
+import Products from "../components/Products";
+import ConfirmOrder from "../components/ConfirmOrder";
+import Pay from "../components/Pay";
+import { getProductsApi } from "../apis/product-api";
 import useMainStore from "../stores/main-store";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 
-function Landing() {
+function Shop() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
   const setIsCheckStatusModalOpen = useModalStore(
     (state) => state.setIsCheckStatusModalOpen
   );
-
+  const setIsLoadingModalOpen = useModalStore(
+    (state) => state.setIsLoadingModalOpen
+  );
+  const [isShowProduct, setIsShowProduct] = useState(true);
+  const [isShowCart, setIsShowCart] = useState(true);
+  const [isShowConfirmOrder, setIsShowConfirmOrder] = useState(false);
+  const isShowPay = useMainStore((state) => state.isShowPay);
   const setCurProduct = useMainStore((state) => state.setCurProduct);
   const clearCart = useMainStore((state) => state.clearCart);
   const setInput = useMainStore((state) => state.setInput);
@@ -27,12 +35,36 @@ function Landing() {
   const setOrderId = useMainStore((state) => state.setOrderId);
   const setQrUrl = useMainStore((state) => state.setQrUrl);
 
-  const hdlClickCheckOrderStatus = () => {
-    setIsCheckStatusModalOpen(true);
+  const getProductsInfo = async () => {
+    setIsLoadingModalOpen(true);
+    try {
+      const res = await getProductsApi();
+      console.log(res);
+      setProducts(res.data.products);
+    } catch (err) {
+      console.log(err?.response?.data?.msg || err.message);
+      if (err.message === "Network Error") {
+        navigate("/network-error");
+      }
+    } finally {
+      setIsLoadingModalOpen(false);
+    }
   };
 
-  const hdlGoToShop = () => {
-    navigate("/shop");
+  const hdlClickCheckout = () => {
+    setIsShowProduct(false);
+    setIsShowCart(false);
+    setIsShowConfirmOrder(true);
+  };
+
+  const hdlClickBackToCart = () => {
+    setIsShowProduct(true);
+    setIsShowCart(true);
+    setIsShowConfirmOrder(false);
+  };
+
+  const hdlClickCheckOrderStatus = () => {
+    setIsCheckStatusModalOpen(true);
   };
 
   useEffect(() => {
@@ -45,6 +77,7 @@ function Landing() {
     setTotalForPay(0);
     setOrderId("");
     setQrUrl("");
+    getProductsInfo();
   }, []);
 
   return (
@@ -53,7 +86,12 @@ function Landing() {
       <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* language select */}
         <div className="w-full flex justify-between animate-fade-in-div">
-          <div></div>
+          <Button
+            lbl={t("checkOrderStatus")}
+            Icon={CheckOrderStatusIcon}
+            isAcct={true}
+            onClick={hdlClickCheckOrderStatus}
+          />
           <LanguageSelect />
         </div>
         {/* welcome badge */}
@@ -72,30 +110,21 @@ function Landing() {
             <p className="font-bold text-m-light text-lg">{t("welcomeTxt")}</p>
           </div>
         </div>
-        {/* main button */}
-        <div className="w-full flex flex-col gap-4 mt-5 items-center justify-center">
-          <Button
-            lbl={t("goToShop")}
-            Icon={ProductIcon}
-            size="3"
-            onClick={hdlGoToShop}
+        {/* products */}
+        {isShowProduct && <Products products={products} />}
+        {/* cart */}
+        {isShowCart && (
+          <Cart products={products} hdlClickCheckout={hdlClickCheckout} />
+        )}
+        {/* ConfirmOrder */}
+        {isShowConfirmOrder && (
+          <ConfirmOrder
+            products={products}
+            hdlClickBackToCart={hdlClickBackToCart}
           />
-          <Button
-            lbl={t("uploadSlip")}
-            Icon={AddPhotoIcon}
-            onClick={hdlClickCheckOrderStatus}
-            className="!bg-m-second"
-            badgeColor="text-m-second"
-            size="3"
-          />
-          <Button
-            lbl={t("checkOrderStatus")}
-            Icon={CheckOrderStatusIcon}
-            isAcct={true}
-            onClick={hdlClickCheckOrderStatus}
-            size="3"
-          />
-        </div>
+        )}
+        {/* pay */}
+        {isShowPay && <Pay />}
       </div>
       {/* footer */}
       <Footer />
@@ -105,4 +134,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Shop;

@@ -9,6 +9,7 @@ function Button({
   className,
   isAcct = false,
   isDisabled = false,
+  badgeColor,
 }) {
   return (
     <div
@@ -23,7 +24,14 @@ function Button({
       } ${!size && "pr-2"} ${className}`}
       onClick={isDisabled ? undefined : onClick}
     >
-      {Icon && <Badge Icon={Icon} isAcct={isAcct} isDisabled={isDisabled} />}
+      {Icon && (
+        <Badge
+          Icon={Icon}
+          isAcct={isAcct}
+          isDisabled={isDisabled}
+          className={badgeColor}
+        />
+      )}
       <p
         className={` text-center flex-grow ${
           isDisabled ? "text-m-light" : isAcct ? "text-m-light" : "text-m-light"

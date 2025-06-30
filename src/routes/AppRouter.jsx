@@ -12,9 +12,11 @@ import NetworkError from "../pages/NetworkError";
 import UploadPic from "../pages/UploadPic";
 import UploadSuccess from "../pages/UploadSuccess";
 import AdminVirtualRun from "../pages/AdminVirtualRun";
+import Shop from "../pages/Shop";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <Landing /> },
+  { path: "/shop", element: <Shop /> },
   { path: "/login", element: <Login /> },
   { path: "/success", element: <Success /> },
   { path: "/network-error", element: <NetworkError /> },
