@@ -8,3 +8,5 @@ export const sendOrderApi = async (body) =>
   await axios.post(`${baseUrl}/order/send-order`, body);
 export const checkOrderApi = async (body) =>
   await axios.post(`${baseUrl}/order/check-order`, body);
+export const applyCoupon = async (body) =>
+  await axios.post(`${baseUrl}/order/apply-coupon`, body);

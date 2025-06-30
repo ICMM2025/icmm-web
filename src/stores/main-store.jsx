@@ -17,6 +17,8 @@ const useMainStore = create((set) => ({
     phone: "",
     address: "",
     remark: "",
+    code: "",
+    discountAmt: 0,
   },
   setInput: (newVal) => set({ input: newVal }),
   // isShowPay: true,
@@ -40,7 +42,7 @@ const useMainStore = create((set) => ({
   setStatus: (cb) => set((state) => ({ status: cb(state.status) })),
   order: {},
   setOrder: (newVal) => set({ order: newVal }),
- 
+
   refreshOrders: false,
   toggleRefreshOrders: () =>
     set((state) => ({ refreshOrders: !state.refreshOrders })),

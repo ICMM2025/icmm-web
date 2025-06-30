@@ -108,5 +108,19 @@
   "mailerTextFwdOrder1": "យើងបានផ្លាស់ប្តូរការបញ្ជាទិញរបស់អ្នកទៅរដ្ឋបន្ទាប់។",
   "mailerTextFwdOrder2": "អ្នកអាចពិនិត្យមើលស្ថានភាពបញ្ជាទិញរបស់អ្នកដោយចុច \"ពិនិត្យមើលស្ថានភាពបញ្ជាទិញ\" ហើយបញ្ចូលការបញ្ជាទិញរបស់អ្នកទេ។ :",
   "mailerTextFwdOrder3": "សូមអរគុណចំពោះការដើរទិញឥវ៉ាន់ជាមួយយើង។",
-  "mailerSubjectFwdOrder": "[ICMM2025] ការបញ្ជាទិញរបស់អ្នកបានផ្លាស់ប្តូរស្ថានភាព! ..."
+  "mailerSubjectFwdOrder": "[ICMM2025] ការបញ្ជាទិញរបស់អ្នកបានផ្លាស់ប្តូរស្ថានភាព! ...",
+  "code": "Discount code",
+  "apply": "Apply",
+  "fillCode": "Code",
+  "errPlaseFillCode": "Please fill code.",
+  "errCodeNotFound": "Code not found or has already used.",
+  "discount": "Discount",
+  "notOver": "not over",
+  "mailerSubjectReadyForPay": "[ICMM2025] Your order has been created!...",
+  "mailerTextReadyForPay1": "We have received your order  detail, Please finish your payment and upload evidence.",
+  "mailerTextReadyForPay2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
+  "mailerTextReadyForPay3": "Thank you for shopping with us.",
+  "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
+  "errPleaseUploadSlip": "Please upload slip before submit order.",
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
 }

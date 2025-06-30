@@ -52,6 +52,10 @@ function Pay() {
   };
 
   const hdlSendOrder = async () => {
+    if (totalForPay > 0 && files.length === 0) {
+      hdlError(t("errPleaseUploadSlip"));
+      return;
+    }
     setIsLoadingModalOpen(true);
     try {
       const body = new FormData();
@@ -75,8 +79,8 @@ function Pay() {
       // mailter to admin
       const mailOptionsAdmin = {
         to: import.meta.env.VITE_ADMIN_EMAIL,
-        subject: "[ICMM2025] You received new order!",
-        text: `The new order no. ${`A${res.data?.order?.orderId
+        subject: "[ICMM2025] You received payment evidence!",
+        text: `The order no. ${`A${res.data?.order?.orderId
           .toString()
           .padStart(
             4,
@@ -111,113 +115,125 @@ function Pay() {
         <p className="text-xs"></p>
       </div>
       {/* pay info */}
-      <div className="w-full flex flex-col items-center gap-4">
-        {/* qr code */}
-        {!isManualPay && (
-          <div className="w-full h-[300px] animate-fade-in-div">
-            {qrUrl && (
-              <img
-                src={qrUrl}
-                className="w-full h-full object-contain"
-                alt="Loading..."
-              />
-            )}
-          </div>
-        )}
-        {/* pay detail */}
-        {isManualPay && (
-          <div className="w-full flex flex-col justify-between animate-fade-in-div">
-            <div className="w-flull flex flex-col">
-              <div className="w-full flex justify-between">
-                <p className="font-bold">{t("bank")}</p>
-                <p>{t("bankTxt")}</p>
-              </div>
-              <div className="w-full flex justify-between">
-                <p className="font-bold">{t("accNo")}</p>
-                <p>{t("accNoTxt")}</p>
-              </div>
-              <div className="w-full flex justify-between">
-                <p className="font-bold">{t("accName")}</p>
-                <p>{t("accNameTxt")}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* button switch pay */}
-        <Button
-          onClick={hdlSwitchPay}
-          lbl={t(lblSwitchPay)}
-          Icon={PayIcon}
-          isAcct={true}
-          className="animate-fade-in-div"
-        />
-        {/* note detail */}
-        <div className="w-full flex flex-col animate-fade-in-div">
-          <div className="w-flull flex flex-col">
-            <div className="w-full flex justify-between">
-              <p className="font-bold">{t("totalForPay")}</p>
-              <p>
-                {" "}
-                {totalForPay.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}{" "}
-                {t("baht")}
-              </p>
-            </div>
-          </div>
-          <div className="w-flull flex flex-col">
-            <div className="w-full flex justify-between">
-              <p className="font-bold">{t("plsAddNote")}</p>
-              <p>{`A${orderId.toString().padStart(4, "0")}`}</p>
-            </div>
-          </div>
-        </div>
-        {/* upload slip */}
-        <div className="w-flull flex flex-col items-center animate-fade-in-div">
-          <p className="font-bold">{t("uploadSlip")}</p>
-          {files.length > 0 ? (
-            <div className="w-full flex flex-col items-center gap-2 animate-fade-in-div">
-              {/* list of files */}
-              {files.map((el, idx) => (
-                <div key={idx} className="w-full">
-                  <img
-                    src={URL.createObjectURL(el)}
-                    alt={`preview-${idx}`}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              ))}
-
-              <Button
-                lbl={t("removePhoto")}
-                Icon={RemoveIcon}
-                isAcct={true}
-                onClick={hdlRemovePhoto}
-              />
-            </div>
-          ) : (
-            <div className="w-[200px] h-[200px] border flex justify-center items-center animate-fade-in-div">
-              <div
-                className="flex flex-col items-center btn-hover"
-                onClick={() => document.getElementById("input-file").click()}
-              >
-                <AddPhotoIcon className="w-[50px] text-m-dark" />
-                <p>{t("clickToUpload")}</p>
-
-                <input
-                  type="file"
-                  id="input-file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={hdlInputPhoto}
+      {totalForPay !== 0 && (
+        <div className="w-full flex flex-col items-center gap-4">
+          <p className="font-bold text-center px-8 text-m-acct">
+            {t("ifYouAreNotReadyToPay")}{" "}
+            {`A${orderId.toString().padStart(4, "0")}`}
+          </p>
+          {/* qr code */}
+          {!isManualPay && (
+            <div className="w-full h-[300px] animate-fade-in-div">
+              {qrUrl && (
+                <img
+                  src={qrUrl}
+                  className="w-full h-full object-contain"
+                  alt="Loading..."
                 />
+              )}
+            </div>
+          )}
+          {/* pay detail */}
+          {isManualPay && (
+            <div className="w-full flex flex-col justify-between animate-fade-in-div">
+              <div className="w-flull flex flex-col">
+                <div className="w-full flex justify-between">
+                  <p className="font-bold">{t("bank")}</p>
+                  <p>{t("bankTxt")}</p>
+                </div>
+                <div className="w-full flex justify-between">
+                  <p className="font-bold">{t("accNo")}</p>
+                  <p>{t("accNoTxt")}</p>
+                </div>
+                <div className="w-full flex justify-between">
+                  <p className="font-bold">{t("accName")}</p>
+                  <p>{t("accNameTxt")}</p>
+                </div>
               </div>
             </div>
           )}
+
+          {/* button switch pay */}
+          <Button
+            onClick={hdlSwitchPay}
+            lbl={t(lblSwitchPay)}
+            Icon={PayIcon}
+            isAcct={true}
+            className="animate-fade-in-div"
+          />
+          {/* note detail */}
+          <div className="w-full flex flex-col animate-fade-in-div">
+            <div className="w-flull flex flex-col">
+              <div className="w-full flex justify-between">
+                <p className="font-bold">{t("totalForPay")}</p>
+                <p>
+                  {" "}
+                  {totalForPay.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  {t("baht")}
+                </p>
+              </div>
+            </div>
+            <div className="w-flull flex flex-col">
+              <div className="w-full flex justify-between">
+                <p className="font-bold">{t("plsAddNote")}</p>
+                <p>{`A${orderId.toString().padStart(4, "0")}`}</p>
+              </div>
+            </div>
+          </div>
+          {/* upload slip */}
+          <div className="w-flull flex flex-col items-center animate-fade-in-div">
+            <p className="font-bold">{t("uploadSlip")}</p>
+            {files.length > 0 ? (
+              <div className="w-full flex flex-col items-center gap-2 animate-fade-in-div">
+                {/* list of files */}
+                {files.map((el, idx) => (
+                  <div key={idx} className="w-full">
+                    <img
+                      src={URL.createObjectURL(el)}
+                      alt={`preview-${idx}`}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                ))}
+
+                <Button
+                  lbl={t("removePhoto")}
+                  Icon={RemoveIcon}
+                  isAcct={true}
+                  onClick={hdlRemovePhoto}
+                />
+              </div>
+            ) : (
+              <div className="w-[200px] h-[200px] border flex justify-center items-center animate-fade-in-div">
+                <div
+                  className="flex flex-col items-center btn-hover"
+                  onClick={() => document.getElementById("input-file").click()}
+                >
+                  <AddPhotoIcon className="w-[50px] text-m-dark" />
+                  <p>{t("clickToUpload")}</p>
+
+                  <input
+                    type="file"
+                    id="input-file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={hdlInputPhoto}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+      {/* incase grandtotal is 0 */}
+      {totalForPay == 0 && (
+        <p className="text-center font-bold text-m-acct">
+          {t("yourOrderIsFree")}
+        </p>
+      )}
       {/* button */}
       <Button
         lbl={t("sendOrder")}

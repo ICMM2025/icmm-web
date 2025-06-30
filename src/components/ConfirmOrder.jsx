@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CartIcon, CheckoutIcon, PayIcon, VerifyIcon } from "../icons/mainIcon";
+import {
+  CartIcon,
+  CheckoutIcon,
+  CouponIcon,
+  PayIcon,
+  VerifyIcon,
+} from "../icons/mainIcon";
 import Button from "./main/Button";
 import Input from "./main/Input";
 import Badge from "./main/Badge";
 import TextArea from "./main/TextArea";
 import useMainStore from "../stores/main-store";
-import { addOrderApi } from "../apis/order-api";
+import { addOrderApi, applyCoupon } from "../apis/order-api";
 import useModalStore from "../stores/modal-store";
+import { sendOrderMailer } from "../apis/mailer-api";
 
 function ConfirmOrder({ products, hdlClickBackToCart }) {
   const DELIVERY_COST = 50;
@@ -42,6 +49,8 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
   const [isAllVerified, setIsAllVerified] = useState(false);
   const [isFieldsDisabled, setIsFieldsDisabled] = useState(false);
   const setTotalForPay = useMainStore((state) => state.setTotalForPay);
+  const [isDiscountCodeActive, setIsDiscountCodeActive] = useState(false);
+  const [coupon, setCoupon] = useState({});
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -72,6 +81,29 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       setTotalForPay(res.data?.grandTotalAmt);
       setOrderId(res.data?.orderId);
       setQrUrl(res.data?.qrUrl);
+      // mailer to user
+      const mailOptions = {
+        to: input?.email,
+        subject: t("mailerSubjectReadyForPay"),
+        text: `${t("mailerDear")}\n\n${t("mailerTextReadyForPay1")}\n${t(
+          "mailerTextReadyForPay2"
+        )}${`A${res.data?.orderId.toString().padStart(4, "0")}`}\n${t(
+          "mailerTextReadyForPay3"
+        )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
+      };
+      sendOrderMailer(mailOptions);
+      // mailter to admin
+      const mailOptionsAdmin = {
+        to: import.meta.env.VITE_ADMIN_EMAIL,
+        subject: "[ICMM2025] You received new order!",
+        text: `The new order no. ${`A${res.data?.orderId
+          .toString()
+          .padStart(
+            4,
+            "0"
+          )}`}\nPLease confirm the new order within 24 hours.\n\nBest Regrads,\nRobot`,
+      };
+      sendOrderMailer(mailOptionsAdmin);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -135,6 +167,21 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, address: true }));
   };
 
+  const hdlApplyCoupon = async () => {
+    console.log(input);
+    try {
+      const res = await applyCoupon({ discountCode: input.code });
+      console.log(res.data?.coupon);
+      setIsDiscountCodeActive(true);
+      setCoupon(res.data?.coupon);
+    } catch (err) {
+      console.log(err?.response?.data?.msg || err.message);
+      hdlError(t(err?.response?.data?.msg || err.message));
+    } finally {
+      setIsLoadingModalOpen(false);
+    }
+  };
+
   useEffect(() => {
     const fields = ["name", "email", "phone", "address"];
 
@@ -175,6 +222,26 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setGrandTotalAmt(totalAmt + DELIVERY_COST);
   }, [totalAmt]);
 
+  useEffect(() => {
+    if (!coupon?.discountType) return;
+    let discount = 0;
+    if (coupon.discountType === 1) {
+      // Type 1: fixed discount
+      discount = Math.min(coupon.discountAmt, grandTotalAmt);
+    } else if (coupon.discountType === 2) {
+      // Type 2: percentage discount (e.g., 0.15 for 15%)
+      const percentDiscount = coupon.discountAmt * grandTotalAmt;
+      discount = Math.min(percentDiscount, coupon.maxDiscountAmt);
+    }
+    const newGrandTotal = Math.max(totalAmt + DELIVERY_COST - discount, 0);
+    setGrandTotalAmt(newGrandTotal);
+    // update input.discountAmt in store
+    setInput({ ...input, discountAmt: discount });
+  }, [coupon, totalAmt]);
+
+  useEffect(() => {
+    setInput({ ...input, code: "" });
+  }, []);
   return (
     <div className="w-full p-2 rounded-m bg-m-second/25 flex flex-col gap-1 animate-fade-in-div">
       {/* checkout header */}
@@ -221,6 +288,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       </div>
       {/* product summary */}
       <div className="w-full flex flex-col items-end py-1 gap-1 px-2 animate-fade-in-div">
+        {/* total product */}
         <div className="w-full flex justify-between">
           <p className="">{t("totalProduct")} </p>
           <p>
@@ -231,6 +299,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
             {t("baht")}
           </p>
         </div>
+        {/* add delivery cost */}
         <div className="w-full flex justify-between">
           <p className="">
             <span className="font-bold">{t("added")}</span>
@@ -244,6 +313,62 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
             {t("baht")}
           </p>
         </div>
+        {/* discount */}
+        <div className="w-full flex justify-between">
+          <p className="">{t("code")} </p>
+          <div className="flex gap-1">
+            <Input
+              type="Text"
+              size="1"
+              placeholder={t("fillCode")}
+              value={input.code}
+              onChange={hdlChangeInput}
+              name="code"
+              disabled={isDiscountCodeActive}
+            />
+            <Button
+              lbl={t("apply")}
+              size="1"
+              Icon={CouponIcon}
+              onClick={hdlApplyCoupon}
+              isDisabled={isDiscountCodeActive}
+            />
+          </div>
+        </div>
+        {/* discount detail */}
+        {isDiscountCodeActive && (
+          <div className="w-full flex justify-between animate-fade-in-div">
+            <p className="font-bold">
+              {t("discount")}{" "}
+              {coupon.discountType === 1 &&
+                `${t("notOver")}  ${coupon.discountAmt.toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )}`}
+              {coupon.discountType === 2 &&
+                `${coupon.discountAmt * 100}% ${t(
+                  "notOver"
+                )} ${coupon.maxDiscountAmt.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`}
+            </p>
+
+            <p className="">
+              {" "}
+              {"-"}
+              {(input.discountAmt ?? 0).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{" "}
+              {t("baht")}
+            </p>
+          </div>
+        )}
+        {/* total amt */}
         <div className="w-full flex justify-between text-m-prim text-[16px] font-bold">
           <p className=" ">{t("totalAmt")} </p>
           <p>
@@ -386,7 +511,18 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
           onClick={hdlClickBackToCart}
           isDisabled={isFieldsDisabled}
         />
-        {/* <Button lbl="test" onClick={() => console.log(input)} /> */}
+        {/* <Button
+          lbl="test"
+          onClick={() =>
+            console.log({
+              input,
+              cart,
+              totalAmt,
+              grandTotalAmt,
+              deliveryCost: DELIVERY_COST,
+            })
+          }
+        /> */}
         <Button
           lbl={t("readyToPay")}
           Icon={PayIcon}

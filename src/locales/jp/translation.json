@@ -108,5 +108,19 @@
   "mailerTextFwdOrder1": "ご注文を次の状態に移しました。",
   "mailerTextFwdOrder2": "「注文ステータスの確認」をクリックして注文番号を入力して、注文ステータスを確認できます。 ：",
   "mailerTextFwdOrder3": "私たちと一緒に買い物をしてくれてありがとう。",
-  "mailerSubjectFwdOrder": "[ICMM2025]あなたの注文はステータスを変更しました！..."
+  "mailerSubjectFwdOrder": "[ICMM2025]あなたの注文はステータスを変更しました！...",
+  "code": "Discount code",
+  "apply": "Apply",
+  "fillCode": "Code",
+  "errPlaseFillCode": "Please fill code.",
+  "errCodeNotFound": "Code not found or has already used.",
+  "discount": "Discount",
+  "notOver": "not over",
+  "mailerSubjectReadyForPay": "[ICMM2025] Your order has been created!...",
+  "mailerTextReadyForPay1": "We have received your order  detail, Please finish your payment and upload evidence.",
+  "mailerTextReadyForPay2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
+  "mailerTextReadyForPay3": "Thank you for shopping with us.",
+  "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
+  "errPleaseUploadSlip": "Please upload slip before submit order.",
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
 }
