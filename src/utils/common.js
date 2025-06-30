@@ -34,3 +34,19 @@ export function formatDateTimeThai(iso) {
   const [d, m] = dmy.split("/");
   return `${d}-${m}, ${time}`;
 }
+
+export function formatDateTimeThaiYear(iso) {
+  const date = new Date(iso);
+  const d = date.getDate();
+  const m = date.getMonth() + 1;
+  const y = date.getFullYear().toString().slice(-2); // last 2 digits of year
+
+  const time = date.toLocaleTimeString("th-TH", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Bangkok",
+  });
+
+  return `${d}/${m}/${y}, ${time}`;
+}

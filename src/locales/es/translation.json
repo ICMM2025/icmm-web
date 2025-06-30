@@ -25,7 +25,7 @@
   "accNoTxt": "111-1-11111-1",
   "accName": "Accado Nombre",
   "accNameTxt": "Sr. John Smith",
-  "uploadSlip": "Subiendo el deslizamiento",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "Enviar orden",
   "prod1Name": "Camiseta",
   "prod1Detail": "La tela Super Diamond está especialmente tejida para elevar la calidad de las camisas para correr, haciéndolas destacadas y únicas. Su superficie texturizada pero lisa proporciona una sensación distinta, al tiempo que ofrece una excelente transpirabilidad. Esto garantiza que la tela se seque rápidamente, se siente ligera y cómoda, perfecta para entrenamientos intensos con una fuerte sudoración.",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

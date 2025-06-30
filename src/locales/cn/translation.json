@@ -25,7 +25,7 @@
   "accNoTxt": "111-111111-1",
   "accName": "ACC。 姓名",
   "accNameTxt": "约翰·史密斯先生",
-  "uploadSlip": "上传单",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "提交订单",
   "prod1Name": "跑步衬衫",
   "prod1Detail": "超级钻石面料专门编织，以提高跑步衬衫的质量，使它们脱颖而出且独特。 它的质感但光滑的表面可提供独特的感觉，同时提供出色的透气性。 这样可以确保织物迅速干燥，感觉轻巧舒适 - 完美地锻炼出大量出汗。",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

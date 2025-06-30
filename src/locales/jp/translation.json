@@ -25,7 +25,7 @@
   "accNoTxt": "111-1-11111-1-",
   "accName": "acc。 名前",
   "accNameTxt": "ジョン・スミス氏",
-  "uploadSlip": "スリップをアップロードします",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "注文を送信します",
   "prod1Name": "ランニングシャツ",
   "prod1Detail": "スーパーダイヤモンドの生地は、ランニングシャツの品質を高めるために特別に織り込まれており、目立つユニークなシャツにしています。 そのテクスチャーされたが滑らかな表面は、優れた通気性を提供しながら、独特の感触を提供します。 これにより、生地が素早く乾燥し、軽くて快適に感じます。激しい汗をかいた激しいトレーニングに最適です。",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

@@ -86,13 +86,13 @@
   "orderNo": "Order number",
   "errOrderNotFound": "Email or order no. not match",
   "errLackData": "Please input email and order no.",
-  "userNotPaid": "Payment unsuccessful",
+  "userNotPaid": "Wait payment evidence",
   "waitConfirm": "Wait confirmation",
   "confirmed": "Confirmed",
   "delivered": "Delivered",
   "pending": "Pending",
   "cancelled": "Cancelled",
-  "userNotPaidTxt": "Please create new order.",
+  "userNotPaidTxt": "Please upload slip.",
   "waitConfirmTxt": "Please wait for the admin to confirm your payment and verify all details.",
   "confirmedTxt": "Your order has been confirmed. We will notify you again when your order is out for delivery.",
   "deliveredTxt": "Your order has been delivered. Please check your delivery tracking.",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is THB 0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

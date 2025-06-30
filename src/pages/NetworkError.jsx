@@ -20,6 +20,10 @@ function NetworkError() {
   };
   const orderId = useMainStore((state) => state.orderId);
 
+  const hdlTryAgain = () => {
+    navigate("/");
+  };
+
   return (
     <>
       {/* container */}
@@ -41,7 +45,6 @@ function NetworkError() {
           </div>
         </div>
         {/* Network Error */}
-
         <div className="w-full p-2 rounded-m text-m-prim  flex flex-col items-center gap-1 animate-fade-in-div pt-30">
           <CryFaceIcon className="w-[100px] h-[100px] animate-none" />
           <p className="text-xl font-bold text-center">
@@ -49,6 +52,7 @@ function NetworkError() {
           </p>
           <p className="text-xl text-center">{t("networkErrorTxt2")}</p>
         </div>
+        <Button lbl="Try again" size="3" onClick={hdlTryAgain} />
       </div>
       {/* footer */}
       <Footer />

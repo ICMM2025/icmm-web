@@ -504,7 +504,7 @@ function Admin() {
                 </div>
                 <div className="w-full h-[30px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2">
                   {/* left */}
-                  <div className="flex-grow flex gap-1 text-xs">
+                  <div className="flex-grow flex gap-1 text-xs ">
                     {/* order id */}
                     <p className="font-bold">{`A${el?.orderId
                       .toString()
@@ -521,10 +521,14 @@ function Admin() {
                     <p className="max-w-[60px] truncate overflow-hidden whitespace-nowrap">
                       {el?.phone}
                     </p>
+                    {/* remark */}
+                    <p className="max-w-[60px] truncate overflow-hidden whitespace-nowrap">
+                      {el?.remark}
+                    </p>
                   </div>
 
                   {/* right */}
-                  <div className=" text-right flex">
+                  <div className=" text-right flex shrink-0">
                     {/* grandtotal */}
                     <p className="max-w-[80px] truncate overflow-hidden whitespace-nowrap font-bold">
                       {el?.grandTotalAmt.toLocaleString(undefined, {
@@ -535,7 +539,7 @@ function Admin() {
                   </div>
                 </div>
                 {/* icon */}
-                <div className="w-[30px] shrink-0 text-[10px]">
+                <div className="w-[30px] text-[10px]">
                   {formatDateTimeThai(el?.createdAt)}
                 </div>
               </div>

@@ -25,7 +25,7 @@
   "accNoTxt": "111-1-11111-1",
   "accName": "acert. ຊື່",
   "accNameTxt": "ທ່ານ John Smith",
-  "uploadSlip": "ອັບໂຫລດ",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "ສົ່ງຄໍາສັ່ງ",
   "prod1Name": "ເສື້ອແລ່ນ",
   "prod1Detail": "ຜ້າເພັດ Super ແມ່ນແສ່ວພິເສດເປັນພິເສດໃນການຍົກຄຸນນະພາບຂອງເສື້ອທີ່ໃຊ້, ເຮັດໃຫ້ພວກມັນໂດດເດັ່ນແລະເປັນເອກະລັກສະເພາະ. ພື້ນຜິວທີ່ມີໂຄງສ້າງຍັງມີຄວາມຮູ້ສຶກທີ່ແຕກຕ່າງ, ໃນຂະນະທີ່ສະເຫນີລົມຫາຍໃຈທີ່ດີເລີດ. ນີ້ຮັບປະກັນຜ້າແຫ້ງໄດ້ໄວ, ຮູ້ສຶກເບົາແລະສະບາຍດີ, ດີເລີດສໍາລັບການອອກກໍາລັງກາຍທີ່ຮຸນແຮງ.",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

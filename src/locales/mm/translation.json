@@ -25,7 +25,7 @@
   "accNoTxt": "111-1-11111-1",
   "accName": "ACC ။ နံမယ်",
   "accNameTxt": "Mr. John Smith",
-  "uploadSlip": "တင်ပါးစလစ်",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "တင်သွင်းရန်",
   "prod1Name": "အပြေးရှပ်အင်္ကျီ",
   "prod1Detail": "စူပါစိန်အထည်သည်အလွန်အမင်းယက်စိမ်းလန်းသောအပြေးရှပ်အင်္ကျီများ၏အရည်အသွေးကိုမြှင့်တင်ရန်, ၎င်း၏ textured သေးငယ်တဲ့ချောချောမွေ့မွေ့မျက်နှာပြင်သည်အလွန်ဆိုးရှားလွယ်မှုကိုကမ်းလှမ်းနေစဉ်ကွဲပြားသောခံစားမှုကိုပေးသည်။ ၎င်းသည်အထည်အလိပ်လျင်မြန်စွာခန်းခြောက်သည်, လေးလံသောချွေးများနှင့်ပြင်းထန်သောလေ့ကျင့်ခန်းများအတွက်အလင်းရောင်နှင့်အဆင်ပြေချောမွေ့စေသည်။",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

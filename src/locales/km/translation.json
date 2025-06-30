@@ -25,7 +25,7 @@
   "accNoTxt": "111-11-1111-111-11-11-1",
   "accName": "ACC ។ ឈ្ផោហ",
   "accNameTxt": "លោកចនស្មីត",
-  "uploadSlip": "ផ្ទុកឡើង",
+  "uploadSlip": "Upload Slip",
   "sendOrder": "ដាក់ស្នើបទបញ្ជា",
   "prod1Name": "អាវរត់",
   "prod1Detail": "ក្រណាត់ពេជ្រទំនើបគឺត្បាញយ៉ាងពិសេសដើម្បីលើកកំពស់គុណភាពនៃអាវដែលកំពុងរត់ដែលធ្វើឱ្យពួកគេលេចធ្លោនិងប្លែក។ ប្រភពវាយនភាពរបស់វាមិនទាន់រលូនផ្តល់នូវអារម្មណ៍ខុសគ្នាខណៈពេលដែលផ្តល់នូវការដកដង្ហើមដ៏ល្អបំផុត។ នេះធានាថាក្រណាត់ស្ងួតយ៉ាងឆាប់រហ័សមានអារម្មណ៍ស្រាលនិងមានផាសុកភាពល្អឥតខ្ចោះសម្រាប់ការហាត់ប្រាណខ្លាំងដោយបែកញើសខ្លាំង។",
@@ -122,5 +122,7 @@
   "mailerTextReadyForPay3": "Thank you for shopping with us.",
   "yourOrderIsFree": "Your order total is ฿0.00. Please click ‘Submit Order’ to complete your purchase.",
   "errPleaseUploadSlip": "Please upload slip before submit order.",
-  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:"
+  "ifYouAreNotReadyToPay": "If you are not ready to pay now, you can pay and upload the payment slip later by going to the 'Upload Slip' section and entering your order no:",
+  "goToShop": "Go to shop",
+  "discountDetail": "Discount detail"
 }

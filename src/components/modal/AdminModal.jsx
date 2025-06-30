@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ButtonRounded from "../main/ButtonRounded";
-import { hdlCloseModalById } from "../../utils/common";
+import { formatDateTimeThaiYear, hdlCloseModalById } from "../../utils/common";
 import {
   AddPhotoIcon,
   AdminIcon,
@@ -58,6 +58,7 @@ function AdminModal() {
     (state) => state.setIsAdminEditCartModalOpen
   );
   const refreshAdminModal = useMainStore((state) => state.refreshAdminModal);
+  const [coupon, setCoupon] = useState({});
 
   const hdlError = (err) => {
     setErrTxt(err);
@@ -74,6 +75,7 @@ function AdminModal() {
       setOrder(result.data.order);
       setOriginOrder(result.data.order);
       setStatus(() => result.data.status);
+      setCoupon(result.data.coupon);
     } catch (err) {
       console.log(err?.response?.data?.msg || err.message);
       hdlError(t(err?.response?.data?.msg || err.message));
@@ -329,12 +331,12 @@ function AdminModal() {
           {/* createdAt */}
           <div className="w-full flex justify-between text-xs text-m-dark/50">
             <p className="">{t("createdAt")} </p>
-            <p>{formatDateTimeThai(order?.createdAt)}</p>
+            <p>{formatDateTimeThaiYear(order?.createdAt)}</p>
           </div>
           {/* updatedAt */}
           <div className="w-full flex justify-between  text-xs  text-m-dark/50">
             <p className="">{t("updatedAt")} </p>
-            <p>{formatDateTimeThai(order?.updatedAt)}</p>
+            <p>{formatDateTimeThaiYear(order?.updatedAt)}</p>
           </div>
           {/* name */}
           <div className="w-full flex justify-between">
@@ -553,6 +555,41 @@ function AdminModal() {
                 className="text-right px-1 border border-m-prim"
                 onChange={hdlChangeOrder}
               />
+            </div>
+            <div className="w-full flex justify-between ">
+              <p className=" ">{t("code")} </p>
+              <p> {order?.discountCode ? order?.discountCode : "n/a"} </p>
+            </div>
+            <div className="w-full flex justify-between ">
+              <p className=" ">{t("discountDetail")} </p>
+              {coupon?.discountType === 1 &&
+                `${t("notOver")}  ${coupon?.discountAmt.toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )}`}
+              {coupon?.discountType === 2 &&
+                `${coupon?.discountAmt * 100}% ${t(
+                  "notOver"
+                )} ${coupon?.maxDiscountAmt.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`}
+            </div>
+            <div className="w-full flex justify-between ">
+              <p className=" ">{t("discount")} </p>
+              <p>
+                {" "}
+                {order?.discountAmt
+                  ? order?.discountAmt.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })
+                  : 0}{" "}
+                {t("baht")}
+              </p>
             </div>
             <div className="w-full flex justify-between  text-[16px] font-bold animate-fade-in-div">
               <p className=" ">{t("totalAmt")} </p>

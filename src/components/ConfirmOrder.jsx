@@ -340,18 +340,18 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
           <div className="w-full flex justify-between animate-fade-in-div">
             <p className="font-bold">
               {t("discount")}{" "}
-              {coupon.discountType === 1 &&
-                `${t("notOver")}  ${coupon.discountAmt.toLocaleString(
+              {coupon?.discountType === 1 &&
+                `${t("notOver")}  ${coupon?.discountAmt.toLocaleString(
                   undefined,
                   {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   }
                 )}`}
-              {coupon.discountType === 2 &&
-                `${coupon.discountAmt * 100}% ${t(
+              {coupon?.discountType === 2 &&
+                `${coupon?.discountAmt * 100}% ${t(
                   "notOver"
-                )} ${coupon.maxDiscountAmt.toLocaleString(undefined, {
+                )} ${coupon?.maxDiscountAmt.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}`}
