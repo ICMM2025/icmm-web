@@ -47,6 +47,7 @@ function Admin() {
     (state) => state.setIsAdminModalOpen
   );
   const [filter, setFilter] = useState({
+    0: false,
     1: false,
     2: true,
     3: false,
@@ -127,7 +128,40 @@ function Admin() {
     const searchText = input.trim().toLowerCase();
 
     // First filter by status filter
-    let filtered = rawOrders.filter((order) => filter[order.status.statusId]);
+    // If filter[0] is true but others are still false → set them
+    if (
+      filter[0] &&
+      (!filter[1] ||
+        !filter[2] ||
+        !filter[3] ||
+        !filter[4] ||
+        !filter[5] ||
+        !filter[6])
+    ) {
+      setFilter((prev) => ({
+        ...prev,
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        5: true,
+        6: true,
+      }));
+      return; // Early return to avoid filtering with stale data
+    }
+
+    // Now safe to filter
+    let filtered;
+    if (filter[0]) {
+      filtered = rawOrders.filter(
+        (order) =>
+          order.status &&
+          order.status.statusId >= 1 &&
+          order.status.statusId <= 6
+      );
+    } else {
+      filtered = rawOrders.filter((order) => filter[order.status.statusId]);
+    }
 
     // Filter by important if enabled
     if (filter.important) {
@@ -175,6 +209,7 @@ function Admin() {
     setOrders(filtered);
     // Count orders by status
     const newStatusCounts = {
+      0: 0,
       1: 0,
       2: 0,
       3: 0,
@@ -293,6 +328,14 @@ function Admin() {
         </div>
         {/* filter */}
         <div className="w-full flex flex-wrap gap-1 bg-m-acct/20 rounded-m p-1">
+          <div className=" flex items-center relative">
+            <Button
+              lbl="Show All"
+              onClick={() => hdlFilterChange("0")}
+              isAcct={!filter[0]}
+              className="!px-2"
+            />
+          </div>
           <div className=" flex items-center relative">
             <Button
               lbl={
@@ -502,9 +545,9 @@ function Admin() {
                 >
                   {el?.statusId}
                 </div>
-                <div className="w-full h-[30px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2">
+                <div className="w-full h-[30px] hover:bg-m-dark/10 border border-m-dark/10 rounded-m flex justify-between items-center px-1 gap-2 overflow-hidden">
                   {/* left */}
-                  <div className="flex-grow flex gap-1 text-xs ">
+                  <div className="flex-grow flex gap-1 text-xs overflow-hidden">
                     {/* order id */}
                     <p className="font-bold">{`A${el?.orderId
                       .toString()
@@ -549,7 +592,7 @@ function Admin() {
           )}
         </div>
         {/* version */}
-        <p className="absolute top-0 left-0 text-[8px]">v1.1.2</p>
+        <p className="absolute top-0 left-0 text-[8px]">v1.1.3</p>
       </div>
     </>
   );
