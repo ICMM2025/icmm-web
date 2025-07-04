@@ -419,6 +419,20 @@ export function AdminIcon(props) {
 
 export function ImportantIcon(props) {
   return (
+    <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M14.437 3.103a1 1 0 01.455.455l2.923 5.924 6.538.95a1 1 0 01.555 1.706l-4.731 4.611 1.116 6.512a1 1 0 01-1.45 1.054l-5.848-3.074-5.848 3.074a1 1 0 01-1.45-1.054l1.116-6.512-4.731-4.611a1 1 0 01.554-1.706l6.538-.95 2.924-5.924a1 1 0 011.34-.455z"
+        fill="currentColor"
+        fillRule="nonzero"
+        stroke="none"
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
+export function ErrCheckIcon(props) {
+  return (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M12 17.002a2.501 2.501 0 110 5.002A2.501 2.501 0 0112 17zm-.001-15a3.875 3.875 0 013.875 3.876c0 2.833-.99 6.554-1.535 8.398a2.426 2.426 0 01-2.338 1.728A2.428 2.428 0 019.66 14.27l-.223-.777c-.554-1.995-1.313-5.163-1.313-7.616a3.875 3.875 0 013.875-3.876z"
@@ -495,4 +509,5 @@ export const icons = {
   ImportantIcon,
   NoteIcon,
   CouponIcon,
+  ErrCheckIcon,
 };

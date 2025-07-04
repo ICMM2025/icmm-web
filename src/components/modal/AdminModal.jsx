@@ -142,6 +142,7 @@ function AdminModal() {
       deliveryCost: order.deliveryCost,
       grandTotalAmt: order.grandTotalAmt,
       emsTracking: order.emsTracking,
+      isCheckSlipFail: order.isCheckSlipFail,
     };
     try {
       // detail
@@ -424,6 +425,66 @@ function AdminModal() {
               />
               <p className="text-xs font-bold absolute top-0 left-0 text-right -translate-x-[105%]">
                 {`Click-->`}
+              </p>
+            </div>
+          </div>
+          {/* slip area */}
+          <div className="w-full border border-black/50 rounded-m p-2">
+            <div className="w-full flex justify-between">
+              <p className="font-bold">Slip</p>
+            </div>
+            {/* CheckSlipFail */}
+            <div className="w-full flex justify-between">
+              <p className="">Easyslip Check Fail</p>
+              {/* toggle */}
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={!!order?.isCheckSlipFail}
+                  name="isCheckSlipFail"
+                  onChange={(e) =>
+                    setOrder({ ...order, [e.target.name]: e.target.checked })
+                  }
+                />
+                <div className="relative w-11 h-6 bg-m-gray rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:bg-m-prim focus:outline-none focus:ring-0" />
+              </label>
+            </div>
+            {/* slip amt */}
+            <div className="w-full flex justify-between font-bold">
+              <p className=" ">Slip Amount</p>
+              <p> {order?.slipAmt ? order?.slipAmt : "n/a"} </p>
+            </div>
+            {/* slip sender name */}
+            <div className="w-full flex justify-between ">
+              <p className=" ">Slip Sender Name</p>
+              <p> {order?.slipSenderName ? order?.slipSenderName : "n/a"} </p>
+            </div>
+            {/* slip sender acc */}
+            <div className="w-full flex justify-between ">
+              <p className=" ">Slip Sender Account</p>
+              <p> {order?.slipSenderAcc ? order?.slipSenderAcc : "n/a"} </p>
+            </div>
+            {/* slip receiver name */}
+            <div className="w-full flex justify-between  font-bold">
+              <p className=" ">Slip Receiver Name</p>
+              <p>
+                {" "}
+                {order?.slipReceiverName ? order?.slipReceiverName : "n/a"}{" "}
+              </p>
+            </div>
+            {/* slip receiver acc */}
+            <div className="w-full flex justify-between  font-bold">
+              <p className=" ">Slip Receiver Account</p>
+              <p> {order?.slipReceiverAcc ? order?.slipReceiverAcc : "n/a"} </p>
+            </div>
+
+            {/* check slip note */}
+            <div className="w-full flex justify-between  font-bold">
+              <p className="shrink-0">Slip Note</p>
+              <p className="text-right text-m-error">
+                {" "}
+                {order?.checkSlipNote ? order?.checkSlipNote : "n/a"}{" "}
               </p>
             </div>
           </div>

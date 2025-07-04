@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import Button from "../components/main/Button";
 import Input from "../components/main/Input";
 import {
+  ErrCheckIcon,
+  // ErrorIcon,
   ExitIcon,
   ImportantIcon,
   NoteIcon,
@@ -56,6 +58,7 @@ function Admin() {
     6: false,
     important: false,
     haveNote: false,
+    slipFail: false,
   });
   const [isShowReport, setIsShowReport] = useState(false);
   const refreshOrders = useMainStore((state) => state.refreshOrders);
@@ -172,6 +175,12 @@ function Admin() {
     if (filter.haveNote) {
       filtered = filtered.filter((order) => order.haveNote === true);
     }
+
+    // Filter by slipFail if enabled
+    if (filter.slipFail) {
+      filtered = filtered.filter((order) => order.isCheckSlipFail === true);
+    }
+
     // Filter by date range
     if (startDate) {
       const start = new Date(startDate);
@@ -439,6 +448,11 @@ function Admin() {
             isAcct={!filter["haveNote"]}
           />
           <Button
+            lbl="SlipFail"
+            onClick={() => hdlFilterChange("slipFail")}
+            isAcct={!filter["slipFail"]}
+          />
+          <Button
             lbl="Report"
             onClick={() => setIsShowReport(!isShowReport)}
             isAcct={!isShowReport}
@@ -534,7 +548,15 @@ function Admin() {
                   <div
                     className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m`}
                   >
-                    <ImportantIcon className="w-[20px] h-[20px] rounded-m bg-m-error text-m-light" />
+                    <ImportantIcon className="w-[20px] h-[20px] rounded-m bg-m-acct text-m-light" />
+                  </div>
+                )}
+                {/* CheckSlipFail */}
+                {el?.isCheckSlipFail && (
+                  <div
+                    className={`w-[20px] h-[20px] shrink-0 flex justify-center items-center font-bold text-m-light rounded-m`}
+                  >
+                    <ErrCheckIcon className="w-[20px] h-[20px] rounded-m bg-m-error text-m-light" />
                   </div>
                 )}
                 {/* staus */}
@@ -592,7 +614,7 @@ function Admin() {
           )}
         </div>
         {/* version */}
-        <p className="absolute top-0 left-0 text-[8px]">v1.1.3</p>
+        <p className="absolute top-0 left-0 text-[8px]">v1.1.4</p>
       </div>
     </>
   );
