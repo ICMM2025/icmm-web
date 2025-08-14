@@ -57,8 +57,8 @@ function Landing() {
           <LanguageSelect />
         </div>
         {/* welcome badge */}
-        <div className="w-full h-auto bg-m-prim rounded-m flex flex-col animate-fade-in-div p-2">
-          <div className="w-full flex items-baseline gap-2">
+        <div className="w-full h-auto flex flex-col animate-fade-in-div overflow-hidden">
+          {/* <div className="w-full flex items-baseline gap-2">
             <img
               src="/logo-icmm.png"
               alt="logo"
@@ -70,10 +70,14 @@ function Landing() {
           </div>
           <div className="w-full flex justify-center">
             <p className="font-bold text-m-light text-lg">{t("welcomeTxt")}</p>
-          </div>
+          </div> */}
+          <img src="/icmmshop_banner.jpg" alt="logo" className=" rounded-m" />
+          <p className="font-bold text-m-prim text-lg text-center mt-2">
+            {t("welcomeTxt")}
+          </p>
         </div>
         {/* main button */}
-        <div className="w-full flex flex-col gap-4 mt-5 items-center justify-center">
+        <div className="w-full flex flex-col gap-4 mt-5 items-center justify-center animate-fade-in-div">
           <Button
             lbl={t("goToShop")}
             Icon={ProductIcon}
@@ -100,7 +104,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.1.4</p>
+      <p className="absolute top-0 text-[8px]">v1.1.5</p>
     </>
   );
 }

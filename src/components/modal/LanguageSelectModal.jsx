@@ -78,7 +78,7 @@ function LanguageSelectModal() {
             lbl="ภาษาไทย"
             onClick={(e) => hdlChangeLanguage("th", e)}
           />
-          <SelectElement
+          {/*<SelectElement
             Icon={CNFlgIcon}
             lbl="汉语"
             onClick={(e) => hdlChangeLanguage("cn", e)}
@@ -93,7 +93,7 @@ function LanguageSelectModal() {
             lbl="español"
             onClick={(e) => hdlChangeLanguage("es", e)}
           />
-          {/* <SelectElement
+           <SelectElement
             Icon={LAFlgIcon}
             lbl="ພາສາລາວ"
             onClick={(e) => hdlChangeLanguage("la", e)}
