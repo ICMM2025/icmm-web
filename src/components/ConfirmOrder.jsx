@@ -39,12 +39,20 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     email: false,
     phone: false,
     address: false,
+    addressSubDistrict: false,
+    addressDistrict: false,
+    addressProvince: false,
+    addressPostCode: false,
   });
   const [errTxtDetail, setErrTxtDetail] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
+    addressSubDistrict: "",
+    addressDistrict: "",
+    addressProvince: "",
+    addressPostCode: "",
   });
   const [isAllVerified, setIsAllVerified] = useState(false);
   const [isFieldsDisabled, setIsFieldsDisabled] = useState(false);
@@ -157,14 +165,70 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, address: false }));
     setErrTxtDetail((prev) => ({ ...prev, address: "" }));
     const address = input.address.trim();
-    if (address.length < 20 || address.length > 400) {
+    if (address.length < 5 || address.length > 400) {
       setErrTxtDetail((prev) => ({
         ...prev,
-        address: t("errAddress20to400"),
+        address: t("errAddress5to400"),
       }));
       return;
     }
     setIsVerified((prev) => ({ ...prev, address: true }));
+  };
+
+  const hdlCheckAddressSubDistrict = () => {
+    setIsVerified((prev) => ({ ...prev, addressSubDistrict: false }));
+    setErrTxtDetail((prev) => ({ ...prev, addressSubDistrict: "" }));
+    const address = input.addressSubDistrict.trim();
+    if (address.length < 5 || address.length > 400) {
+      setErrTxtDetail((prev) => ({
+        ...prev,
+        addressSubDistrict: t("errAddress5to400"),
+      }));
+      return;
+    }
+    setIsVerified((prev) => ({ ...prev, addressSubDistrict: true }));
+  };
+
+  const hdlCheckAddressDistrict = () => {
+    setIsVerified((prev) => ({ ...prev, addressDistrict: false }));
+    setErrTxtDetail((prev) => ({ ...prev, addressDistrict: "" }));
+    const address = input.addressDistrict.trim();
+    if (address.length < 5 || address.length > 400) {
+      setErrTxtDetail((prev) => ({
+        ...prev,
+        addressDistrict: t("errAddress5to400"),
+      }));
+      return;
+    }
+    setIsVerified((prev) => ({ ...prev, addressDistrict: true }));
+  };
+
+  const hdlCheckAddressProvince = () => {
+    setIsVerified((prev) => ({ ...prev, addressProvince: false }));
+    setErrTxtDetail((prev) => ({ ...prev, addressProvince: "" }));
+    const address = input.addressProvince.trim();
+    if (address.length < 5 || address.length > 400) {
+      setErrTxtDetail((prev) => ({
+        ...prev,
+        addressProvince: t("errAddress5to400"),
+      }));
+      return;
+    }
+    setIsVerified((prev) => ({ ...prev, addressProvince: true }));
+  };
+
+  const hdlCheckAddressPostCode = () => {
+    setIsVerified((prev) => ({ ...prev, addressPostCode: false }));
+    setErrTxtDetail((prev) => ({ ...prev, addressPostCode: "" }));
+    const address = input.addressPostCode.trim();
+    if (address.length !== 5) {
+      setErrTxtDetail((prev) => ({
+        ...prev,
+        addressPostCode: t("errAddress5"),
+      }));
+      return;
+    }
+    setIsVerified((prev) => ({ ...prev, addressPostCode: true }));
   };
 
   const hdlApplyCoupon = async () => {
@@ -183,7 +247,16 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
   };
 
   useEffect(() => {
-    const fields = ["name", "email", "phone", "address"];
+    const fields = [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "addressSubDistrict",
+      "addressDistrict",
+      "addressProvince",
+      "addressPostCode",
+    ];
 
     fields.forEach((field) => {
       if (!input[field]) {
@@ -198,8 +271,11 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       isVerified.name &&
       isVerified.email &&
       isVerified.phone &&
-      isVerified.address;
-
+      isVerified.address &&
+      isVerified.addressSubDistrict &&
+      isVerified.addressDistrict &&
+      isVerified.addressProvince &&
+      isVerified.addressPostCode;
     if (allVerified && !isAllVerified) {
       setIsAllVerified(true);
     } else if (!allVerified && isAllVerified) {
@@ -210,6 +286,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     isVerified.email,
     isVerified.phone,
     isVerified.address,
+    isVerified.addressSubDistrict,
+    isVerified.addressDistrict,
+    isVerified.addressProvince,
+    isVerified.addressPostCode,
     isVerified.isAllVerified,
   ]);
 
@@ -463,10 +543,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
         </div>
         {/* address */}
         <div className="w-full flex items-start gap-2">
-          <p className="w-[80px] text-right">{t("deliveryAddress")} </p>
+          <p className="w-[80px] text-right">{t("addressNo")} </p>
           <div className="flex-grow">
             <TextArea
-              placeholder={t("deliveryAddress")}
+              placeholder={t("addressNo")}
               value={input.address}
               onChange={hdlChangeInput}
               name="address"
@@ -486,6 +566,112 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
         <div className="w-full h-[5px] flex items-center gap-2">
           <div className="w-[80px]"></div>
           <p className="text-xs text-m-error">{errTxtDetail.address}</p>
+        </div>
+        {/* sub district */}
+        <div className="w-full flex items-center gap-2">
+          <p className="w-[80px] text-right">{t("addressSubDistrict")} </p>
+          <Input
+            type="text"
+            className="flex-grow"
+            placeholder={t("addressSubDistrict")}
+            value={input.addressSubDistrict}
+            onChange={hdlChangeInput}
+            name="addressSubDistrict"
+            onDebounced={hdlCheckAddressSubDistrict}
+            disabled={isFieldsDisabled}
+          />
+          <div className="min-w-[20px]">
+            {isVerified.addressSubDistrict && (
+              <Badge
+                Icon={VerifyIcon}
+                className="!bg-m-acct !text-m-light animate-fade-in-div"
+              />
+            )}
+          </div>
+        </div>
+        <div className="w-full h-[5px] flex items-center gap-2">
+          <div className="w-[80px]"></div>
+          <p className="text-xs text-m-error">
+            {errTxtDetail.addressSubDistrict}
+          </p>
+        </div>
+        {/* district */}
+        <div className="w-full flex items-center gap-2">
+          <p className="w-[80px] text-right">{t("addressDistrict")} </p>
+          <Input
+            type="text"
+            className="flex-grow"
+            placeholder={t("addressDistrict")}
+            value={input.addressDistrict}
+            onChange={hdlChangeInput}
+            name="addressDistrict"
+            onDebounced={hdlCheckAddressDistrict}
+            disabled={isFieldsDisabled}
+          />
+          <div className="min-w-[20px]">
+            {isVerified.addressDistrict && (
+              <Badge
+                Icon={VerifyIcon}
+                className="!bg-m-acct !text-m-light animate-fade-in-div"
+              />
+            )}
+          </div>
+        </div>
+        <div className="w-full h-[5px] flex items-center gap-2">
+          <div className="w-[80px]"></div>
+          <p className="text-xs text-m-error">{errTxtDetail.addressDistrict}</p>
+        </div>
+        {/* province */}
+        <div className="w-full flex items-center gap-2">
+          <p className="w-[80px] text-right">{t("addressProvince")} </p>
+          <Input
+            type="text"
+            className="flex-grow"
+            placeholder={t("addressProvince")}
+            value={input.addressProvince}
+            onChange={hdlChangeInput}
+            name="addressProvince"
+            onDebounced={hdlCheckAddressProvince}
+            disabled={isFieldsDisabled}
+          />
+          <div className="min-w-[20px]">
+            {isVerified.addressProvince && (
+              <Badge
+                Icon={VerifyIcon}
+                className="!bg-m-acct !text-m-light animate-fade-in-div"
+              />
+            )}
+          </div>
+        </div>
+        <div className="w-full h-[5px] flex items-center gap-2">
+          <div className="w-[80px]"></div>
+          <p className="text-xs text-m-error">{errTxtDetail.addressProvince}</p>
+        </div>
+        {/* postCode */}
+        <div className="w-full flex items-center gap-2">
+          <p className="w-[80px] text-right">{t("addressPostCode")} </p>
+          <Input
+            type="text"
+            className="flex-grow"
+            placeholder={t("addressPostCode")}
+            value={input.addressPostCode}
+            onChange={hdlChangeInput}
+            name="addressPostCode"
+            onDebounced={hdlCheckAddressPostCode}
+            disabled={isFieldsDisabled}
+          />
+          <div className="min-w-[20px]">
+            {isVerified.addressPostCode && (
+              <Badge
+                Icon={VerifyIcon}
+                className="!bg-m-acct !text-m-light animate-fade-in-div"
+              />
+            )}
+          </div>
+        </div>
+        <div className="w-full h-[5px] flex items-center gap-2">
+          <div className="w-[80px]"></div>
+          <p className="text-xs text-m-error">{errTxtDetail.addressPostCode}</p>
         </div>
         {/* remark */}
         <div className="w-full flex items-start gap-2">

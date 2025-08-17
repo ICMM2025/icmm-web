@@ -36,7 +36,7 @@ function Products({ products }) {
             <img
               src={el?.productPics[0]?.url}
               alt="pic"
-              className="w-full h-full object-obtain"
+              className="w-full h-full object-contain"
             />
             <p className="text-xs">{t(el?.name + "Name")}</p>
           </div>

@@ -10,6 +10,7 @@ function Input({
   onChange,
   name,
   onDebounced,
+  list,
 }) {
   const [timeoutId, setTimeoutId] = useState(null);
 
@@ -27,6 +28,7 @@ function Input({
     <input
       style={size ? { width: `${size * 50 + 25}px` } : {}}
       type={type}
+      list={list}
       className={`h-[25px] bg-m-light border border-m-line/50  rounded-m pl-2 focus:outline-none focus:border-m-line ${
         disabled && "text-t-gray "
       } ${className}`}

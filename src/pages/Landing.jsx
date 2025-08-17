@@ -72,7 +72,7 @@ function Landing() {
             <p className="font-bold text-m-light text-lg">{t("welcomeTxt")}</p>
           </div> */}
           <img src="/icmmshop_banner.jpg" alt="logo" className=" rounded-m" />
-          <p className="font-bold text-m-prim text-lg text-center mt-2">
+          <p className="font-bold text-m-prim text-sm text-center mt-2">
             {t("welcomeTxt")}
           </p>
         </div>
@@ -104,7 +104,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.1.5</p>
+      <p className="absolute top-0 text-[8px]">v1.1.6</p>
     </>
   );
 }
