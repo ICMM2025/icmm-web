@@ -157,8 +157,10 @@ function ProductModal() {
           </p>
         </div>
         {/* product name */}
-        <p> {t(curProduct?.name + "Name")}</p>
-        <p className="font-normal text-xs">{t(curProduct?.name + "Detail")}</p>
+        <p className="font-bold"> {t(curProduct?.name + "Name")}</p>
+        <p className="font-normal text-xs whitespace-pre-line">
+          {t(curProduct?.name + "Detail")}
+        </p>
         {/* unit */}
         <div className="w-full my-2 flex items-center justify-center gap-4">
           <ButtonRounded
