@@ -137,6 +137,10 @@ function AdminModal() {
       email: order.email,
       phone: order.phone,
       address: order.address,
+      addressSubDistrict: order.addressSubDistrict,
+      addressDistrict: order.addressDistrict,
+      addressProvince: order.addressProvince,
+      addressPostCode: order.addressPostCode,
       remark: order.remark,
       totalAmt: order.totalAmt,
       deliveryCost: order.deliveryCost,
@@ -349,7 +353,7 @@ function AdminModal() {
               value={order?.name}
               name="name"
               size="4"
-              className="text-right px-1 border border-m-prim"
+              className=" px-1 border border-m-prim"
               onChange={hdlChangeOrder}
             />
           </div>
@@ -362,7 +366,7 @@ function AdminModal() {
               value={order?.email}
               name="email"
               size="4"
-              className="text-right px-1 border border-m-prim"
+              className=" px-1 border border-m-prim"
               onChange={hdlChangeOrder}
             />
           </div>
@@ -375,18 +379,70 @@ function AdminModal() {
               value={order?.phone}
               name="phone"
               size="4"
-              className="text-right px-1 border border-m-prim"
+              className=" px-1 border border-m-prim"
               onChange={hdlChangeOrder}
             />
           </div>
-          {/* address */}
+          {/* addressNo */}
           <div className="w-full flex justify-between">
-            <p className="w-1/5 shrink-0">{t("deliveryAddress")} </p>
+            <p className="w-1/5 shrink-0">{t("addressNo")} </p>
             <TextArea
               type="text"
               placeholder={order?.address}
               value={order?.address}
               name="address"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
+          </div>
+          {/* sub district */}
+          <div className="w-full flex justify-between">
+            <p className="w-1/5 shrink-0">{t("addressSubDistrict")} </p>
+            <Input
+              type="text"
+              placeholder={order?.addressSubDistrict}
+              value={order?.addressSubDistrict}
+              name="addressSubDistrict"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
+          </div>
+          {/* district */}
+          <div className="w-full flex justify-between">
+            <p className="w-1/5 shrink-0">{t("addressDistrict")} </p>
+            <Input
+              type="text"
+              placeholder={order?.addressDistrict}
+              value={order?.addressDistrict}
+              name="addressDistrict"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
+          </div>
+          {/* province */}
+          <div className="w-full flex justify-between">
+            <p className="w-1/5 shrink-0">{t("addressProvince")} </p>
+            <Input
+              type="text"
+              placeholder={order?.addressProvince}
+              value={order?.addressProvince}
+              name="addressProvince"
+              size="4"
+              className=" px-1 border border-m-prim"
+              onChange={hdlChangeOrder}
+            />
+          </div>
+          {/* postCode */}
+          <div className="w-full flex justify-between">
+            <p className="w-1/5 shrink-0">{t("addressPostCode")} </p>
+            <Input
+              type="text"
+              placeholder={order?.addressPostCode}
+              value={order?.addressPostCode}
+              name="addressPostCode"
               size="4"
               className=" px-1 border border-m-prim"
               onChange={hdlChangeOrder}
