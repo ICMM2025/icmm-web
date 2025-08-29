@@ -25,6 +25,17 @@ const guestRouter = createBrowserRouter([
   { path: "*", element: <Navigate to="/" /> },
 ]);
 
+// const guestRouter = createBrowserRouter([
+//   { path: "/", element: <NetworkError /> },
+//   { path: "/shop", element: <NetworkError /> },
+//   { path: "/login", element: <NetworkError /> },
+//   { path: "/success", element: <NetworkError /> },
+//   { path: "/network-error", element: <NetworkError /> },
+//   { path: "/upload", element: <NetworkError /> },
+//   { path: "/upload-success", element: <NetworkError /> },
+//   { path: "*", element: <Navigate to="/" /> },
+// ]);
+
 const userRouter = createBrowserRouter([
   { path: "/", element: <Admin /> },
   { path: "/login", element: <Login /> },
