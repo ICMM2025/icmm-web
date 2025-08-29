@@ -323,7 +323,39 @@ function CheckStatusModal() {
             </div>
             {/* upload slip */}
             {order.statusId == 1 && (
-              <div className="w-flull flex flex-col items-center animate-fade-in-div">
+              <div className="w-full flex flex-col items-center animate-fade-in-div">
+                {/* pay detail */}
+                <div className="w-full flex flex-col gap-2">
+                  {/* manual pay */}
+                  <div className="w-full flex flex-col justify-between animate-fade-in-div">
+                    <div className="w-flull flex flex-col">
+                      <div className="w-full flex justify-between">
+                        <p className="font-bold">{t("bank")}</p>
+                        <p>{t("bankTxt")}</p>
+                      </div>
+                      <div className="w-full flex justify-between">
+                        <p className="font-bold">{t("accNo")}</p>
+                        <p>{t("accNoTxt")}</p>
+                      </div>
+                      <div className="w-full flex justify-between">
+                        <p className="font-bold">{t("accName")}</p>
+                        <p>{t("accNameTxt")}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-center font-bold">{t("orPayByQr")}</p>
+                  {/* qr pay */}
+                  <div className="w-full h-[300px] animate-fade-in-div">
+                    {order?.payQrUrl && (
+                      <img
+                        src={order?.payQrUrl}
+                        className="w-full h-full object-contain"
+                        alt="Loading..."
+                      />
+                    )}
+                  </div>
+                </div>
+                {/* upload */}
                 <p className="font-bold">{t("uploadSlip")}</p>
                 {files.length > 0 ? (
                   <div className="w-full flex flex-col items-center gap-2 animate-fade-in-div">

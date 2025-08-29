@@ -257,7 +257,7 @@ function AdminModal() {
 
   useEffect(() => {
     setInputNote("");
-    setIsMailerUser(true);
+    setIsMailerUser(false);
     setIsMailerAdmin(true);
     getOrderDetailAdmin(selectedOrderId);
     document.getElementById("admin-modal").showModal();

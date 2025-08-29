@@ -51,6 +51,7 @@
   "errInvalidPhone": "Please enter a valid phone number.",
   "errAddress20to400": "Address must be between 20 and 400 characters",
   "errAddress5to400": "Address must be between 5 and 400 characters",
+  "errAddress1to400": "Address must be between 1 and 400 characters",
   "errAddress5": "Postcode must be 5 characters",
   "remark": "Remark",
   "remarkPH": "Message to the seller",
@@ -96,7 +97,7 @@
   "delivered": "Delivered",
   "pending": "Pending",
   "cancelled": "Cancelled",
-  "userNotPaidTxt": "Please create new order.",
+  "userNotPaidTxt": "Please finish payment or create new order.",
   "waitConfirmTxt": "Please wait for confirmed payment.",
   "confirmedTxt": "Your order has been confirmed. We will notify you again when it is out for delivery.",
   "deliveredTxt": "Your order has been delivered. Please check your delivery status from tracking number.",
@@ -133,5 +134,10 @@
   "addressSubDistrict": "Sub-district",
   "addressDistrict": "District",
   "addressProvince": "Province",
-  "addressPostCode": "Postal code"
+  "addressPostCode": "Postal code",
+  "deliveryWithinThailandOnly": "Delivery within Thailand only.",
+  "orPayByQr": "or pay via QR code.",
+  "orderDetail": "Order Detail",
+  "productName": "Product Name",
+  "unit": "Unit"
 }

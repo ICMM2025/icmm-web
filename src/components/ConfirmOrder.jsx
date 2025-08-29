@@ -15,9 +15,10 @@ import useMainStore from "../stores/main-store";
 import { addOrderApi, applyCoupon } from "../apis/order-api";
 import useModalStore from "../stores/modal-store";
 import { sendOrderMailer } from "../apis/mailer-api";
+import { formatDateTimeThaiYear } from "../utils/common";
 
 function ConfirmOrder({ products, hdlClickBackToCart }) {
-  const DELIVERY_COST = 50;
+  const DELIVERY_COST = 0;
   const { t } = useTranslation();
   const cart = useMainStore((state) => state.cart);
   const [totalAmt, setTotalAmt] = useState("");
@@ -28,6 +29,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
   const setIsShowPay = useMainStore((state) => state.setIsShowPay);
   const setOrderId = useMainStore((state) => state.setOrderId);
   const setQrUrl = useMainStore((state) => state.setQrUrl);
+  const [fullOrder, setFullOrder] = useState({});
   const setIsErrorModalOpen = useModalStore(
     (state) => state.setIsErrorModalOpen
   );
@@ -89,21 +91,52 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       setTotalForPay(res.data?.grandTotalAmt);
       setOrderId(res.data?.orderId);
       setQrUrl(res.data?.qrUrl);
+      setFullOrder(res.data?.fullOrder);
+      // Format order details for email
+      const orderDetailsText = res.data.fullOrder.orderDetails
+        .map(
+          (item, idx) =>
+            `${idx + 1}. ${t("productName")}: ${t(
+              `prod${item.productId}Name`
+            )}(${item.productOpt.optName}), ${t("unit")}: ${item.unit}, ${t(
+              "price"
+            )}: ${item.price}`
+        )
+        .join("\n");
+
       // mailer to user
       const mailOptions = {
         to: input?.email,
         subject: t("mailerSubjectReadyForPay"),
         text: `${t("mailerDear")}\n\n${t("mailerTextReadyForPay1")}\n${t(
           "mailerTextReadyForPay2"
-        )}${`A${res.data?.orderId.toString().padStart(4, "0")}`}\n${t(
-          "mailerTextReadyForPay3"
-        )}\n\n${t("mailerRegards")}\n${t("mailerName")}`,
+        )}${`A${res.data?.orderId.toString().padStart(4, "0")}`}
+        \n\n${t("createdAt")} : ${formatDateTimeThaiYear(
+          res.data.fullOrder?.createdAt
+        )}
+        \n${t("name")} : ${res.data.fullOrder?.name}
+        \n${t("email")} : ${res.data.fullOrder?.email}
+        \n${t("phone")} : ${res.data.fullOrder?.phone}
+        \n${t("addressNo")} : ${res.data.fullOrder?.address}
+        \n${t("addressSubDistrict")} : ${res.data.fullOrder?.addressSubDistrict}
+        \n${t("addressDistrict")} : ${res.data.fullOrder?.addressDistrict}
+        \n${t("addressProvince")} : ${res.data.fullOrder?.addressProvince}
+        \n${t("addressPostCode")} : ${res.data.fullOrder?.addressPostCode}
+        \n${t("remake")} : ${res.data.fullOrder?.remake}
+        \n${t("totalProduct")} : ${res.data.fullOrder?.totalAmt}
+        \n${t("deliveryCost")} : ${res.data.fullOrder?.deliveryCost}
+        \n${t("code")} : ${res.data.fullOrder?.discountCode}
+        \n${t("discount")} : ${res.data.fullOrder?.discountAmt}
+        \n${t("totalAmt")} : ${res.data.fullOrder?.grandTotalAmt}
+        \n\n${t("orderDetail")}\n${orderDetailsText}
+        \n\n${t("mailerTextReadyForPay3")}
+        \n\n${t("mailerRegards")}\n${t("mailerName")}`,
       };
       sendOrderMailer(mailOptions);
       // mailter to admin
       const mailOptionsAdmin = {
         to: import.meta.env.VITE_ADMIN_EMAIL,
-        subject: "[ICMM2025] You received new order!",
+        subject: "[Intania Runner] You received new order!",
         text: `The new order no. ${`A${res.data?.orderId
           .toString()
           .padStart(
@@ -151,7 +184,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setErrTxtDetail((prev) => ({ ...prev, phone: "" }));
     const phoneOnlyDigits = input.phone.replace(/-/g, ""); // Remove dashes
     const isOnlyNumbersAndDashes = /^[-\d]+$/.test(input.phone);
-    if (!isOnlyNumbersAndDashes || phoneOnlyDigits.length < 8) {
+    if (!isOnlyNumbersAndDashes || phoneOnlyDigits.length !== 10) {
       setErrTxtDetail((prev) => ({
         ...prev,
         phone: t("errInvalidPhone"),
@@ -165,10 +198,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, address: false }));
     setErrTxtDetail((prev) => ({ ...prev, address: "" }));
     const address = input.address.trim();
-    if (address.length < 5 || address.length > 400) {
+    if (address.length < 1 || address.length > 400) {
       setErrTxtDetail((prev) => ({
         ...prev,
-        address: t("errAddress5to400"),
+        address: t("errAddress1to400"),
       }));
       return;
     }
@@ -179,10 +212,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, addressSubDistrict: false }));
     setErrTxtDetail((prev) => ({ ...prev, addressSubDistrict: "" }));
     const address = input.addressSubDistrict.trim();
-    if (address.length < 5 || address.length > 400) {
+    if (address.length < 1 || address.length > 400) {
       setErrTxtDetail((prev) => ({
         ...prev,
-        addressSubDistrict: t("errAddress5to400"),
+        addressSubDistrict: t("errAddress1to400"),
       }));
       return;
     }
@@ -193,10 +226,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, addressDistrict: false }));
     setErrTxtDetail((prev) => ({ ...prev, addressDistrict: "" }));
     const address = input.addressDistrict.trim();
-    if (address.length < 5 || address.length > 400) {
+    if (address.length < 1 || address.length > 400) {
       setErrTxtDetail((prev) => ({
         ...prev,
-        addressDistrict: t("errAddress5to400"),
+        addressDistrict: t("errAddress1to400"),
       }));
       return;
     }
@@ -207,10 +240,10 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
     setIsVerified((prev) => ({ ...prev, addressProvince: false }));
     setErrTxtDetail((prev) => ({ ...prev, addressProvince: "" }));
     const address = input.addressProvince.trim();
-    if (address.length < 5 || address.length > 400) {
+    if (address.length < 1 || address.length > 400) {
       setErrTxtDetail((prev) => ({
         ...prev,
-        addressProvince: t("errAddress5to400"),
+        addressProvince: t("errAddress1to400"),
       }));
       return;
     }
@@ -521,7 +554,7 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
           <Input
             type="text"
             className="flex-grow"
-            placeholder={t("phone")}
+            placeholder="099-999-9999"
             value={input.phone}
             onChange={hdlChangeInput}
             name="phone"
@@ -540,6 +573,14 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
         <div className="w-full h-[5px] flex items-center gap-2">
           <div className="w-[80px]"></div>
           <p className="text-xs text-m-error">{errTxtDetail.phone}</p>
+        </div>
+        {/* address domestic only */}
+        <div className="w-full flex items-start gap-2"></div>
+        <div className="w-full h-[5px] flex items-center gap-2">
+          <div className="w-[80px]"></div>
+          <p className="text-xs text-m-dark">
+            {t("deliveryWithinThailandOnly")}
+          </p>
         </div>
         {/* address */}
         <div className="w-full flex items-start gap-2">
