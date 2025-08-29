@@ -29,8 +29,8 @@ function NetworkError() {
       {/* container */}
       <div className="w-full sm:max-w-[700px]  min-h-svh mx-auto bg-m-light flex flex-col items-center py-4 px-4 sm:px-8 gap-2">
         {/* welcome badge */}
-        <div className="w-full h-auto bg-m-prim rounded-m flex flex-col animate-fade-in-div p-2">
-          <div className="w-full flex items-baseline gap-2">
+        <div className="w-full h-auto flex flex-col animate-fade-in-div overflow-hidden">
+          {/* <div className="w-full flex items-baseline gap-2">
             <img
               src="/logo-icmm.png"
               alt="logo"
@@ -42,7 +42,11 @@ function NetworkError() {
           </div>
           <div className="w-full flex justify-center">
             <p className="font-bold text-m-light text-lg">{t("welcomeTxt")}</p>
-          </div>
+          </div> */}
+          <img src="/icmmshop_banner.jpg" alt="logo" className=" rounded-m" />
+          {/* <p className="font-bold text-m-prim text-lg text-center mt-2">
+            {t("welcomeTxt")}
+          </p> */}
         </div>
         {/* Network Error */}
         <div className="w-full p-2 rounded-m text-m-prim  flex flex-col items-center gap-1 animate-fade-in-div pt-30">
