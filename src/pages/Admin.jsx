@@ -614,7 +614,7 @@ function Admin() {
           )}
         </div>
         {/* version */}
-        <p className="absolute top-0 left-0 text-[8px]">v1.1.8</p>
+        <p className="absolute top-0 left-0 text-[8px]">v1.1.9</p>
       </div>
     </>
   );

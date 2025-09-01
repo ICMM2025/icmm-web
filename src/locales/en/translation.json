@@ -87,7 +87,7 @@
   "mailerTextSendOrder2": "You can check your order status by clicking \"Check Order Status\" and entering your order no. :",
   "mailerTextSendOrder3": "Thank you for shopping with us.",
   "mailerRegards": "Best Regards,",
-  "mailerName": "Intania Runner Chula",
+  "mailerName": "Intania Runner",
   "orderNo": "Order number",
   "errOrderNotFound": "Email or order number are not found.",
   "errLackData": "Please input email and order number",
