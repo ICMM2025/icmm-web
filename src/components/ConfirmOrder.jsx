@@ -108,41 +108,62 @@ function ConfirmOrder({ products, hdlClickBackToCart }) {
       const mailOptions = {
         to: input?.email,
         subject: t("mailerSubjectReadyForPay"),
-        text: `${t("mailerDear")}\n\n${t("mailerTextReadyForPay1")}\n${t(
-          "mailerTextReadyForPay2"
-        )}${`A${res.data?.orderId.toString().padStart(4, "0")}`}
-        \n\n${t("createdAt")} : ${formatDateTimeThaiYear(
-          res.data.fullOrder?.createdAt
-        )}
-        \n${t("name")} : ${res.data.fullOrder?.name}
-        \n${t("email")} : ${res.data.fullOrder?.email}
-        \n${t("phone")} : ${res.data.fullOrder?.phone}
-        \n${t("addressNo")} : ${res.data.fullOrder?.address}
-        \n${t("addressSubDistrict")} : ${res.data.fullOrder?.addressSubDistrict}
-        \n${t("addressDistrict")} : ${res.data.fullOrder?.addressDistrict}
-        \n${t("addressProvince")} : ${res.data.fullOrder?.addressProvince}
-        \n${t("addressPostCode")} : ${res.data.fullOrder?.addressPostCode}
-        \n${t("remake")} : ${res.data.fullOrder?.remake}
-        \n${t("totalProduct")} : ${res.data.fullOrder?.totalAmt}
-        \n${t("deliveryCost")} : ${res.data.fullOrder?.deliveryCost}
-        \n${t("code")} : ${res.data.fullOrder?.discountCode}
-        \n${t("discount")} : ${res.data.fullOrder?.discountAmt}
-        \n${t("totalAmt")} : ${res.data.fullOrder?.grandTotalAmt}
-        \n\n${t("orderDetail")}\n${orderDetailsText}
-        \n\n${t("mailerTextReadyForPay3")}
-        \n\n${t("mailerRegards")}\n${t("mailerName")}`,
+        text: `${t("mailerDear")}
+${t("mailerTextReadyForPay1")}
+${t("mailerTextReadyForPay2")}${`A${res.data?.orderId
+          .toString()
+          .padStart(4, "0")}`}
+${t("createdAt")} : ${formatDateTimeThaiYear(res.data.fullOrder?.createdAt)}
+${t("name")} : ${res.data.fullOrder?.name}
+${t("email")} : ${res.data.fullOrder?.email}
+${t("phone")} : ${res.data.fullOrder?.phone}
+${t("deliveryAddress")} : ${res.data.fullOrder?.address} ${
+          res.data.fullOrder?.addressSubDistrict
+        } ${res.data.fullOrder?.addressDistrict} ${
+          res.data.fullOrder?.addressProvince
+        } ${res.data.fullOrder?.addressPostCode}
+${t("remark")} : ${res.data.fullOrder?.remake ?? "n/a"}
+${t("totalProduct")} : ${res.data.fullOrder?.totalAmt}
+${t("deliveryCost")} : ${res.data.fullOrder?.deliveryCost}
+${t("code")} : ${res.data.fullOrder?.discountCode ?? "n/a"}
+${t("discount")} : ${res.data.fullOrder?.discountAmt}
+${t("totalAmt")} : ${res.data.fullOrder?.grandTotalAmt}
+${t("orderDetail")}
+${orderDetailsText}
+${t("mailerTextReadyForPay3")}
+${t("mailerRegards")}
+${t("mailerName")}`,
       };
       sendOrderMailer(mailOptions);
+
       // mailter to admin
       const mailOptionsAdmin = {
         to: import.meta.env.VITE_ADMIN_EMAIL,
         subject: "[Intania Runner] You received new order!",
         text: `The new order no. ${`A${res.data?.orderId
           .toString()
-          .padStart(
-            4,
-            "0"
-          )}`}\nPLease confirm the new order within 24 hours.\n\nBest Regrads,\nRobot`,
+          .padStart(4, "0")}`}
+          ${t("createdAt")} : ${formatDateTimeThaiYear(
+          res.data.fullOrder?.createdAt
+        )}
+${t("name")} : ${res.data.fullOrder?.name}
+${t("email")} : ${res.data.fullOrder?.email}
+${t("phone")} : ${res.data.fullOrder?.phone}
+${t("deliveryAddress")} : ${res.data.fullOrder?.address} ${
+          res.data.fullOrder?.addressSubDistrict
+        } ${res.data.fullOrder?.addressDistrict} ${
+          res.data.fullOrder?.addressProvince
+        } ${res.data.fullOrder?.addressPostCode}
+${t("remark")} : ${res.data.fullOrder?.remake ?? "n/a"}
+${t("totalProduct")} : ${res.data.fullOrder?.totalAmt}
+${t("deliveryCost")} : ${res.data.fullOrder?.deliveryCost}
+${t("code")} : ${res.data.fullOrder?.discountCode ?? "n/a"}
+${t("discount")} : ${res.data.fullOrder?.discountAmt}
+${t("totalAmt")} : ${res.data.fullOrder?.grandTotalAmt}
+${t("orderDetail")}
+${orderDetailsText}
+          \n\nPLease confirm the new order within 24 hours.
+          \n\nBest Regrads,\nRobot`,
       };
       sendOrderMailer(mailOptionsAdmin);
     } catch (err) {
