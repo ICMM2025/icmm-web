@@ -538,9 +538,14 @@ function AdminModal() {
             {/* check slip note */}
             <div className="w-full flex justify-between  font-bold">
               <p className="shrink-0">Slip Note</p>
-              <p className="text-right text-m-error">
-                {" "}
-                {order?.checkSlipNote ? order?.checkSlipNote : "n/a"}{" "}
+              <p
+                className={`text-right ${
+                  order?.checkSlipNote?.includes("true")
+                    ? "text-m-third"
+                    : "text-m-error"
+                }`}
+              >
+                {order?.checkSlipNote ? order?.checkSlipNote : "n/a"}
               </p>
             </div>
           </div>
