@@ -104,7 +104,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.1.10</p>
+      <p className="absolute top-0 text-[8px]">v1.2.0</p>
     </>
   );
 }
