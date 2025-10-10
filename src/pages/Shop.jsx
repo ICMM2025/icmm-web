@@ -34,6 +34,7 @@ function Shop() {
   const setTotalForPay = useMainStore((state) => state.setTotalForPay);
   const setOrderId = useMainStore((state) => state.setOrderId);
   const setQrUrl = useMainStore((state) => state.setQrUrl);
+  const setIsTestModalOpen = useModalStore((state) => state.setIsTestModalOpen);
 
   const getProductsInfo = async () => {
     setIsLoadingModalOpen(true);
@@ -70,6 +71,7 @@ function Shop() {
   useEffect(() => {
     localStorage.clear();
     setCurProduct({});
+    setIsTestModalOpen(true);
     clearCart();
     setInput({ name: "", email: "", phone: "", address: "", remark: "" });
     setIsShowPay(false);
@@ -133,7 +135,7 @@ function Shop() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.2.1</p>
+      <p className="absolute top-0 text-[8px]">v1.2.2</p>
     </>
   );
 }

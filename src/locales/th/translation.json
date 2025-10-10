@@ -147,5 +147,8 @@
   "orPayByQr": "หรือชำระผ่าน QR Code",
   "orderDetail": "รายละเอียดสินค้า",
   "productName": "ชื่อสินค้า",
-  "unit": "จำนวน"
+  "unit": "จำนวน",
+  "notice": "ประกาศ…",
+  "preorderTxt": "สินค้าเป็นแบบ Pre-Order จัดส่งสินค้าช่วงปีใหม่ 2026",
+  "accept": "ยอมรับ"
 }
