@@ -78,7 +78,9 @@ function Landing() {
         </div>
         {/* main button */}
         <div className="w-full flex flex-col gap-4 mt-5 items-center justify-center animate-fade-in-div">
-          <p className="text-center text-m-third font-bold">{t("closeTxt")}</p>
+          <p className="text-center text-m-third font-bold">{t("closeTxt1")}</p>
+          <p className="text-center text-m-third">{t("closeTxt2")}</p>
+          <p className="text-center text-m-third ">{t("closeTxt3")}</p>
           <Button
             lbl={t("goToShop")}
             Icon={ProductIcon}

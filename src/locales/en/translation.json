@@ -151,5 +151,7 @@
   "notice": "Notice…",
   "preorderTxt": "This product is Pre-Order.\r\nEstimated shipping: New Year 2026.",
   "accept": "Accept",
-  "closeTxt": "Our shop is currently closed. Please contact our administration team via Facebook for further assistance."
+  "closeTxt1": "...Our shop is currently closed…",
+  "closeTxt2": "Your order is scheduled to be delivered during the New Year 2026 holiday period.",
+  "closeTxt3": "If you have any inquiries, please contact us at intaniarunner@gmail.com"
 }
