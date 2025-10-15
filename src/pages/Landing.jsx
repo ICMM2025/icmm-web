@@ -78,7 +78,7 @@ function Landing() {
         </div>
         {/* main button */}
         <div className="w-full flex flex-col gap-4 mt-5 items-center justify-center animate-fade-in-div">
-          <p className="text-center text-m-third font-bold">{t("closeTxt1")}</p>
+          {/* <p className="text-center text-m-third font-bold">{t("closeTxt1")}</p> */}
           <p className="text-center text-m-third">{t("closeTxt2")}</p>
           <p className="text-center text-m-third ">{t("closeTxt3")}</p>
           <Button
@@ -86,7 +86,7 @@ function Landing() {
             Icon={ProductIcon}
             size="3"
             onClick={hdlGoToShop}
-            isDisabled={true}
+            isDisabled={false}
           />
           <Button
             lbl={t("uploadSlip")}
@@ -108,7 +108,7 @@ function Landing() {
       {/* footer */}
       <Footer />
       {/* version */}
-      <p className="absolute top-0 text-[8px]">v1.2.3</p>
+      <p className="absolute top-0 text-[8px]">v1.2.4</p>
     </>
   );
 }

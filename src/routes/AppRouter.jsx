@@ -16,9 +16,9 @@ import Shop from "../pages/Shop";
 
 const guestRouter = createBrowserRouter([
   { path: "/", element: <Landing /> },
-  // { path: "/shop", element: <Shop /> },
+  { path: "/shop", element: <Shop /> },
   { path: "/login", element: <Login /> },
-  // { path: "/success", element: <Success /> },
+  { path: "/success", element: <Success /> },
   { path: "/network-error", element: <NetworkError /> },
   // { path: "/upload", element: <UploadPic /> },
   // { path: "/upload-success", element: <UploadSuccess /> },
